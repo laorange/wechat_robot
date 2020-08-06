@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# own
+.idea/
+data/
+wxpy.pkl
+wxpy_puid.pkl
