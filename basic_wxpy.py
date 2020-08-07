@@ -5,7 +5,7 @@ import time
 from pprint import pprint
 
 from robot import get_answer  # chat_robot
-from func_aspscheduler import do_at_sometime
+from func_apscheduler import do_at_sometime
 
 # 初始化机器人，扫码登陆
 bot = Bot(cache_path=True)
