@@ -81,13 +81,17 @@ def auto_accept_friends(msg):
         # 接受好友 (msg.card 为该请求的用户对象)
         new_friend = bot.accept_friend(msg.card)
         # 或 new_friend = msg.card.accept()
-        # 向新的好友发送消息
-        msg.chat.send('测试：我自动接受了你的好友请求')
 
         if msg[:2] == '我是':
-            new_friend.set_remark_name(msg.text[2:])
+            new_remark_name = msg.text[2:]
+            new_friend.set_remark_name(new_remark_name)
+
         else:
-            new_friend.set_remark_name(msg.text)
+            new_remark_name = msg.text
+            new_friend.set_remark_name(new_remark_name)
+
+    # 向新的好友发送消息
+    bot.friends().search(new_remark_name)[0].sent('测试：我自动接受了你的好友请求')
 
 
 
