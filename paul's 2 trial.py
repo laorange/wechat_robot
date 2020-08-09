@@ -40,7 +40,9 @@ today_schedule = [Class(), Class(), Class(), Class(), Class()]
 for i in range(5):
     for each_class in info_dict['c'+str(i)]:
         for each_info in each_class:
-            if re.compile(r'^[A-Za-z]+', each_info):
+            if re.search(r'^[A-Za-z]+', each_info):
                 today_schedule[i].class_fr_name_ls.append(each_info)
-            if re.compile(r'^[\u4E00-\u9FA5]+', each_info):
+            if re.search(r'^[\u4E00-\u9FA5]+', each_info):
                 today_schedule[i].class_ch_name_ls.append(each_info)
+
+
