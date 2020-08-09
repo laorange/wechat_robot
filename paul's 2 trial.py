@@ -3,13 +3,6 @@ import re
 from pprint import pprint
 from baijiaxing import bai_jia_xing
 
-data = xlrd.open_workbook(r'2020-2021（1）Annee2.xlsx')
-table = data.sheets()[0]
-nrows = table.nrows
-ncols = table.ncols
-# print(nrows,ncols)
-# (36,11)
-
 
 class Class:
     def __init__(self):
@@ -21,8 +14,60 @@ class Class:
         self.correspond_week = []
         self.correspond_class = []
 
+        self.final_class_fr_name = ''
+        self.final_class_ch_name = ''
+        self.final_teacher = ''
+        self.final_classroom = ''
 
-def get_today_schedule(what_day):
+    def determine_finally(self, grade, a_or_b, p_ab_cd, f_ab_cd_e, week, what_day, class_num):
+        if len(self.class_property) == 0:
+            print('len(self.class_property) == 0')
+
+        elif self.class_property[0] == 'all':
+            for final_index in range(len(self.correspond_week)):
+                if week in self.correspond_week[final_index]:
+                    self.final_class_fr_name = self.class_fr_name_ls[final_index]
+                    self.final_class_ch_name = self.class_ch_name_ls[final_index]
+                    self.final_teacher = self.teacher_ls[final_index]
+                    self.final_classroom = self.classroom_ls[final_index]
+
+        elif self.class_property[0] == 'AB':
+            for final_index in range(len(self.correspond_week)):
+                if week in self.correspond_week[final_index] and a_or_b == self.correspond_class[final_index]:
+                    self.final_class_fr_name = self.class_fr_name_ls[final_index]
+                    self.final_class_ch_name = self.class_ch_name_ls[final_index]
+                    self.final_teacher = self.teacher_ls[final_index]
+                    self.final_classroom = self.classroom_ls[final_index]
+
+        elif self.class_property[0] == 'P':
+            for final_index in range(len(self.correspond_week)):
+                if week in self.correspond_week[final_index] and p_ab_cd == self.correspond_class[final_index]:
+                    self.final_class_fr_name = self.class_fr_name_ls[final_index]
+                    self.final_class_ch_name = self.class_ch_name_ls[final_index]
+                    self.final_teacher = self.teacher_ls[final_index]
+                    self.final_classroom = self.classroom_ls[final_index]
+
+        elif self.class_property[0] == 'F':
+            for final_index in range(len(self.correspond_week)):
+                if week in self.correspond_week[final_index] and f_ab_cd_e == self.correspond_class[final_index]:
+                    self.final_class_fr_name = self.class_fr_name_ls[final_index]
+                    self.final_class_ch_name = self.class_ch_name_ls[final_index]
+                    self.final_teacher = self.teacher_ls[final_index]
+                    self.final_classroom = self.classroom_ls[final_index]
+
+
+def get_today_schedule(grade, what_day):
+    if grade == 2019:
+        path = '2020-2021（1）Annee2.xlsx'
+
+    data = xlrd.open_workbook(path)
+    table = data.sheets()[0]
+
+    # nrows = table.nrows
+    # ncols = table.ncols
+    # print(nrows,ncols)
+    # (36,11)
+
     if what_day == 'Monday':
         start_colx = 1
         end_colx = 3
@@ -115,17 +160,19 @@ def get_today_schedule(what_day):
                         if re.search(r'^\d{3}$', _) or _[0] == '南':
                             today_schedule[i].classroom_ls.append(_)
 
-                        prob_week = re.findall(r'.*\d周', _)
+                        prob_week = re.findall(r'.*\d.*?周', _)
                         if prob_week:
                             for result_re in prob_week:
                                 if result_re:
-                                    prob_several_weeks = re.match(r'(\d{1,2})\-(\d{1,2})周', result_re)
+                                    prob_several_weeks = re.match(r'(\d{1,2})\-(\d{1,2}).*?周', result_re)
                                     print(type(prob_several_weeks))
                                     if prob_several_weeks:
                                         print('prob_several_weeks.groups(1)', prob_several_weeks.group(1))  # ?
                                         print('prob_several_weeks.groups(2)', prob_several_weeks.group(2))  # ?
                                         try:
-                                            today_schedule[i].correspond_week.append(range(int(prob_several_weeks.group(1)), int(prob_several_weeks.group(2))+1))
+                                            today_schedule[i].correspond_week.append(
+                                                range(int(prob_several_weeks.group(1)),
+                                                      int(prob_several_weeks.group(2)) + 1))
                                         except Exception as e:
                                             print('处理周数时出错', e)
                                     else:
@@ -138,18 +185,46 @@ def get_today_schedule(what_day):
 
             today_schedule[i].class_property.append(class_property)
 
+    raise Exception('TEST')
     return today_schedule
 
-# raise Exception('TEST')
+
+class Student:
+    def __init__(self, grade, a_or_b, p_ab_cd, f_ab_cd_e):
+        self.grade = grade  # 年级
+        self.a_or_b = a_or_b  # 大AB班
+        self.p_ab_cd = p_ab_cd  # td班
+        self.f_ab_cd_e = f_ab_cd_e  # 法语班
+
+    def __call__(self, week, what_day, class_num):
+        schedule = get_today_schedule(self.grade, what_day)
+        print(schedule)
+        target_class = schedule[class_num]
+        target_class.determine_finally(self.grade, self.a_or_b, self.p_ab_cd, self.f_ab_cd_e, week, what_day, class_num)
+
+        if target_class.class_property is None:
+            print('这节没课哟')
+            return '', '', ''
+        else:
+            print('这节课是{}的{},地点在:{}'.format(target_class.final_teacher,
+                                            target_class.final_class_ch_name,
+                                            target_class.final_classroom))
+            return target_class.final_teacher, target_class.final_class_ch_name, target_class.final_classroom
+
+    # return get_class(self.grade, self.a_or_b, self.p_ab_cd, self.f_ab_cd_e, week, what_day, class_num)
 
 
 if __name__ == "__main__":
-    today_schedule = get_today_schedule('Monday')
-    for each_class in today_schedule:
-        print(each_class.class_property, '\n',
-              each_class.class_fr_name_ls, '\n',
-              each_class.class_ch_name_ls, '\n',
-              each_class.teacher_ls, '\n',
-              each_class.classroom_ls, '\n',
-              each_class.correspond_week, '\n',
-              each_class.correspond_class)
+    # today_schedule = get_today_schedule('Monday')
+    # for each_class in today_schedule:
+    #     print(each_class.class_property, '\n',
+    #           each_class.class_fr_name_ls, '\n',
+    #           each_class.class_ch_name_ls, '\n',
+    #           each_class.teacher_ls, '\n',
+    #           each_class.classroom_ls, '\n',
+    #           each_class.correspond_week, '\n',
+    #           each_class.correspond_class)
+    student = Student(2019, 'B', 'PC', 'PC')
+    student(5, 'Tuesday', 1)
+
+
