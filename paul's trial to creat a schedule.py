@@ -10,28 +10,37 @@ ncols = table.ncols
 # print(nrows,ncols)
 # (36,11)
 
-temp_list = []
+info_dict = {}
+
 # for i in [8, 12, 20, 24, 30]:
 #     temp_list.append(table.row_values(i, start_colx=1, end_colx=10))
 # x = temp_list[4][2]
 
-for i in [8, 12, 20, 24, 30]:
-    temp_list.append(table.row_values(i, start_colx=1, end_colx=2))
+for class_num in range(5):
+    i = [8, 12, 20, 24, 30][class_num]
+    # temp_list = []
+    exec("info_dict['c"+str(class_num+1)+"']=table.row_values(i, start_colx=1, end_colx=3)")
 
-for class_num in range(len(temp_list)):
-    for info in temp_list[class_num]:
-        info_ls = re.split(r'[\n]', info)
+# temp_list = list(filter(None, temp_list))
+# print(temp_list)
+pprint(info_dict)
+print('start')
 
-        info_ls = list(map(str.strip, info_ls))
-        info_ls = list(filter(None, info_ls))
-
-        for _ in info_ls:
-            if '周' in _:
-                print(_)
-                print()
-
-        print(info_ls)
-    print('\n\n')
+# for class_num in range(len(temp_list)):
+#
+#     for info in temp_list[class_num]:
+#         info_ls = re.split(r'[\n]', info)
+#
+#         info_ls = list(map(str.strip, info_ls))
+#         info_ls = list(filter(None, info_ls))
+#
+#         # for _ in info_ls:
+#         #     if '周' in _:
+#         #         print(_)
+#         #         print()
+#
+#         print(info_ls)
+#     print('\n\n')
 
 
 
@@ -53,48 +62,44 @@ for class_num in range(len(temp_list)):
 #         elif code[3] == '7':
 #             week_day = 'Sunday'
 
-print(temp_list)
-
-
-
-
-def get_info_from_excel(grade, a_or_b, p_ab_cd, f_ab_cd_e, week, what_day, class_num):
-    if what_day == 'Monday':
-        for i in [8, 12, 20, 24, 30]:
-            temp_list.append(table.row_values(i, start_colx=1, end_colx=2))
-    if what_day == 'Tuesday':
-        for i in [8, 12, 20, 24, 30]:
-            temp_list.append(table.row_values(i, start_colx=3, end_colx=4))
-    if what_day == 'Wednesday':
-        for i in [8, 12, 20, 24, 30]:
-            temp_list.append(table.row_values(i, start_colx=5, end_colx=6))
-    if what_day == 'Thursday':
-        for i in [8, 12, 20, 24, 30]:
-            temp_list.append(table.row_values(i, start_colx=7, end_colx=8))
-    if what_day == 'Friday':
-        for i in [8, 12, 20, 24, 30]:
-            temp_list.append(table.row_values(i, start_colx=9, end_colx=10))
-    if what_day == 'Saturday':
-        # for i in [8, 12, 20, 24, 30]:
-        #     temp_list.append(table.row_values(i, start_colx=11, end_colx=12))
-        pass
-    if what_day == 'Sunday':
-        # for i in [8, 12, 20, 24, 30]:
-        #     temp_list.append(table.row_values(i, start_colx=13, end_colx=14))
-        pass
 
 
 
 
 
-    dict_info = {}
-    pass
-    return dict_info
+# def get_info_from_excel(grade, a_or_b, p_ab_cd, f_ab_cd_e, week, what_day, class_num):
+#     if what_day == 'Monday':
+#         for i in [8, 12, 20, 24, 30]:
+#             temp_list.append(table.row_values(i, start_colx=1, end_colx=2))
+#     if what_day == 'Tuesday':
+#         for i in [8, 12, 20, 24, 30]:
+#             temp_list.append(table.row_values(i, start_colx=3, end_colx=4))
+#     if what_day == 'Wednesday':
+#         for i in [8, 12, 20, 24, 30]:
+#             temp_list.append(table.row_values(i, start_colx=5, end_colx=6))
+#     if what_day == 'Thursday':
+#         for i in [8, 12, 20, 24, 30]:
+#             temp_list.append(table.row_values(i, start_colx=7, end_colx=8))
+#     if what_day == 'Friday':
+#         for i in [8, 12, 20, 24, 30]:
+#             temp_list.append(table.row_values(i, start_colx=9, end_colx=10))
+#     if what_day == 'Saturday':
+#         # for i in [8, 12, 20, 24, 30]:
+#         #     temp_list.append(table.row_values(i, start_colx=11, end_colx=12))
+#         pass
+#     if what_day == 'Sunday':
+#         # for i in [8, 12, 20, 24, 30]:
+#         #     temp_list.append(table.row_values(i, start_colx=13, end_colx=14))
+#         pass
+#
+#     dict_info = {}
+#     pass
+#     return dict_info
 
 
 class ClassExcel:
     def __init__(self, grade, a_or_b, p_ab_cd, f_ab_cd_e, week, what_day, class_num):
-        self.property = get_info_from_excel(grade, a_or_b, p_ab_cd, f_ab_cd_e, week, what_day, class_num)['property']
+        # self.property = get_info_from_excel(grade, a_or_b, p_ab_cd, f_ab_cd_e, week, what_day, class_num)['property']
         self.grade = grade  # 年级
         self.a_or_b = a_or_b  # 大AB班
         self.p_ab_cd = p_ab_cd  # td班
@@ -108,15 +113,15 @@ class ClassExcel:
     # self.teacher = get_info_from_excel(grade, a_or_b, p_ab_cd, f_ab_cd_e, week, what_day, class_num)['teacher']
     # self.classroom = get_info_from_excel(grade, a_or_b, p_ab_cd, f_ab_cd_e, week, what_day, class_num)['classroom']
 
-    def get_info(self):
-        info_dict = get_info_from_excel(self.grade, self.a_or_b, self.p_ab_cd, self.f_ab_cd_e,
-                                        self.week, self.what_day, self.class_num)
-        if self.property == 'AB' or 'none':
-            pass
-        if self.property == 'P':
-            pass
-        if self.property == 'F':
-            pass
+    # def get_info(self):
+        # info_dict = get_info_from_excel(self.grade, self.a_or_b, self.p_ab_cd, self.f_ab_cd_e,
+        #                                 self.week, self.what_day, self.class_num)
+        # if self.property == 'AB' or 'none':
+        #     pass
+        # if self.property == 'P':
+        #     pass
+        # if self.property == 'F':
+        #     pass
 
     def make_class_ls(self):
         return [self.class_name, self.teacher, self.classroom]
