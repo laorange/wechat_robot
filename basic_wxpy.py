@@ -94,7 +94,6 @@ def auto_accept_friends(msg):
     bot.friends().search(new_remark_name)[0].sent('测试：我自动接受了你的好友请求')
 
 
-
 # @bot.register(Group, TEXT)
 # def print_group_msg(msg):
 #     print(msg)
