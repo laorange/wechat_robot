@@ -160,11 +160,12 @@ def get_today_schedule(grade, what_day):
                         elif _ == '双周':
                             dan_shuang_zhou = 2
 
-                        if _[0] in bai_jia_xing and _[0] not in ['南', '单', '双'] and _[:2] != '高等' or _ in ['Joël'] or _[:2] == '外教':
+                        if _[0] in bai_jia_xing and _[0] not in ['南', '单', '双'] and _[:2] != '高等' or _ in ['Joël'] or _[
+                                                                                                                      :2] == '外教':
                             teacher = _
                             today_schedule[i].teacher_ls.append(teacher)
 
-                        if re.search(r'^\d{3}$', _) or _[0] == '南':
+                        if re.search(r'^\d{3}', _) or re.search(r'\d{3}$', _) or _[0] == '南':
                             classroom = _
                             today_schedule[i].classroom_ls.append(classroom)
 
@@ -227,13 +228,40 @@ def get_today_schedule(grade, what_day):
                 while len(today_schedule[i].class_fr_name_ls) < len(today_schedule[i].correspond_class):
                     today_schedule[i].class_fr_name_ls.append(class_fr_name)
 
-    raise Exception('TEST')
-    return today_schedule
+    # raise Exception('TEST')
+    return today_schedule, what_day
 
 
-def write_today_schedule(today_schedule):
-    ''
-    pass
+
+
+
+def write_today_schedule(today_schedule, what_day):
+    what_day_lower = what_day.lower()
+    for class_num in range(5):
+        cls = today_schedule[class_num]
+        with open('schedule.py', 'at', encoding='UTF-8') as schedule_py:
+            schedule_py.write(f'''\
+# {what_day} 第{class_num}节课
+{what_day_lower}{class_num} = Class()
+{what_day_lower}{class_num}.class_property = {cls.class_property}
+{what_day_lower}{class_num}.class_fr_name_ls = {cls.class_fr_name_ls}
+{what_day_lower}{class_num}.class_ch_name_ls = {cls.class_ch_name_ls}
+{what_day_lower}{class_num}.correspond_week = {cls.correspond_week}
+{what_day_lower}{class_num}.correspond_class = {cls.correspond_class}
+{what_day_lower}{class_num}.classroom_ls = {cls.classroom_ls}
+{what_day_lower}{class_num}.teacher_ls = {cls.teacher_ls}
+
+''')
+    with open('schedule.py', 'at', encoding='UTF-8') as schedule_py:
+        schedule_py.write(f'''\
+{what_day_lower}_ls = ({what_day_lower}0, {what_day_lower}1, {what_day_lower}2, {what_day_lower}3, {what_day_lower}4) 
+
+''')
+
+
+def get_write_what_day(grade, what_day):
+    today_schedule, what_day = get_today_schedule(grade, what_day)
+    write_today_schedule(today_schedule, what_day)
 
 
 def write_class_info(grade):
@@ -256,8 +284,17 @@ class Class:
         self.final_teacher = ''
         self.final_classroom = ''
 
+
 '''.format(grade, time_today))
 
 
+def grade_yi_tiao_long_fu_wu(grade):
+    write_class_info(grade)
+    what_day_ls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    for i in range(len(what_day_ls)):
+        what_day = what_day_ls[i]
+        get_write_what_day(grade, what_day)
+
+
 if __name__ == "__main__":
-    write_class_info(2019)
+    grade_yi_tiao_long_fu_wu(2019)
