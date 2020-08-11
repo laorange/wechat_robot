@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 
 # own
-.idea/
 data/
 wxpy.pkl
 wxpy_puid.pkl
