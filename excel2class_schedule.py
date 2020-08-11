@@ -27,11 +27,11 @@ class Class:
 def get_today_schedule(grade, what_day):
     path = ''
     if grade == 2017:
-        path = ''
+        path = '2017.xls'
     if grade == 2018:
         path = ''
     if grade == 2019:
-        path = '2020-2021（1）Annee2.xlsx'
+        path = '2019.xlsx'
     if grade == 2020:
         path = ''
 
@@ -99,7 +99,7 @@ def get_today_schedule(grade, what_day):
                 # total_split += len(each_info_ls)
 
                 if re.match(r'^[A-Za-z]+', each_info):
-                    if len(each_info) > 4:
+                    if len(each_info) > 4 and each_info[:2] not in ['PA', 'PB', 'PC', 'PD', 'PE']:
                         class_fr_name = each_info
                         today_schedule[i].class_fr_name_ls.append(class_fr_name)
 
@@ -172,7 +172,7 @@ def get_today_schedule(grade, what_day):
                         prob_week = re.match(r'(\d+)([-~])(\d+)周', _)
                         prob_weeks = re.match(r'.*(\d+)[,， ]*?(\d+).?周', _)
                         if prob_week:
-                            print('here1')
+                            # print('here1')
                             prob_week = prob_week.groups()
                             ls = list(range(int(prob_week[0]) - 1, int(prob_week[2])))
                             if dan_shuang_zhou == 1:
@@ -186,7 +186,7 @@ def get_today_schedule(grade, what_day):
                             today_schedule[i].correspond_week.append(ls)
 
                         elif prob_weeks:
-                            print('here2')
+                            # print('here2')
                             ls = list(re.findall(r'(\d{1,2})', _))
                             today_schedule[i].correspond_week.append(ls)
 
@@ -232,14 +232,11 @@ def get_today_schedule(grade, what_day):
     return today_schedule, what_day
 
 
-
-
-
-def write_today_schedule(today_schedule, what_day):
+def write_today_schedule(grade, today_schedule, what_day):
     what_day_lower = what_day.lower()
     for class_num in range(5):
         cls = today_schedule[class_num]
-        with open('schedule.py', 'at', encoding='UTF-8') as schedule_py:
+        with open(f'schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
             schedule_py.write(f'''\
 # {what_day} 第{class_num}节课
 {what_day_lower}{class_num} = Class()
@@ -252,7 +249,7 @@ def write_today_schedule(today_schedule, what_day):
 {what_day_lower}{class_num}.teacher_ls = {cls.teacher_ls}
 
 ''')
-    with open('schedule.py', 'at', encoding='UTF-8') as schedule_py:
+    with open(f'schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
         schedule_py.write(f'''\
 {what_day_lower}_ls = ({what_day_lower}0, {what_day_lower}1, {what_day_lower}2, {what_day_lower}3, {what_day_lower}4) 
 
@@ -261,11 +258,11 @@ def write_today_schedule(today_schedule, what_day):
 
 def get_write_what_day(grade, what_day):
     today_schedule, what_day = get_today_schedule(grade, what_day)
-    write_today_schedule(today_schedule, what_day)
+    write_today_schedule(grade, today_schedule, what_day)
 
 
 def write_class_info(grade):
-    with open('schedule.py', 'wt', encoding='UTF-8') as schedule_py:
+    with open(f'schedule{grade}.py', 'wt', encoding='UTF-8') as schedule_py:
         schedule_py.write('''\
 # coding: utf-8
 
@@ -298,3 +295,4 @@ def grade_yi_tiao_long_fu_wu(grade):
 
 if __name__ == "__main__":
     grade_yi_tiao_long_fu_wu(2019)
+    grade_yi_tiao_long_fu_wu(2017)

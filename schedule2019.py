@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# 2019级课表 更新时间:2020-08-11 11:25
+# 2019级课表 更新时间:2020-08-11 12:10
 class Class:
     def __init__(self):
         self.class_property = []
