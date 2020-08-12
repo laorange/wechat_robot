@@ -45,8 +45,43 @@ class Student:
             pass
         if what_day == 'Sunday':
             pass
-        self.schedule_grade = self.schedule_grade[week_num]
-
+        schedule = self.schedule_grade[week_num]
+        
+        for i in range(5):
+            if len(schedule[i].class_property) == 0:
+                print('len(schedule[i].class_property) == 0')
+    
+            elif schedule[i].class_property[0] == 'all':
+                for final_index in range(len(schedule[i].correspond_week)):
+                    if week in schedule[i].correspond_week[final_index]:
+                        schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                        schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                        schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                        schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+    
+            elif schedule[i].class_property[0] == 'AB':
+                for final_index in range(len(schedule[i].correspond_week)):
+                    if week in schedule[i].correspond_week[final_index] and self.a_or_b == schedule[i].correspond_class[final_index]:
+                        schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                        schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                        schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                        schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+    
+            elif schedule[i].class_property[0] == 'P':
+                for final_index in range(len(schedule[i].correspond_week)):
+                    if week in schedule[i].correspond_week[final_index] and self.p_ab_cd == schedule[i].correspond_class[final_index]:
+                        schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                        schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                        schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                        schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+    
+            elif schedule[i].class_property[0] == 'F':
+                for final_index in range(len(schedule[i].correspond_class)):
+                    if week in schedule[i].correspond_week[final_index] and self.f_ab_cd_e == schedule[i].correspond_class[final_index]:
+                        schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                        schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                        schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                        schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
 
 
     # def __call__(self, week, what_day, class_num):
