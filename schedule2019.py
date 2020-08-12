@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# 2019级课表 更新时间:2020-08-11 12:10
+# 2019级课表 更新时间:2020-08-12 12:00
 class Class:
     def __init__(self):
         self.class_property = []
@@ -276,3 +276,4 @@ friday4.teacher_ls = []
 
 friday_ls = (friday0, friday1, friday2, friday3, friday4) 
 
+schedule_2019 = [monday_ls, tuesday_ls, wednesday_ls, thursday_ls, friday_ls]

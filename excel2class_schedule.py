@@ -4,6 +4,7 @@ import time
 # from pprint import pprint
 from baijiaxing import bai_jia_xing
 
+
 time_today = time.strftime('%Y-%m-%d %H:%M', time.localtime())
 print(time_today)
 
@@ -17,11 +18,6 @@ class Class:
         self.classroom_ls = []
         self.correspond_week = []
         self.correspond_class = []
-
-        self.final_class_fr_name = ''
-        self.final_class_ch_name = ''
-        self.final_teacher = ''
-        self.final_classroom = ''
 
 
 def get_today_schedule(grade, what_day):
@@ -291,8 +287,12 @@ def grade_yi_tiao_long_fu_wu(grade):
     for i in range(len(what_day_ls)):
         what_day = what_day_ls[i]
         get_write_what_day(grade, what_day)
+    with open(f'schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
+        schedule_py.write(f'schedule_{grade} = [monday_ls, tuesday_ls, wednesday_ls, thursday_ls, friday_ls]\n')
 
 
 if __name__ == "__main__":
-    grade_yi_tiao_long_fu_wu(2019)
     grade_yi_tiao_long_fu_wu(2017)
+    # grade_yi_tiao_long_fu_wu(2018)
+    grade_yi_tiao_long_fu_wu(2019)
+    # grade_yi_tiao_long_fu_wu(2020)
