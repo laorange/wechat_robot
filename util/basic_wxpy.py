@@ -6,8 +6,8 @@ import re
 # from pprint import pprint
 
 # from robot import get_answer  # chat_robot
-from func_apscheduler import do_at_sometime
-from basic_functions import read_file2list
+from util.func_apscheduler import do_at_sometime
+from util.basic_functions import read_file2list
 
 path_user_list = 'data/private_space/user_list.csv'
 

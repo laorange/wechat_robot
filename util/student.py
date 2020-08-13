@@ -1,11 +1,11 @@
-from excel2class_schedule import Class
+# from util.excel2class_schedule import Class
 
-from schedule2017 import schedule_2017
-# from schedule2018 import schedule_2018
-from schedule2019 import schedule_2019
-# from schedule2020 import schedule_2020
+from schedule.schedule2017 import schedule_2017
+# from schedule.schedule2018 import schedule_2018
+from schedule.schedule2019 import schedule_2019
+# from schedule.schedule2020 import schedule_2020
 
-from basic_wxpy import send_msg_when
+from util.basic_wxpy import send_msg_when
 
 import time
 

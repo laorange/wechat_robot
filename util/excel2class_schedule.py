@@ -2,7 +2,7 @@ import xlrd
 import re
 import time
 # from pprint import pprint
-from baijiaxing import bai_jia_xing
+from util.baijiaxing import bai_jia_xing
 
 
 time_today = time.strftime('%Y-%m-%d %H:%M', time.localtime())
@@ -232,7 +232,7 @@ def write_today_schedule(grade, today_schedule, what_day):
     what_day_lower = what_day.lower()
     for class_num in range(5):
         cls = today_schedule[class_num]
-        with open(f'schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
+        with open(f'schedule/schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
             schedule_py.write(f'''\
 # {what_day} 第{class_num}节课
 {what_day_lower}{class_num} = Class()
@@ -245,7 +245,7 @@ def write_today_schedule(grade, today_schedule, what_day):
 {what_day_lower}{class_num}.teacher_ls = {cls.teacher_ls}
 
 ''')
-    with open(f'schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
+    with open(f'schedule/schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
         schedule_py.write(f'''\
 {what_day_lower}_ls = ({what_day_lower}0, {what_day_lower}1, {what_day_lower}2, {what_day_lower}3, {what_day_lower}4) 
 
@@ -258,7 +258,7 @@ def get_write_what_day(grade, what_day):
 
 
 def write_class_info(grade):
-    with open(f'schedule{grade}.py', 'wt', encoding='UTF-8') as schedule_py:
+    with open(f'schedule/schedule{grade}.py', 'wt', encoding='UTF-8') as schedule_py:
         schedule_py.write('''\
 # coding: utf-8
 
@@ -287,7 +287,7 @@ def grade_yi_tiao_long_fu_wu(grade):
     for i in range(len(what_day_ls)):
         what_day = what_day_ls[i]
         get_write_what_day(grade, what_day)
-    with open(f'schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
+    with open(f'schedule/schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
         schedule_py.write(f'schedule_{grade} = [monday_ls, tuesday_ls, wednesday_ls, thursday_ls, friday_ls]\n')
 
 

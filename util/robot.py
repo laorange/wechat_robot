@@ -1,5 +1,5 @@
 import requests
-from basic_functions import read_file2list
+from util.basic_functions import read_file2list
 
 robot_info_ls = read_file2list("data/private_space/robot.txt")
 

@@ -1,8 +1,6 @@
 # basic_functions.py
 
 import os
-# import chardet
-# import pprint
 
 
 def make_dir(path_name):  # os.mkdir("./输出文件")
