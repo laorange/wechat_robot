@@ -1,11 +1,15 @@
 # 导入模块
 from wxpy import *
+import re
 
-import time
-from pprint import pprint
+# import time
+# from pprint import pprint
 
-from robot import get_answer  # chat_robot
+# from robot import get_answer  # chat_robot
 from func_apscheduler import do_at_sometime
+from basic_functions import read_file2list
+
+path_user_list = 'data/private_space/user_list.csv'
 
 # 初始化机器人，扫码登陆
 bot = Bot(cache_path=True)
@@ -26,13 +30,12 @@ def send_msg_when(target_person, message, send_time):
         target = bot.friends().search(target_person)[0]
         # print(target)
         target.send(message)
-    do_at_sometime(func=send, run_date=send_time)
 
+    try:
+        do_at_sometime(func=send, run_date=send_time)
+    except Exception as e:
+        print(e)
 
-if __name__ == "__main__":
-    send_msg_when(target_person='大号', message='7点05了', send_time='2020-08-07 19:05:00')
-    # while True:
-    #     time.sleep(1)
 
 # hushaoc = bot.friends().search('235d4d80')[0]
 # print(hushaoc)
@@ -60,8 +63,24 @@ if __name__ == "__main__":
 @bot.register(Friend, TEXT)
 def print_group_msg(msg):
     print(msg)
-    answer = get_answer(msg.text)
-    msg.chat.send(answer)
+    code_add = re.match(r'^#(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
+    if code_add:
+        with open(path_user_list, 'at', encoding='UTF-8') as user_ls:
+            user_ls.write(msg.chat.name + ',' + code_add.group(1) + ',' + code_add.group(2) + ',' + code_add.group(
+                3) + ',' + code_add.group(4) + '\n')
+        msg.chat.send('信息添加成功')
+
+    code_delete = re.match(r'^*(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
+    if code_delete:
+        user_ls = read_file2list('data/private_space/user_list.csv')
+        user_info_str = msg.chat.name + ',' + code_add.group(1) + ',' + code_add.group(2) + ',' + code_add.group(
+            3) + ',' + code_add.group(4)
+        if user_info_str in user_ls:
+            user_ls.remove(user_ls)
+        with open(path_user_list, 'wt') as user_ls:
+            for user_info in user_ls:
+                user_ls.write(user_info + '\n')
+        msg.chat.send('信息删除成功')
 
     # test_ls = msg.text.split('.')
     # try:
@@ -102,3 +121,8 @@ def auto_accept_friends(msg):
 
 
 bot.join()
+
+# if __name__ == "__main__":
+#     send_msg_when(target_person='大号', message='7点05了', send_time='2020-08-07 19:05:00')
+#     # while True:
+#     #     time.sleep(1)

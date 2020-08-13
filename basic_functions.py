@@ -1,8 +1,8 @@
 # basic_functions.py
 
 import os
-import chardet
-import pprint
+# import chardet
+# import pprint
 
 
 def make_dir(path_name):  # os.mkdir("./输出文件")
@@ -31,7 +31,7 @@ def read_file2list(path_name):  # , encoding='UTF-8'
                 lines_ls[i] = lines_ls[i].strip()
         return lines_ls
 
-    #pprint.pprint(lines_ls)
+    # pprint.pprint(lines_ls)
 
 
 
