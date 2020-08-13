@@ -10,6 +10,7 @@ class Class:
         self.classroom_ls = []
         self.correspond_week = []
         self.correspond_class = []
+
         self.final_class_fr_name = ''
         self.final_class_ch_name = ''
         self.final_teacher = ''
