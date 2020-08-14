@@ -15,9 +15,9 @@ path_user_list = 'data/private_space/user_list.csv'
 # 初始化机器人，扫码登陆
 bot = Bot(cache_path=True)
 bot.enable_puid()
-bot.auto_mark_as_read = True
+# bot.auto_mark_as_read = True
 
-my_friend = bot.friends().search('大号')[0]
+my_friend = bot.friends().search('小号')[0]
 print('已找到:', my_friend.name, "-", my_friend.nick_name)
 
 
@@ -101,16 +101,14 @@ def bot_register():
             # 或 new_friend = msg.card.accept()
 
             if msg[:2] == '我是':
-                new_remark_name = msg.text[2:]
-                new_friend.set_remark_name(new_remark_name)
+                new_friend.set_remark_name(msg.text[2:])
 
             else:
-                new_remark_name = msg.text
-                new_friend.set_remark_name(new_remark_name)
+                new_friend.set_remark_name(msg.text)
 
-            # 向新的好友发送消息
-            bot.friends().search(new_remark_name)[0].sent('测试：我自动接受了你的好友请求')
-            print("已添加"+new_remark_name)
+            # # 向新的好友发送消息
+            # bot.friends().search(new_remark_name)[0].sent('测试：我自动接受了你的好友请求')
+            # print("已添加"+new_remark_name)
         except Exception as e:
             print(e)
 
@@ -120,7 +118,7 @@ def bot_register():
     #     # answer = get_answer(msg.text)
     #     msg.chat.send(answer)
 
-    @bot.register(msg_types=[VIDEO, PICTURE, ATTACHMENT])
+    @bot.register(msg_types=[VIDEO, PICTURE, ATTACHMENT], except_self=False)
     def print_group_msg(msg):
         # print('[VIDEO, PICTURE, ATTACHMENT]')
         try:
