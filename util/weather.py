@@ -12,7 +12,7 @@ temp = str(list(temp)[0])
 pattern = re.compile(r'<[^>]+>', re.S)
 temp = pattern.sub('', temp)
 temp = temp.split()
-print(temp)
+# print(temp)
 weather = temp[5] + ',' + temp[6] + ',' + temp[7] + temp[8]
 
 if __name__ == "__main__":

@@ -8,9 +8,16 @@ def my_job():
     print('my_job, {}'.format(time.ctime()))
 
 
-def do_at_sometime(func, run_date, task_name='my_job_id'):
+def do_at_sometime(func, run_time, task_name='my_job_id'):
+    """
+    do_at_sometime
+    :param func: 将要执行的函数名
+    :param run_time: 形如'2020-08-07 17:17:10' ‘%Y-%m-%d %H:%M’的时间
+    :param task_name: 任务名，在本项目中不重要
+    :return: None
+    """
     scheduler = BackgroundScheduler()
-    intervalTrigger = DateTrigger(run_date=run_date)
+    intervalTrigger = DateTrigger(run_date=run_time)
     scheduler.add_job(func, intervalTrigger, id=task_name)
     scheduler.start()
 

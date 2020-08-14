@@ -6,11 +6,9 @@ from schedule.schedule2019 import schedule_2019
 # from schedule.schedule2020 import schedule_2020
 
 from util.basic_wxpy import send_msg_when
+from util.weather import weather
 
-import time
-
-t_refer_1_week = '2020-08-13 '
-time.strftime()
+from util.week import week, what_day, date
 
 
 class ClassFinalInfo:
@@ -38,22 +36,22 @@ class Student:
         self.c3 = ClassFinalInfo()
         self.c4 = ClassFinalInfo()
 
-    def get_schedule(self, week, what_day):
+    def get_schedule(self):
         if what_day == 'Monday':
-            week_num = 0
-        if what_day == 'Tuesday':
-            week_num = 1
-        if what_day == 'Wednesday':
-            week_num = 2
-        if what_day == 'Thursday':
-            week_num = 3
-        if what_day == 'Friday':
-            week_num = 4
-        if what_day == 'Saturday':
+            what_day_num = 0
+        elif what_day == 'Tuesday':
+            what_day_num = 1
+        elif what_day == 'Wednesday':
+            what_day_num = 2
+        elif what_day == 'Thursday':
+            what_day_num = 3
+        elif what_day == 'Friday':
+            what_day_num = 4
+        elif what_day == 'Saturday':
             pass
-        if what_day == 'Sunday':
+        elif what_day == 'Sunday':
             pass
-        schedule = self.schedule_grade[week_num]
+        schedule = self.schedule_grade[what_day_num]
 
         for i in range(5):  # 第i节课
             if len(schedule[i].class_property) == 0:
@@ -97,13 +95,11 @@ class Student:
                 exec("self.c" + str(i) + ".final_teacher = schedule[i].final_teacher")
                 exec("self.c" + str(i) + ".final_classroom = schedule[i].final_classroom")
 
-    def send(self, date):
-        """
-        date ≈ '2020-08-07'
-        """
+    def send(self):
         try:
             # 7:00通报全天有哪些课，以及第一节课的详细信息
-            message_weather = '今天是'  # +weather
+            message_weather = '今天是'+date+'\n'+weather+'\n'
+            
 
             message0 = '今天的课程表:\n'
             class_ls = [self.c0, self.c1, self.c2, self.c3, self.c4]
@@ -111,10 +107,10 @@ class Student:
                 if class_ls[i].final_class_ch_name != '':
                     message0 = message0+class_ls[i].final_class_ch_name+', 地点:'+class_ls[i].final_classroom+'\n'
             if message0 == '今天的课程表:\n':
-                send_msg_when(self.name, '今天全天没有课', date+' 07:00:00')
+                send_msg_when(self.name, message_weather+'今天全天没有课', date+' 07:00:00')
                 raise Exception('今天全天没课')
             else:
-                send_msg_when(self.name, message0, date + ' 07:00:00')
+                send_msg_when(self.name, message_weather+message0, date + ' 07:00:00')
 
             if self.c0.final_class_ch_name:
                 message1 = f'第1,2节课是{self.c0.final_teacher}的{self.c0.final_class_ch_name},地点:{self.c0.final_classroom}'
