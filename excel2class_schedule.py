@@ -190,7 +190,9 @@ def get_today_schedule(grade, what_day):
                               len(today_schedule[i].teacher_ls),
                               len(today_schedule[i].correspond_class),
                               len(today_schedule[i].class_property),
-                              len(today_schedule[i].correspond_week))
+                              len(today_schedule[i].correspond_week),
+                              len(today_schedule[i].class_ch_name_ls),
+                              len(today_schedule[i].class_fr_name_ls))
 
                 if classroom:
                     while len(today_schedule[i].classroom_ls) < max_len:
@@ -208,6 +210,14 @@ def get_today_schedule(grade, what_day):
                     while len(today_schedule[i].correspond_week) < max_len:
                         today_schedule[i].correspond_week.append(ls)
 
+                if class_ch_name:
+                    while len(today_schedule[i].class_ch_name_ls) < max_len:
+                        today_schedule[i].class_ch_name_ls.append(class_ch_name)
+
+                if class_fr_name:
+                    while len(today_schedule[i].class_fr_name_ls) < max_len:
+                        today_schedule[i].class_fr_name_ls.append(class_fr_name)
+
             if class_property == '':
                 class_property = 'all'
                 today_schedule[i].correspond_class.append('all')
@@ -216,13 +226,7 @@ def get_today_schedule(grade, what_day):
                 while len(today_schedule[i].class_property) < len(today_schedule[i].correspond_class):
                     today_schedule[i].class_property.append(class_property)
 
-            if class_ch_name:
-                while len(today_schedule[i].class_ch_name_ls) < len(today_schedule[i].correspond_class):
-                    today_schedule[i].class_ch_name_ls.append(class_ch_name)
 
-            if class_fr_name:
-                while len(today_schedule[i].class_fr_name_ls) < len(today_schedule[i].correspond_class):
-                    today_schedule[i].class_fr_name_ls.append(class_fr_name)
 
     # raise Exception('TEST')
     return today_schedule, what_day

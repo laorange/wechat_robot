@@ -61,34 +61,62 @@ class Student:
                 for final_index in range(len(schedule[i].class_property)):
                     if schedule[i].class_property[final_index] == 'all':
                         if week in schedule[i].correspond_week[final_index]:
-                            schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                            schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                            schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                            schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                            try:
+                                if schedule[i].class_fr_name_ls:
+                                    schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                if schedule[i].class_ch_name_ls:
+                                    schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                if schedule[i].teacher_ls:
+                                    schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                                if schedule[i].classroom_ls:
+                                    schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                            except Exception as e:
+                                print(f'在处理{self.name}的第({i})节课时出错,{e}')
 
                     elif schedule[i].class_property[final_index] == 'AB':
                         if self.a_or_b == schedule[i].correspond_class[final_index]:
                             if week in schedule[i].correspond_week[final_index]:
-                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                try:
+                                    if schedule[i].class_fr_name_ls:
+                                        schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                    if schedule[i].class_ch_name_ls:
+                                        schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                    if schedule[i].teacher_ls:
+                                        schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                                    if schedule[i].classroom_ls:
+                                        schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                except Exception as e:
+                                    print(f'在处理{self.name}的第({i})节课时出错,{e}')
 
                     elif schedule[i].class_property[final_index] == 'P':
                         if self.p_ab_cd == schedule[i].correspond_class[final_index]:
                             if week in schedule[i].correspond_week[final_index]:
-                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                try:
+                                    if schedule[i].class_fr_name_ls:
+                                        schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                    if schedule[i].class_ch_name_ls:
+                                        schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                    if schedule[i].teacher_ls:
+                                        schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                                    if schedule[i].classroom_ls:
+                                        schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                except Exception as e:
+                                    print(f'在处理{self.name}的第({i})节课时出错,{e}')
 
                     elif schedule[i].class_property[final_index] == 'F':
                         if self.f_ab_cd_e == schedule[i].correspond_class[final_index]:
                             if week in schedule[i].correspond_week[final_index]:
-                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                try:
+                                    if schedule[i].class_fr_name_ls:
+                                        schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                    if schedule[i].class_ch_name_ls:
+                                        schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                    if schedule[i].teacher_ls:
+                                        schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                                    if schedule[i].classroom_ls:
+                                        schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                except Exception as e:
+                                    print(f'在处理{self.name}的第({i})节课时出错,{e}')
 
                 exec("self.c" + str(i) + ".final_class_fr_name = schedule[i].final_class_fr_name")
                 exec("self.c" + str(i) + ".final_class_ch_name = schedule[i].final_class_ch_name")
@@ -98,39 +126,45 @@ class Student:
     def send(self):
         try:
             # 7:00通报全天有哪些课，以及第一节课的详细信息
-            message_weather = '今天是'+date+'\n'+weather+'\n'
-            
+            message_weather = '今天是' + date + '\n' + weather + '\n'
 
             message0 = '今天的课程表:\n'
             class_ls = [self.c0, self.c1, self.c2, self.c3, self.c4]
             for i in range(5):
                 if class_ls[i].final_class_ch_name != '':
-                    message0 = message0+class_ls[i].final_class_ch_name+', 地点:'+class_ls[i].final_classroom+'\n'
+                    message0 = message0 + class_ls[i].final_class_ch_name + ', 地点:' + class_ls[i].final_classroom + '\n'
             if message0 == '今天的课程表:\n':
-                send_msg_when(self.name, message_weather+'今天全天没有课', date+' 07:00:00')
+                send_msg_when(self.name, message_weather + '今天全天没有课', date + ' 07:00:00')
+                print(self.name, '今天全天没有课')
                 raise Exception('今天全天没课')
             else:
-                send_msg_when(self.name, message_weather+message0, date + ' 07:00:00')
+                send_msg_when(self.name, message_weather + message0, date + ' 07:00:00')
+                print(self.name, message0)
 
             if self.c0.final_class_ch_name:
                 message1 = f'第1,2节课是{self.c0.final_teacher}的{self.c0.final_class_ch_name},地点:{self.c0.final_classroom}'
                 send_msg_when(self.name, message1, date + ' 07:00:15')
+                print(self.name, message1)
 
             if class_ls[1].final_class_ch_name:
                 message2 = f'第3,4节课是{self.c1.final_teacher}的{self.c1.final_class_ch_name},地点:{self.c1.final_classroom}'
                 send_msg_when(self.name, message2, date + ' 09:35:00')
+                print(self.name, message2)
 
             if class_ls[2].final_class_ch_name:
                 message3 = f'第5,6节课是{self.c2.final_teacher}的{self.c2.final_class_ch_name},地点:{self.c2.final_classroom}'
                 send_msg_when(self.name, message3, date + ' 12:40:00')
+                print(self.name, message3)
 
             if class_ls[3].final_class_ch_name:
                 message4 = f'第7,8节课是{self.c3.final_teacher}的{self.c3.final_class_ch_name},地点:{self.c3.final_classroom}'
                 send_msg_when(self.name, message4, date + ' 15:05:00')
+                print(self.name, message4)
 
             if class_ls[4].final_class_ch_name:
                 message5 = f'别忘了晚上还有一节课哟,第9,10节课是{self.c4.final_teacher}的{self.c4.final_class_ch_name},地点:{self.c4.final_classroom}'
                 send_msg_when(self.name, message5, date + ' 17:10:00')
+                print(self.name, message5)
 
         except Exception as e:
             print(e)

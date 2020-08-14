@@ -3,7 +3,7 @@
 import os
 
 
-def make_dir(path_name):  # os.mkdir("./输出文件")
+def make_dir(path_name):
     try:
         os.mkdir(path_name)
     except FileExistsError:

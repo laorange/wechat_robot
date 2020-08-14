@@ -6,9 +6,13 @@ from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
 
-start_date = '2020-08-14'
-start_time = '14:38:00'
+start_date = '2020-08-15'
+start_time = '06:30:00'
 start_time = start_date + ' ' + start_time
+
+# 测试时期 ---------------------------------------------------------------------#
+start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 10))
+# 测试时期 ---------------------------------------------------------------------#
 
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
 t_start = time.mktime(t_start_strp)
@@ -32,13 +36,16 @@ def student_send():
 
 def start():
     global t_next
-    student_send()
+    what_day_num = time.strftime('%w', time.localtime(t_next))
+    if what_day_num in [1, 2, 3, 4, 5]:
+        student_send()
     t_next += 86400
     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
     do_at_sometime(start, t_next_str)
 
 
 def task_start():
+    print('start!')
     do_at_sometime(start, start_time)
 
 
