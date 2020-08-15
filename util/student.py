@@ -153,7 +153,7 @@ class Student:
 
             if class_ls[2].final_class_ch_name:
                 message3 = f'第5,6节课是{self.c2.final_teacher}的{self.c2.final_class_ch_name},地点:{self.c2.final_classroom}'
-                send_msg_when(self.name, message3, date + ' 12:40:00')
+                send_msg_when(self.name, message3, date + ' 11:40:00')
                 print(self.name, message3)
 
             if class_ls[3].final_class_ch_name:
