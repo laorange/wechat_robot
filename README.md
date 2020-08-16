@@ -8,11 +8,11 @@
 
 + **2020中欧合唱团迎新群** [点这里加入qq群](https://qm.qq.com/cgi-bin/qm/qr?k=6C9a4ZK238xeSyhPQfJJUlCFxDWuwSFH&authKey=OfsfYt8fayNh2gVRQaIr1A7Hc6EJokbzVZBqssExM+EvLr+tRq60gRL4Y8NiYvhY&noverify=0)
 
-+ **2020中欧科协迎新群** 点这里加入qq群*(暂无)*
++ **2020中欧科协迎新群** 点这里加入qq群 *(暂无)*
 
-## 2.使用说明
+## 2.操作说明
 
-向该微信发送  ``#`` ``年级`` ``行政班``  ``td班`` `` 法语班``  来**启用**推送，中间请不要间隔空格以及任何符号，大小写字母均可。
+向该微信发送  ``#`` ``年级`` ``行政班``  ``td班`` `` 法语班``  来**启用**推送，大小写字母均可，中间请不要间隔空格以及任何字符。
 
 *例：*
 
@@ -47,3 +47,13 @@
 ## 4.其他说明
 
 由于该微信除了做机器人，同时还保持着日常使用，您有任何疑问&建议均可直接通过该微信向我(们)提起
+
+
+
+## 5.二维码
+
++ 如果您觉得还不错的话，那就添加微信好友并开始使用吧~   ‎|•'-'•)و❤
+
++ 如果您有好的建议的话，那就添加微信好友并告诉我们吧~   ‎|•'-'•)و✧
+
+![qrcode_laorange](D:\programming\python\auto_chat_robot\wechat_robot\data\private_space\qrcode_laorange.png)
