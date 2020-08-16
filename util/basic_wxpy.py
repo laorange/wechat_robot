@@ -67,36 +67,44 @@ def bot_register():
     @bot.register(Friend, TEXT)
     def print_msg_and_add(msg):
         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), msg)
-        code_add = re.match(r'^@(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
+        code_add = re.match(r'^([@。])(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
         if code_add:
-            try:
-                with open(path_user_list, 'at', encoding='UTF-8') as user_ls:
-                    user_ls.write(
-                        msg.chat.name + ',' + code_add.group(1) + ',' + code_add.group(2).upper() + ',P' + code_add.group(
-                            3).upper() + ',P' + code_add.group(4).upper() + '\n')
-                msg.chat.send('信息添加成功')
-            except Exception as e:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+            if code_add.group(1) == '@':
+                try:
+                    with open(path_user_list, 'at', encoding='UTF-8') as user_ls:
+                        user_ls.write(
+                            msg.chat.name + ',' + code_add.group(2) + ',' + code_add.group(
+                                3).upper() + ',P' + code_add.group(
+                                4).upper() + ',P' + code_add.group(5).upper() + '\n')
+                    msg.chat.send('信息添加成功')
+                except Exception as e:
+                    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
-    @bot.register(Friend, TEXT)
-    def no_print_msg_and_delete(msg):
-        code_delete = re.match(r'^。(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
-        if code_delete:
-            try:
-                user_ls = read_file2list('data/private_space/user_list.csv')
-                user_info_str = msg.chat.name + ',' + code_delete.group(1) + ',' + code_delete.group(
-                    2).upper() + ',P' + code_delete.group(3).upper() + ',P' + code_delete.group(4).upper()
-                if user_info_str in user_ls:
+            elif code_add.group(1) == '@':
+                try:
+                    user_ls = read_file2list('data/private_space/user_list.csv')
+                    user_info_str = msg.chat.name + ',' + code_add.group(2) + ',' + code_add.group(
+                        3).upper() + ',P' + code_add.group(4).upper() + ',P' + code_add.group(5).upper()
                     try:
-                        user_ls.remove(user_ls)
+                        if user_info_str in user_ls:
+                            try:
+                                user_ls.remove(user_ls)
+                            except Exception as e:
+                                print('移除失败', e)
+                                msg.chat.send('信息删除失败，稍微将为您手动删除')
+                                raise Exception('移除失败')
+                        else:
+                            msg.chat.send('未找到这条信息，请检查后重试；若始终无法成功，则是数据编码出现了问题，稍微我将为您手动删除')
+                            raise Exception('未找到这条信息')
                     except Exception as e:
-                        print('移除失败', e)
-                with open(path_user_list, 'wt') as user_ls:
-                    for user_info in user_ls:
-                        user_ls.write(user_info + '\n')
-                msg.chat.send('信息删除成功')
-            except Exception as e:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+                        print(e)
+                    else:
+                        with open(path_user_list, 'wt') as user_ls:
+                            for user_info in user_ls:
+                                user_ls.write(user_info + '\n')
+                        msg.chat.send('信息删除成功')
+                except Exception as e:
+                    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
     # 注册好友请求类消息
     @bot.register(msg_types=FRIENDS)
