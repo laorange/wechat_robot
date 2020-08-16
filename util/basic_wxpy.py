@@ -22,8 +22,11 @@ print('已找到:', my_friend.name, "-", my_friend.nick_name)
 
 
 def send_person(target_person, message):
-    target_friend = bot.friends().search(target_person)[0]
-    target_friend.send(message)
+    try:
+        target_friend = bot.friends().search(target_person)[0]
+        target_friend.send(message)
+    except Exception as e:
+        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
 
 def send_msg_when(target_person, message, send_time):
@@ -35,7 +38,7 @@ def send_msg_when(target_person, message, send_time):
     try:
         do_at_sometime(func=send, run_time=send_time)
     except Exception as e:
-        print(e)
+        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
 
 # hushaoc = bot.friends().search('235d4d80')[0]
@@ -65,27 +68,35 @@ def bot_register():
     def print_msg_and_add(msg):
         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), msg)
         code_add = re.match(r'^@(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
-
         if code_add:
-            with open(path_user_list, 'at', encoding='UTF-8') as user_ls:
-                user_ls.write(
-                    msg.chat.name + ',' + code_add.group(1) + ',' + code_add.group(2).upper() + ',P' + code_add.group(
-                        3).upper() + ',P' + code_add.group(4).upper() + '\n')
-            msg.chat.send('信息添加成功')
+            try:
+                with open(path_user_list, 'at', encoding='UTF-8') as user_ls:
+                    user_ls.write(
+                        msg.chat.name + ',' + code_add.group(1) + ',' + code_add.group(2).upper() + ',P' + code_add.group(
+                            3).upper() + ',P' + code_add.group(4).upper() + '\n')
+                msg.chat.send('信息添加成功')
+            except Exception as e:
+                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
     @bot.register(Friend, TEXT)
     def no_print_msg_and_delete(msg):
         code_delete = re.match(r'^。(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
         if code_delete:
-            user_ls = read_file2list('data/private_space/user_list.csv')
-            user_info_str = msg.chat.name + ',' + code_delete.group(1) + ',' + code_delete.group(
-                2).upper() + ',P' + code_delete.group(3).upper() + ',P' + code_delete.group(4).upper()
-            if user_info_str in user_ls:
-                user_ls.remove(user_ls)
-            with open(path_user_list, 'wt') as user_ls:
-                for user_info in user_ls:
-                    user_ls.write(user_info + '\n')
-            msg.chat.send('信息删除成功')
+            try:
+                user_ls = read_file2list('data/private_space/user_list.csv')
+                user_info_str = msg.chat.name + ',' + code_delete.group(1) + ',' + code_delete.group(
+                    2).upper() + ',P' + code_delete.group(3).upper() + ',P' + code_delete.group(4).upper()
+                if user_info_str in user_ls:
+                    try:
+                        user_ls.remove(user_ls)
+                    except Exception as e:
+                        print('移除失败', e)
+                with open(path_user_list, 'wt') as user_ls:
+                    for user_info in user_ls:
+                        user_ls.write(user_info + '\n')
+                msg.chat.send('信息删除成功')
+            except Exception as e:
+                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
     # 注册好友请求类消息
     @bot.register(msg_types=FRIENDS)
@@ -106,7 +117,7 @@ def bot_register():
             # bot.friends().search(new_remark_name)[0].sent('测试：我自动接受了你的好友请求')
             # print("已添加"+new_remark_name)
         except Exception as e:
-            print(e)
+            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
     # @bot.register(Group, TEXT)
     # def print_group_msg(msg):

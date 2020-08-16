@@ -38,7 +38,10 @@ def start():
     global t_next
     what_day_num = time.strftime('%w', time.localtime(t_next))
     if what_day_num in [1, 2, 3, 4, 5]:
-        student_send()
+        try:
+            student_send()
+        except Exception as e:
+            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
     t_next += 86400
     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
     do_at_sometime(start, t_next_str)
