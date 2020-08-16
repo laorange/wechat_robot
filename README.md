@@ -58,6 +58,6 @@
 
 + 如果您有好的建议的话，那就添加微信好友并告诉我们吧~   ‎|•'-'•)و✧
 
-![二维码](https://github.com/laorange/wechat_robot/blob/master/util/qrcode_laorange.png)
+![二维码](https://github.com/laorange/wechat_robot/raw/master/util/qrcode_laorange.png)
 
 如果上面的二维码图片未能正常显示，可以通过微信号``y123zc``添加。
