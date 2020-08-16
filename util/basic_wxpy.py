@@ -62,9 +62,10 @@ def send_msg_when(target_person, message, send_time):
 
 def bot_register():
     @bot.register(Friend, TEXT)
-    def print_group_msg(msg):
+    def print_msg_and_add(msg):
         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), msg)
         code_add = re.match(r'^@(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
+
         if code_add:
             with open(path_user_list, 'at', encoding='UTF-8') as user_ls:
                 user_ls.write(
@@ -72,24 +73,19 @@ def bot_register():
                         3).upper() + ',P' + code_add.group(4).upper() + '\n')
             msg.chat.send('信息添加成功')
 
+    @bot.register(Friend, TEXT)
+    def no_print_msg_and_delete(msg):
         code_delete = re.match(r'^。(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', msg.text)
         if code_delete:
             user_ls = read_file2list('data/private_space/user_list.csv')
-            user_info_str = msg.chat.name + ',' + code_add.group(1) + ',' + code_add.group(
-                2).upper() + ',P' + code_add.group(3).upper() + ',P' + code_add.group(4).upper()
+            user_info_str = msg.chat.name + ',' + code_delete.group(1) + ',' + code_delete.group(
+                2).upper() + ',P' + code_delete.group(3).upper() + ',P' + code_delete.group(4).upper()
             if user_info_str in user_ls:
                 user_ls.remove(user_ls)
             with open(path_user_list, 'wt') as user_ls:
                 for user_info in user_ls:
                     user_ls.write(user_info + '\n')
             msg.chat.send('信息删除成功')
-
-        # test_ls = msg.text.split('.')
-        # try:
-        #     send_msg_when(test_ls[0], test_ls[1], test_ls[2])
-        # except:
-        #     print('error')
-        #     pass
 
     # 注册好友请求类消息
     @bot.register(msg_types=FRIENDS)
