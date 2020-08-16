@@ -80,7 +80,7 @@ def bot_register():
                 except Exception as e:
                     print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
-            elif code_add.group(1) == '@':
+            elif code_add.group(1) == '。':
                 try:
                     user_ls = read_file2list('data/private_space/user_list.csv')
                     user_info_str = msg.chat.name + ',' + code_add.group(2) + ',' + code_add.group(

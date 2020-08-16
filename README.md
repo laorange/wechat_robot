@@ -1,4 +1,4 @@
-# 使用说明
+# 使用说明 
 
 ## 1.写在前面
 
@@ -8,7 +8,7 @@
 
 + **2020中欧合唱团迎新群** [点这里加入qq群](https://qm.qq.com/cgi-bin/qm/qr?k=6C9a4ZK238xeSyhPQfJJUlCFxDWuwSFH&authKey=OfsfYt8fayNh2gVRQaIr1A7Hc6EJokbzVZBqssExM+EvLr+tRq60gRL4Y8NiYvhY&noverify=0)
 
-+ **2020中欧科协迎新群** [点这里加入qq群(暂无)](https://github.com/laorange/wechat_robot#2操作说明)
++ **2020中欧科协迎新群** [点这里加入qq群](https://github.com/laorange/wechat_robot#1.写在前面) (暂无)
 
 本程序设计适用人群: SIAE 2017, 2018, 2019, 2020级学生
 
