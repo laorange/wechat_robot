@@ -10,6 +10,8 @@
 
 + **2020中欧科协迎新群** 点这里加入qq群 *(暂无)*
 
+设计适用人群: SIAE 2017, 2018, 2019, 2020级学生
+
 ## 2.操作说明
 
 向该微信发送  ``#`` ``年级`` ``行政班``  ``td班`` `` 法语班``  来**启用**推送，大小写字母均可，中间请不要间隔空格以及任何字符。
@@ -56,4 +58,6 @@
 
 + 如果您有好的建议的话，那就添加微信好友并告诉我们吧~   ‎|•'-'•)و✧
 
-![qrcode_laorange](https://github.com/laorange/wechat_robot/raw/master/util/qrcode_laorange.png)
+![二维码](https://github.com/laorange/wechat_robot/raw/master/util/qrcode_laorange.png)
+
+如果上面的二维码图片未能正常显示，可以通过微信号``y123zc``添加。
