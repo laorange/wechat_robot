@@ -3,7 +3,7 @@ from wxpy import *
 import re
 import os
 
-# import time
+import time
 # from pprint import pprint
 
 # from robot import get_answer  # chat_robot
@@ -127,7 +127,7 @@ def bot_register():
             pass
         finally:
             msg.get_file(save_path='data/download/'+msg.chat.name+'/'+msg.file_name)
-            print('已下载:'+'data/download/'+msg.chat.name+'/'+msg.file_name)
+            print(time.ctime(), '已下载:'+'data/download/'+msg.chat.name+'/'+msg.file_name)
 
     bot.join()
     # embed()

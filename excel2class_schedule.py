@@ -186,37 +186,37 @@ def get_today_schedule(grade, what_day):
                             ls = list(re.findall(r'(\d{1,2})', _))
                             today_schedule[i].correspond_week.append(ls)
 
-                max_len = max(len(today_schedule[i].correspond_class),
-                              len(today_schedule[i].teacher_ls),
-                              len(today_schedule[i].correspond_class),
-                              len(today_schedule[i].class_property),
-                              len(today_schedule[i].correspond_week),
-                              len(today_schedule[i].class_ch_name_ls),
-                              len(today_schedule[i].class_fr_name_ls))
+            max_len = max(len(today_schedule[i].correspond_class),
+                          len(today_schedule[i].teacher_ls),
+                          len(today_schedule[i].correspond_class),
+                          len(today_schedule[i].class_property),
+                          len(today_schedule[i].correspond_week),
+                          len(today_schedule[i].class_ch_name_ls),
+                          len(today_schedule[i].class_fr_name_ls))
 
-                if classroom:
-                    while len(today_schedule[i].classroom_ls) < max_len:
-                        today_schedule[i].classroom_ls.append(classroom)
-                if teacher:
-                    while len(today_schedule[i].teacher_ls) < max_len:
-                        today_schedule[i].teacher_ls.append(teacher)
-                if correspond_class:
-                    while len(today_schedule[i].correspond_class) < max_len:
-                        today_schedule[i].correspond_class.append(correspond_class)
-                if class_property:
-                    while len(today_schedule[i].class_property) < max_len:
-                        today_schedule[i].class_property.append(class_property)
-                if len(ls):
-                    while len(today_schedule[i].correspond_week) < max_len:
-                        today_schedule[i].correspond_week.append(ls)
+            if classroom:
+                while len(today_schedule[i].classroom_ls) < max_len:
+                    today_schedule[i].classroom_ls.append(classroom)
+            if teacher:
+                while len(today_schedule[i].teacher_ls) < max_len:
+                    today_schedule[i].teacher_ls.append(teacher)
+            if correspond_class:
+                while len(today_schedule[i].correspond_class) < max_len:
+                    today_schedule[i].correspond_class.append(correspond_class)
+            if class_property:
+                while len(today_schedule[i].class_property) < max_len:
+                    today_schedule[i].class_property.append(class_property)
+            if len(ls):
+                while len(today_schedule[i].correspond_week) < max_len:
+                    today_schedule[i].correspond_week.append(ls)
 
-                if class_ch_name:
-                    while len(today_schedule[i].class_ch_name_ls) < max_len:
-                        today_schedule[i].class_ch_name_ls.append(class_ch_name)
+            if class_ch_name:
+                while len(today_schedule[i].class_ch_name_ls) < max_len:
+                    today_schedule[i].class_ch_name_ls.append(class_ch_name)
 
-                if class_fr_name:
-                    while len(today_schedule[i].class_fr_name_ls) < max_len:
-                        today_schedule[i].class_fr_name_ls.append(class_fr_name)
+            if class_fr_name:
+                while len(today_schedule[i].class_fr_name_ls) < max_len:
+                    today_schedule[i].class_fr_name_ls.append(class_fr_name)
 
             if class_property == '':
                 class_property = 'all'
@@ -236,6 +236,10 @@ def write_today_schedule(grade, today_schedule, what_day):
     what_day_lower = what_day.lower()
     for class_num in range(5):
         cls = today_schedule[class_num]
+        correspond_week = """["""
+        for cor_week in cls.correspond_week:
+            correspond_week = correspond_week + '\n                          ' + str(cor_week) + ', '
+        correspond_week = correspond_week + ']'
         with open(f'schedule/schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
             schedule_py.write(f'''\
 # {what_day} 第{class_num}节课
@@ -243,7 +247,7 @@ def write_today_schedule(grade, today_schedule, what_day):
 {what_day_lower}{class_num}.class_property = {cls.class_property}
 {what_day_lower}{class_num}.class_fr_name_ls = {cls.class_fr_name_ls}
 {what_day_lower}{class_num}.class_ch_name_ls = {cls.class_ch_name_ls}
-{what_day_lower}{class_num}.correspond_week = {cls.correspond_week}
+{what_day_lower}{class_num}.correspond_week = {correspond_week}
 {what_day_lower}{class_num}.correspond_class = {cls.correspond_class}
 {what_day_lower}{class_num}.classroom_ls = {cls.classroom_ls}
 {what_day_lower}{class_num}.teacher_ls = {cls.teacher_ls}
