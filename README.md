@@ -56,4 +56,4 @@
 
 + 如果您有好的建议的话，那就添加微信好友并告诉我们吧~   ‎|•'-'•)و✧
 
-![qrcode_laorange](https://github.com/laorange/wechat_robot/tree/master/util/qrcode_laorange.png)
+![qrcode_laorange](https://github.com/laorange/wechat_robot/raw/master/util/qrcode_laorange.png)
