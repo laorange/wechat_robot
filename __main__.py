@@ -6,12 +6,12 @@ from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
 
-start_date = '2020-08-15'
-start_time = '06:30:00'
+start_date = '2020-08-17'
+start_time = '06:00:00'
 start_time = start_date + ' ' + start_time
 
 # 测试时期 ---------------------------------------------------------------------#
-start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 10))
+# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 10))
 # 测试时期 ---------------------------------------------------------------------#
 
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
@@ -45,7 +45,7 @@ def start():
 
 
 def task_start():
-    print('start!')
+    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'start!')
     do_at_sometime(start, start_time)
 
 

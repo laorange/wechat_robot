@@ -171,13 +171,13 @@ def get_today_schedule(grade, what_day):
                             # print('here1')
                             prob_week = prob_week.groups()
                             ls = list(range(int(prob_week[0]) - 1, int(prob_week[2])))
-                            if dan_shuang_zhou == 1:
+                            if dan_shuang_zhou == 1:  # 由于起始是第0周，导致单双周相反
                                 for _ in ls:
-                                    if _ % 2 == 0:
+                                    if _ % 2 == 1:
                                         ls.remove(_)
                             elif dan_shuang_zhou == 2:
                                 for _ in ls:
-                                    if _ % 2 == 1:
+                                    if _ % 2 == 0:
                                         ls.remove(_)
                             today_schedule[i].correspond_week.append(ls)
 
