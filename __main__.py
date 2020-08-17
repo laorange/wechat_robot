@@ -1,4 +1,4 @@
-import time
+﻿import time
 from threading import Thread
 
 from util.basic_wxpy import bot_register
@@ -11,7 +11,7 @@ start_time = '06:00:00'
 start_time = start_date + ' ' + start_time
 
 # 测试时期 ---------------------------------------------------------------------#
-# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 10))
+start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 10))
 # 测试时期 ---------------------------------------------------------------------#
 
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
