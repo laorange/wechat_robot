@@ -1,7 +1,7 @@
 ﻿import time
 from threading import Thread
 
-from util.basic_wxpy import bot_register
+from wechat_func import log_in
 from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
@@ -48,12 +48,12 @@ def start():
 
 
 def task_start():
-    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'start!')
+    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
     do_at_sometime(start, start_time)
 
 
 if __name__ == "__main__":
-    t1 = Thread(target=task_start)
-    t2 = Thread(target=bot_register)
+    t1 = Thread(target=log_in)
+    t2 = Thread(target=task_start)
     t1.start()
     t2.start()

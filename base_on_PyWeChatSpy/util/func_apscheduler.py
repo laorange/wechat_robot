@@ -1,5 +1,4 @@
 import time
-import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.date import DateTrigger
 
@@ -16,10 +15,13 @@ def do_at_sometime(func, run_time, task_name='my_job_id'):
     :param task_name: 任务名，在本项目中不重要
     :return: None
     """
-    scheduler = BackgroundScheduler()
-    intervalTrigger = DateTrigger(run_date=run_time)
-    scheduler.add_job(func, intervalTrigger, id=task_name)
-    scheduler.start()
+    try:
+        scheduler = BackgroundScheduler()
+        intervalTrigger = DateTrigger(run_date=run_time)
+        scheduler.add_job(func, intervalTrigger, id=task_name)
+        scheduler.start()
+    except Exception as e:
+        print(e)
 
 
 if __name__ == "__main__":
