@@ -11,7 +11,7 @@ start_time = '06:00:00'
 start_time = start_date + ' ' + start_time
 
 # 测试时期 ---------------------------------------------------------------------#
-start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 10))
+# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 10))
 # 测试时期 ---------------------------------------------------------------------#
 
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
@@ -36,19 +36,21 @@ def student_send():
 
 def start():
     global t_next
-    what_day_num = time.strftime('%w', time.localtime(t_next))
-    if what_day_num in [1, 2, 3, 4, 5]:
+    what_day_num = time.strftime('%w', time.localtime())
+    if what_day_num in ['1', '2', '3', '4', '5']:
         try:
+            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
             student_send()
         except Exception as e:
-            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
+    else:
+        print('周末不推送', '-' * 10)
     t_next += 86400
     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
     do_at_sometime(start, t_next_str)
 
 
 def task_start():
-    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
     do_at_sometime(start, start_time)
 
 

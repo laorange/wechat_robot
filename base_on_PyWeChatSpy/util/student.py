@@ -128,12 +128,12 @@ class Student:
             # 7:00通报全天有哪些课，以及第一节课的详细信息
             message_weather = '今天是' + date + '\n' + weather + '\n'
 
-            message0 = '今天的课程表:\n'
+            message0 = '今天的课程表:'
             class_ls = [self.c0, self.c1, self.c2, self.c3, self.c4]
             for i in range(5):
                 if class_ls[i].final_class_ch_name != '':
-                    message0 = message0 + class_ls[i].final_class_ch_name + ', 地点:' + class_ls[i].final_classroom + '\n'
-            if message0 == '今天的课程表:\n':
+                    message0 = message0 + '\n' + class_ls[i].final_class_ch_name + ', 地点:' + class_ls[i].final_classroom
+            if message0 == '今天的课程表:':
                 print(self.name, '今天全天没有课')
                 send_msg_when(self.name, message_weather + '今天全天没有课', date + ' 07:00:00')
                 raise Exception('今天全天没课')

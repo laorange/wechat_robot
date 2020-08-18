@@ -195,7 +195,7 @@ def send_msg_when(wxid: str, content: str, send_time: str):
 def log_in():
     t1 = Thread(target=spy.run)
     t1.start()
-    print('start receiving wechat message')
+    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'start receiving wechat message')
 
 
 if __name__ == '__main__':
