@@ -83,7 +83,7 @@ def my_proto_parser(data):
                 if code_add and len(message.wxid2) == 0:
                     if code_add.group(1) == '@':
                         try:
-                            with open(path_user_list, 'at', encoding='UTF-8') as user_ls:
+                            with open(path_user_list, 'at') as user_ls:
                                 user_ls.write(
                                     message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
                                         3).upper() + ',P' + code_add.group(
@@ -94,13 +94,14 @@ def my_proto_parser(data):
 
                     elif code_add.group(1) == '。':
                         try:
-                            user_ls = read_file2list('data/private_space/user_list.csv')
+                            with open('data/private_space/user_list.csv') as user_list_csv:
+                                user_ls = user_list_csv.readlines()
                             user_info_str = message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
-                                3).upper() + ',P' + code_add.group(4).upper() + ',P' + code_add.group(5).upper()
+                                3).upper() + ',P' + code_add.group(4).upper() + ',P' + code_add.group(5).upper() + '\n'
                             try:
                                 if user_info_str in user_ls:
                                     try:
-                                        user_ls.remove(user_ls)
+                                        user_ls.remove(user_info_str)
                                     except Exception as e:
                                         print('移除失败', e)
                                         send(message.wxid1, '信息删除失败，稍微将为您手动删除')
@@ -111,9 +112,9 @@ def my_proto_parser(data):
                             except Exception as e:
                                 print(e)
                             else:
-                                with open(path_user_list, 'wt') as user_ls:
+                                with open(path_user_list, 'wt') as user_ls_csv:
                                     for user_info in user_ls:
-                                        user_ls.write(user_info + '\n')
+                                        user_ls_csv.write(user_info)
                                 send(message.wxid1, '信息删除成功')
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)

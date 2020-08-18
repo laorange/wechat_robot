@@ -59,18 +59,18 @@
 
 ## 6.中欧合唱团
 
-常规社团招新时间是每年3,4月，不同于别的社团，由于中欧合唱团在本学期即有为学院争光添彩的使命，换届大会&吸纳新鲜血液均在每年的9月，即刻开始招募今年志愿者参与合唱团各种精彩活动；明年4月社团招新月愿意留在团内的学弟们即可正式登记加入。
+常规社团招新时间是每年3,4月，不同于别的社团，由于中欧合唱团在本学期已有为学院争光添彩的机会与使命，且团内换届大会是在每年的9月举行，故 **即刻** 开始邀请所有喜爱音乐的2020级新生们来参与组织中欧合唱团各种精彩活动；明年4月社团招新月愿意留在团内的学弟学妹们即可正式登记加入。
 
-这里有一群热爱音乐的人聚在一起，除了声乐爱好者们，无论是钢琴、吉他、小提琴等西洋乐器，还是古筝、二胡、笛子等民乐，你都能在这里找到志同道合的小伙伴！
+中欧合唱团，不只是合唱团。这里有一群热爱音乐的人聚在一起，除了声乐爱好者们，无论是钢琴、吉他、小提琴等西洋乐器，还是古筝、二胡、笛子等民乐，你都能在这里找到志同道合的小伙伴！
 
-欢迎加入社团迎新群来了解更多信息：
+欢迎加入社团迎新群来了解更多信息： 
 
-+ **2020中欧合唱团迎新群** [点这里加入qq群](https://qm.qq.com/cgi-bin/qm/qr?k=6C9a4ZK238xeSyhPQfJJUlCFxDWuwSFH&authKey=OfsfYt8fayNh2gVRQaIr1A7Hc6EJokbzVZBqssExM+EvLr+tRq60gRL4Y8NiYvhY&noverify=0)
++ **2020中欧合唱团迎新群** [点这里加入qq群(该链接在程序测试阶段暂不开放)](https://github.com/laorange/wechat_robot#6中欧合唱团)
 
 ## 7.中欧科协
 
 + [中欧科协简介2020.3](https://mp.weixin.qq.com/s?__biz=MzI5OTI2NzMyNg==&mid=2247487250&idx=4&sn=543f29b5f55cafa1242bf4af6118206c&chksm=ec986a83dbefe3951caec31c65f77c664d8a4cbae0676f3d115f2e30ae6dd3660389f285e7cf&mpshare=1&scene=1&srcid=0817UesipdadVHjYitqCJoHH&sharer_sharetime=1597660252329&sharer_shareid=437640bc163aeb961c4264f63d00e9e7&key=bd8ad81032fdfaf23e81b61b3e5e2e93340b8fa59fd9c6afb9409200576491ff8311905fe2a19070de6032c46c97186ef96b51d9244fd8ff35129ac1128f664e8f68dab6c0ad5832ff019e497d643acf46ebfe2e0a7a7e78b5c6ae1c5ea2c7a4eb3d010fd0cd9fac9e60d27860666c6c92eb4b618808ca5537b58a4d534e15b7&ascene=1&uin=MjI3NDM4MDYzMg%3D%3D&devicetype=Windows+Server+2016&version=62080085&lang=zh_CN&exportkey=A7lDFBq65%2BisMAE98G8pAbY%3D&pass_ticket=tApxNb2%2F1KYzvr9GyvKRaNP6cacnrXxHkDF9MdU0v9a00H4qeeErj47eiljmFeMy)
 
-## 8.院内社团宣传资料 (2020.3)
+## 8.院内社团宣传资料 
 
-+ [院内社团宣传资料合集](https://mp.weixin.qq.com/s/_A9FSgGg2OqxjwFcK_h2vw)
++ [院内社团宣传资料合集(2020.3)](https://mp.weixin.qq.com/s/_A9FSgGg2OqxjwFcK_h2vw)
