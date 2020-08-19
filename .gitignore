@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 # own
+.idea/
 PyWeChatSpy/
 data/
 wxpy.pkl
