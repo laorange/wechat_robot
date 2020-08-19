@@ -53,7 +53,7 @@ class Student:
 
         for i in range(5):  # 第i节课
             if len(schedule[i].class_property) == 0:
-                print(f'{self.name}:今天第{(i+1)*2-1},{(i+1)*2}没课')
+                print(f'{self.name}:今天第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
 
             else:
                 for final_index in range(len(schedule[i].class_property)):
@@ -126,15 +126,21 @@ class Student:
             print('↓' * 10, self.name, '↓' * 10)
             # 7:00通报全天有哪些课，以及第一节课的详细信息
             weather = get_weather()
-            message_weather = '今天是' + date + ',这周是本学期的第' + str(week+1) + '周\n' + weather + '\n'
+            message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周\n' + weather + '\n\n'
             print(message_weather)
 
             message0 = '今天的课程表:'
             class_ls = [self.c0, self.c1, self.c2, self.c3, self.c4]
             for i in range(5):
                 if class_ls[i].final_class_ch_name != '':
-                    message0 = message0 + '\n' + class_ls[i].final_class_ch_name + ', 地点:' + class_ls[i].final_classroom
-            if message0 == '今天的课程表:':
+                    if class_ls[i].final_classroom != '':
+                        message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name + '，地点:' + \
+                                   class_ls[i].final_classroom
+                    else:
+                        message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name
+                else:
+                    message0 = message0 + '\n' + str(i + 1) + '. '
+            if message0 == '今天的课程表:\n1. \n2. \n3. \n4. \n5. ':
                 print('今天全天没有课')
                 send_msg_when(self.name, message_weather + '今天全天没有课', date + ' 07:00:00')
                 raise Exception('今天全天没课')
@@ -143,34 +149,34 @@ class Student:
                 send_msg_when(self.name, message_weather + message0, date + ' 07:00:00')
 
             if self.c0.final_class_ch_name:
-                message1 = f'第1,2节课是{self.c0.final_teacher}老师的{self.c0.final_class_ch_name},地点:{self.c0.final_classroom}'
+                message1 = f'第1,2节课是{self.c0.final_teacher}老师的{self.c0.final_class_ch_name}，地点:{self.c0.final_classroom}'
                 print(message1)
                 send_msg_when(self.name, message1, date + ' 07:00:15')
 
             if class_ls[1].final_class_ch_name:
-                message2 = f'第3,4节课是{self.c1.final_teacher}老师的{self.c1.final_class_ch_name},地点:{self.c1.final_classroom}'
+                message2 = f'第3,4节课是{self.c1.final_teacher}老师的{self.c1.final_class_ch_name}，地点:{self.c1.final_classroom}'
                 print(message2)
                 send_msg_when(self.name, message2, date + ' 09:35:00')
 
             if class_ls[2].final_class_ch_name:
-                message3 = f'第5,6节课是{self.c2.final_teacher}老师的{self.c2.final_class_ch_name},地点:{self.c2.final_classroom}'
+                message3 = f'第5,6节课是{self.c2.final_teacher}老师的{self.c2.final_class_ch_name}，地点:{self.c2.final_classroom}'
                 print(message3)
                 send_msg_when(self.name, message3, date + ' 11:40:00')
 
             if class_ls[3].final_class_ch_name:
-                message4 = f'第7,8节课是{self.c3.final_teacher}老师的{self.c3.final_class_ch_name},地点:{self.c3.final_classroom}'
+                message4 = f'第7,8节课是{self.c3.final_teacher}老师的{self.c3.final_class_ch_name}，地点:{self.c3.final_classroom}'
                 print(message4)
                 send_msg_when(self.name, message4, date + ' 15:05:00')
 
             if class_ls[4].final_class_ch_name:
-                message5 = f'别忘了晚上还有一节课哟,第9,10节课是{self.c4.final_teacher}老师的{self.c4.final_class_ch_name},地点:{self.c4.final_classroom}'
+                message5 = f'别忘了晚上还有一节课哟，第9,10节课是{self.c4.final_teacher}老师的{self.c4.final_class_ch_name}，地点:{self.c4.final_classroom}'
                 print(message5)
                 send_msg_when(self.name, message5, date + ' 17:10:00')
 
-            print('student info send ----> done')
+            print('student info send ----> done\n')
 
         except Exception as e:
-            print('student info send ----> fail', e)
+            print(f'student info send ----> fail\n{e}\n')
 
 
 if __name__ == "__main__":

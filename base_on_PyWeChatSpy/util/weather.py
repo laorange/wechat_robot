@@ -15,7 +15,7 @@ def get_weather():
     temp = pattern.sub('', temp)
     temp = temp.split()
     # print(temp)
-    weather = temp[5] + ',' + temp[6] + ',' + temp[7]
+    weather = temp[5] + '，' + temp[6] + '，' + temp[7]
     return weather
 
 
