@@ -37,14 +37,15 @@ def student_send():
 def start():
     global t_next
     what_day_num = time.strftime('%w', time.localtime())
-    if what_day_num in ['1', '2', '3', '4', '5']:
-        try:
-            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
-            student_send()
-        except Exception as e:
-            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
-    else:
-        print('周末不推送', '-' * 10)
+    if determine_week() in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
+        if what_day_num in ['1', '2', '3', '4', '5']:
+            try:
+                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
+                student_send()
+            except Exception as e:
+                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
+        else:
+            print('周末不推送', '-' * 10)
     t_next += 86400
     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
     do_at_sometime(start, t_next_str)
