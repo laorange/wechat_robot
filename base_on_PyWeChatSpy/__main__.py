@@ -5,8 +5,9 @@ from wechat_func import log_in
 from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
+from util.week import determine_week, determine_what_day, determine_date
 
-start_date = '2020-08-17'
+start_date = '2020-08-20'
 start_time = '06:00:00'
 start_time = start_date + ' ' + start_time
 
@@ -30,8 +31,7 @@ def student_send():
         student_ls.append(Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3], user_info_ls[4]))
 
     for student in student_ls:
-        student.get_schedule()
-        student.send()
+        student.get_schedule_and_send(determine_week(), determine_what_day(), determine_date())
 
 
 def start():
