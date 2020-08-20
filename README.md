@@ -69,9 +69,9 @@
 
 欢迎大家加入中欧合唱团这个大家庭，在繁重的学业下劳逸结合，让大学生活更加丰富多彩！
 
-**欢迎加入 社团迎新群 来了解更多信息：** 
+**带上你对学院的一切好奇 加入我们的迎新群 了解更多信息吧：** 
 
-+ **2020中欧合唱团迎新群** [点这里加入qq群(该链接在程序测试阶段暂不开放)](https://github.com/laorange/wechat_robot#6中欧合唱团)
++ **2020中欧合唱团迎新群** [点这里加入qq群](https://qm.qq.com/cgi-bin/qm/qr?k=wJgodJbNDjOEYTHlkevKT_2F1JuD0-Jz&authKey=08aA9z2kFRSH/M7ib9cHY/X89Hw13n5D0pTDl/NaoMMcdOLY8OFiFxkMsyl7Sib8&noverify=0)
 
 ## 7.中欧科协
 
