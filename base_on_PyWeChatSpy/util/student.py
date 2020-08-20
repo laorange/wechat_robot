@@ -123,7 +123,7 @@ class Student:
 
         # send
         try:
-            print('↓' * 10, self.name, '↓' * 10)
+            print('-' * 9, '↓', self.name, '↓', '-' * 10)
             # 7:00通报全天有哪些课，以及第一节课的详细信息
             weather = get_weather()
             message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周\n' + weather + '\n\n'

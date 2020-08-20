@@ -10,7 +10,6 @@ from threading import Thread
 # project内
 from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
-from util.basic_functions import read_file2list
 
 logger = logging.getLogger(__file__)
 formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
@@ -44,7 +43,6 @@ def my_proto_parser(data):
         print(data.login_info.wechatid)
         print(data.login_info.phone)
         print(data.login_info.profilephoto)
-        # 查询联系人列表(付费)
         spy.get_contacts()
     elif data.type == CONTACTS:
         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "联系人列表", "-" * 10)
@@ -61,16 +59,7 @@ def my_proto_parser(data):
                 contact_list.append(contact.wxid)
         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), f"共{len(contact_list)}个联系人,{len(chatroom_list)}个群",
               "-" * 10)
-        # print("-"*10, "获取联系人详情(部分付费)", contact_list[5], "-"*10)
-        # spy.get_contact_details(contact_list[5], True)
-        # print("设置群名称(付费)", chatroom_list[0])
-        # spy.set_chatroom_name(chatroom_list[0], "PyWeChatSpy")
-        # print("发送群公告", chatroom_list[0])
-        # spy.send_announcement(chatroom_list[0], "本条消息由PyWeChatSpy发出(https://zhuanlan.zhihu.com/p/118674498)")
-        # print("创建群聊(付费)")
-        # spy.create_chatroom(f"{contact_list[1]},{contact_list[2]},{contact_list[3]}")
-        # print("-"*10, "获取群成员列表(付费)", chatroom_list[0], "-"*10)
-        # spy.get_chatroom_members(chatroom_list[0])
+
     elif data.type == MESSAGE:
         # 消息
         for message in data.message_list.message:
@@ -82,15 +71,18 @@ def my_proto_parser(data):
                 code_add = re.match(r'^([@。])(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', message.content)
                 if code_add and len(message.wxid2) == 0:
                     if code_add.group(1) == '@':
-                        try:
-                            with open(path_user_list, 'at') as user_ls:
-                                user_ls.write(
-                                    message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
-                                        3).upper() + ',P' + code_add.group(
-                                        4).upper() + ',P' + code_add.group(5).upper() + '\n')
-                            send(message.wxid1, '信息添加成功')
-                        except Exception as e:
-                            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+                        if code_add.group(2) in ['2018', '2019', '2020']:
+                            try:
+                                with open(path_user_list, 'at') as user_ls:
+                                    user_ls.write(
+                                        message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
+                                            3).upper() + ',P' + code_add.group(
+                                            4).upper() + ',P' + code_add.group(5).upper() + '\n')
+                                send(message.wxid1, '信息添加成功')
+                            except Exception as e:
+                                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+                        else:
+                            send(message.wxid1, 'sorry，本程序暂仅支持预科阶段的课表推送哟')
 
                     elif code_add.group(1) == '。':
                         try:
@@ -123,11 +115,6 @@ def my_proto_parser(data):
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
             elif message.type == 37:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "好友请求消息", "-" * 10)
-                # 好友请求消息
-                # obj = etree.XML(message.content)
-                # encryptusername, ticket = obj.xpath("/msg/@encryptusername")[0], obj.xpath("/msg/@ticket")[0]
-                # 接收好友请求(付费)
-                # spy.accept_new_contact(encryptusername, ticket)
             else:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "其他消息", "-" * 10)
                 return
@@ -148,13 +135,6 @@ def my_proto_parser(data):
         print(chatroom_wxid)
         for member in member_list.contact:
             print(member.wxid, member.nickname)
-            # 添加群成员为好友(付费)
-            # 高风险操作 频率较高容易引发微信风控
-            # spy.add_contact(
-            #     member.wxid,
-            #     chatroom_wxid,
-            #     "来自PyWeChatSpy(https://zhuanlan.zhihu.com/p/118674498)的问候",
-            #     ADD_CONTACT_A)
     elif data.type == CONTACT_DETAILS:
         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "联系人详情", "-" * 10)
         for details in data.contact_list.contact:

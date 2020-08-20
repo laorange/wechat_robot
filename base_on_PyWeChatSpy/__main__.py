@@ -38,7 +38,7 @@ def start():
     global t_next
     what_day_num = time.strftime('%w', time.localtime())
     if determine_week() in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
-        if what_day_num in ['1', '2', '3', '4', '5']:
+        if what_day_num in ['1', '2', '3', '4', '5']:  # 周一到周五，%w是从周日开始计数
             try:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
                 student_send()

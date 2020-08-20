@@ -22,8 +22,8 @@ class Class:
 
 def get_today_schedule(grade, what_day):
     path = ''
-    if grade == 2017:
-        path = 'data/excels/2017.xls'
+    # if grade == 2017:
+    #     path = 'data/excels/2017.xls'
     if grade == 2018:
         path = ''
     if grade == 2019:
@@ -226,8 +226,6 @@ def get_today_schedule(grade, what_day):
                 while len(today_schedule[i].class_property) < len(today_schedule[i].correspond_class):
                     today_schedule[i].class_property.append(class_property)
 
-
-
     # raise Exception('TEST')
     return today_schedule, what_day
 
@@ -300,7 +298,7 @@ def grade_yi_tiao_long_fu_wu(grade):
 
 
 if __name__ == "__main__":
-    grade_yi_tiao_long_fu_wu(2017)
+    # grade_yi_tiao_long_fu_wu(2017)
     # grade_yi_tiao_long_fu_wu(2018)
     grade_yi_tiao_long_fu_wu(2019)
     # grade_yi_tiao_long_fu_wu(2020)
