@@ -7,7 +7,7 @@ from util.student import Student
 from util.func_apscheduler import do_at_sometime
 from util.week import determine_week, determine_what_day, determine_date
 
-start_date = '2020-08-21'
+start_date = '2020-08-24'
 start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 

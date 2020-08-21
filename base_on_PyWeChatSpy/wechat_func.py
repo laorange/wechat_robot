@@ -127,16 +127,16 @@ def my_proto_parser(data):
                         if student.grade == code_remedy.group(1):
                             if code_remedy.group(2) in ['p', 'P']:
                                 if 'P' + code_remedy.group(3) == student.p_ab_cd:
-                                    student.send_msg(code_remedy.group(4))
+                                    send(student.name, code_remedy.group(4))
                             elif code_remedy.group(2) in ['f', 'F']:
                                 if 'P' + code_remedy.group(3) == student.f_ab_cd_e:  # 不知道法语班是不是p开头
-                                    student.send_msg(code_remedy.group(4))
+                                    send(student.name, code_remedy.group(4))
                             elif code_remedy.group(2) in ['a', 'A']:
                                 if student.a_or_b == 'A':
-                                    student.send_msg(code_remedy.group(4))
+                                    send(student.name, code_remedy.group(4))
                             elif code_remedy.group(2) in ['b', 'B']:
                                 if student.a_or_b == 'B':
-                                    student.send_msg(code_remedy.group(4))
+                                    send(student.name, code_remedy.group(4))
 
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
