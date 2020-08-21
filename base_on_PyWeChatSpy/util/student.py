@@ -3,7 +3,7 @@
 from schedule.schedule2019 import schedule_2019
 # from schedule.schedule2020 import schedule_2020
 
-from wechat_func import send_msg_when
+from wechat_func import send_msg_when, send
 from util.weather import get_weather
 
 
@@ -179,6 +179,9 @@ class Student:
 
         except Exception as e:
             print(f'student info send ----> fail\n{e}\n')
+
+    def send_msg(self, content: str):
+        send(self.name, content)
 
 
 if __name__ == "__main__":

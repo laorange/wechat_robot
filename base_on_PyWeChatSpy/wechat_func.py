@@ -10,6 +10,8 @@ from threading import Thread
 # project内
 from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
+from util.student import Student
+from util.basic_functions import read_file2list
 
 logger = logging.getLogger(__file__)
 formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
@@ -110,6 +112,31 @@ def my_proto_parser(data):
                                 send(message.wxid1, '信息删除成功')
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+
+                # remedy
+                code_remedy = re.match(r'^@remedy(20\d{2})([pabfPABF])([a-eA-E])(.+)$', message.content)
+                if code_remedy:
+                    user_list_path = 'data/private_space/user_list.csv'
+                    user_list = read_file2list(user_list_path)
+                    student_ls = []
+                    for user in user_list:
+                        user_info_ls = user.split(',')
+                        student_ls.append(Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
+                                                  user_info_ls[4]))
+                    for student in student_ls:
+                        if student.grade == code_remedy.group(1):
+                            if code_remedy.group(2) in ['p', 'P']:
+                                if 'P' + code_remedy.group(3) == student.p_ab_cd:
+                                    student.send_msg(code_remedy.group(4))
+                            elif code_remedy.group(2) in ['f', 'F']:
+                                if 'P' + code_remedy.group(3) == student.f_ab_cd_e:  # 不知道法语班是不是p开头
+                                    student.send_msg(code_remedy.group(4))
+                            elif code_remedy.group(2) in ['a', 'A']:
+                                if student.a_or_b == 'A':
+                                    student.send_msg(code_remedy.group(4))
+                            elif code_remedy.group(2) in ['b', 'B']:
+                                if student.a_or_b == 'B':
+                                    student.send_msg(code_remedy.group(4))
 
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
