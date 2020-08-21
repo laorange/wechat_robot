@@ -136,6 +136,8 @@ class Student:
                     if class_ls[i].final_classroom != '':
                         message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name + '，地点:' + \
                                    class_ls[i].final_classroom
+                    elif i == 4:
+                        pass  # 如果晚上没课，则不显示第五条
                     else:
                         message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name
                 else:
@@ -180,6 +182,8 @@ class Student:
 
 
 if __name__ == "__main__":
-    student = Student('张三', 2019, 'B', 'PC', 'PC')
-    student.get_schedule_and_send(0, 'Monday', '2020-08-19')
+    student2 = Student('张三', 2019, 'A', 'PA', 'PA')
+    student1 = Student('张三', 2019, 'B', 'PC', 'PC')
+    student2.get_schedule_and_send(14, 'Friday', '2020-08-21')
+    student1.get_schedule_and_send(14, 'Friday', '2020-08-21')
     raise Exception('test')
