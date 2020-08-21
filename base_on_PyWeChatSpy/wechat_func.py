@@ -10,7 +10,6 @@ from threading import Thread
 # project内
 from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
-from util.student import Student
 from util.basic_functions import read_file2list
 
 logger = logging.getLogger(__file__)
@@ -25,6 +24,15 @@ contact_list = []
 chatroom_list = []
 
 path_user_list = 'data/private_space/user_list.csv'
+
+
+class Student4inform:  # avoid the circular import
+    def __init__(self, name, grade, a_or_b, p_ab_cd, f_ab_cd_e):
+        self.name = name  # 微信备注名
+        self.grade = grade  # 年级
+        self.a_or_b = a_or_b  # 大AB班
+        self.p_ab_cd = p_ab_cd  # td班
+        self.f_ab_cd_e = f_ab_cd_e  # 法语班
 
 
 def my_proto_parser(data):
@@ -113,30 +121,10 @@ def my_proto_parser(data):
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
-                # remedy
-                code_remedy = re.match(r'^@remedy(20\d{2})([pabfPABF])([a-eA-E])(.+)$', message.content)
-                if code_remedy:
-                    user_list_path = 'data/private_space/user_list.csv'
-                    user_list = read_file2list(user_list_path)
-                    student_ls = []
-                    for user in user_list:
-                        user_info_ls = user.split(',')
-                        student_ls.append(Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
-                                                  user_info_ls[4]))
-                    for student in student_ls:
-                        if student.grade == code_remedy.group(1):
-                            if code_remedy.group(2) in ['p', 'P']:
-                                if 'P' + code_remedy.group(3) == student.p_ab_cd:
-                                    send(student.name, code_remedy.group(4))
-                            elif code_remedy.group(2) in ['f', 'F']:
-                                if 'P' + code_remedy.group(3) == student.f_ab_cd_e:  # 不知道法语班是不是p开头
-                                    send(student.name, code_remedy.group(4))
-                            elif code_remedy.group(2) in ['a', 'A']:
-                                if student.a_or_b == 'A':
-                                    send(student.name, code_remedy.group(4))
-                            elif code_remedy.group(2) in ['b', 'B']:
-                                if student.a_or_b == 'B':
-                                    send(student.name, code_remedy.group(4))
+                # inform
+                code_inform = re.match(r'^@inform(20\d{2})([pabfqPABFQ])([a-eA-E])(.+)$', message.content)
+                if code_inform and message.wxid1 == 'wxid_oftjmj5649kd22':  # 只有发给/来自指定号的口令才生效
+                    inform(code_inform, message.wxid1)
 
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
@@ -203,6 +191,33 @@ def log_in():
     t1 = Thread(target=spy.run)
     t1.start()
     print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'start receiving wechat message')
+
+
+def inform(code_inform, wxid):
+    user_list_path = 'data/private_space/user_list.csv'
+    user_list = read_file2list(user_list_path)
+    student_ls = []
+    for user in user_list:
+        user_info_ls = user.split(',')
+        student_ls.append(Student4inform(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
+                                         user_info_ls[4]))
+    for student in student_ls:
+        if student.grade == code_inform.group(1):
+            if code_inform.group(2) in ['p', 'P']:
+                if 'P' + code_inform.group(3).upper() == student.p_ab_cd:
+                    send(student.name, code_inform.group(4))
+            elif code_inform.group(2) in ['f', 'F']:
+                if 'P' + code_inform.group(3).upper() == student.f_ab_cd_e:  # 不知道法语班是不是p开头
+                    send(student.name, code_inform.group(4))
+            elif code_inform.group(2) in ['a', 'A']:
+                if student.a_or_b == 'A':
+                    send(student.name, code_inform.group(4))
+            elif code_inform.group(2) in ['b', 'B']:
+                if student.a_or_b == 'B':
+                    send(student.name, code_inform.group(4))
+            elif code_inform.group(2) in ['q', 'Q']:
+                send(student.name, code_inform.group(4))
+        spy.send_text(wxid, 'done')
 
 
 if __name__ == '__main__':

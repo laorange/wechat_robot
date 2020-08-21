@@ -4,7 +4,6 @@ from schedule.schedule2019 import schedule_2019
 # from schedule.schedule2020 import schedule_2020
 
 from wechat_func import send_msg_when
-from wechat_func import send
 from util.weather import get_weather
 
 
