@@ -217,7 +217,7 @@ def inform(code_inform, wxid):
                     send(student.name, code_inform.group(4))
             elif code_inform.group(2) in ['q', 'Q']:
                 send(student.name, code_inform.group(4))
-        spy.send_text(wxid, 'done')
+    spy.send_text(wxid, 'done')
 
 
 if __name__ == '__main__':
