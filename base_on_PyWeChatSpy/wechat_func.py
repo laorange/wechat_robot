@@ -1,3 +1,5 @@
+# PyWeChatSpy is cloned from https://github.com/veikai/PyWeChatSpy
+# 该项目文件夹clone后放在了base_on_PyWeChatSpy下
 from PyWeChatSpy.PyWeChatSpy import WeChatSpy
 from PyWeChatSpy.PyWeChatSpy.command import *
 # from lxml import etree
@@ -11,6 +13,7 @@ from threading import Thread
 from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
 from util.basic_functions import read_file2list
+from util.csv2excel import csv_to_xlsx_pd
 
 logger = logging.getLogger(__file__)
 formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
@@ -96,7 +99,7 @@ def my_proto_parser(data):
 
                     elif code_add.group(1) == '。':
                         try:
-                            with open('data/private_space/user_list.csv') as user_list_csv:
+                            with open(path_user_list) as user_list_csv:
                                 user_ls = user_list_csv.readlines()
                             user_info_str = message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
                                 3).upper() + ',P' + code_add.group(4).upper() + ',P' + code_add.group(5).upper() + '\n'
@@ -121,10 +124,23 @@ def my_proto_parser(data):
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
-                # inform
-                code_inform = re.match(r'^@inform(20\d{2})([pabfqPABFQ])([a-eA-E])(.+)$', message.content)
-                if code_inform and message.wxid1 == 'wxid_oftjmj5649kd22':  # 只有发给/来自指定号的口令才生效
-                    inform(code_inform, message.wxid1)
+                # 只有发给/来自指定号的口令才生效的功能
+                if message.wxid1 == 'wxid_oftjmj5649kd22':
+                    # inform
+                    code_inform = re.match(r'^@inform(20\d{2})([pabfqPABFQ])([a-eA-E])(.+)$', message.content)
+                    if code_inform:
+                        inform(code_inform, message.wxid1)
+
+                    # csv to excel
+                    if message.content == '@excel':
+                        print('csv to excel')
+                        csv_to_xlsx_pd()
+
+                    # send user_info list to myself
+                    if message.content == '@ul':
+                        with open(path_user_list) as user_list_csv:
+                            user_list_csv_str = user_list_csv.read()
+                            send(message.wxid1, user_list_csv_str)
 
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
@@ -193,7 +209,7 @@ def log_in():
     print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'start receiving wechat message')
 
 
-def inform(code_inform, wxid):
+def inform(code_inform, wxid: str):
     user_list_path = 'data/private_space/user_list.csv'
     user_list = read_file2list(user_list_path)
     student_ls = []
@@ -220,7 +236,15 @@ def inform(code_inform, wxid):
     spy.send_text(wxid, 'done')
 
 
+# def check_wxid_info(wxid: str):
+#     wxid_detail = spy.get_contact_details(wxid, update=False)
+#     print(type(wxid_detail))
+#     print(wxid_detail)
+
+
 if __name__ == '__main__':
     log_in()
-    t2 = Thread(target=send_msg_when('wxid_oftjmj5649kd22', '测试1222', '2020-08-18 12:22:00'))
-    t2.start()
+    # t2 = Thread(target=send_msg_when('wxid_oftjmj5649kd22', '测试1222', '2020-08-18 12:22:00'))
+    # t2.start()
+    # send_file(, 'qrcode_laorange.png')
+    # check_wxid_info('wxid_oftjmj5649kd22')
