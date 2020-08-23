@@ -14,8 +14,14 @@ def get_weather():
     pattern = re.compile(r'<[^>]+>', re.S)
     temp = pattern.sub('', temp)
     temp = temp.split()
-    # print(temp)
-    weather = temp[5] + '，' + temp[6] + '，' + temp[7]
+    print(temp)
+    aqi = '污染指数:' + temp[4] + ' (' + temp[3] + ')'
+    weather = ''
+    for i in range(5, 10):
+        weather = weather + temp[i] + '，'
+        if temp[i + 1][0] == '昨':
+            break
+    weather = weather + aqi
     return weather
 
 
