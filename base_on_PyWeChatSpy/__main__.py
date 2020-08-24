@@ -1,13 +1,15 @@
 ﻿import time
 from threading import Thread
 
-from wechat_func import log_in
+from wechat_func import log_in, send_review_word
 from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
 from util.week import determine_week, determine_what_day, determine_date
 
-start_date = '2020-08-24'
+# from application.review_word.get_word import get_word
+
+start_date = '2020-08-25'
 start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 
@@ -36,18 +38,32 @@ def student_send():
 
 def start():
     global t_next
-    what_day_num = time.strftime('%w', time.localtime())
-    if determine_week() in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
-        if what_day_num in ['1', '2', '3', '4', '5']:  # 周一到周五，%w是从周日开始计数
-            try:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
-                student_send()
-            except Exception as e:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
+    # 自用的单词复习
+    try:
+        send_review_word(20)
+        do_at_sometime(lambda: send_review_word(20), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next+50400)))
+    except Exception as e:
+        print('自用的单词复习模块出错')
+        print(e)
+
+    # 课表推送
+    try:
+        what_day_num = time.strftime('%w', time.localtime())
+        if determine_week() in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
+            if what_day_num in ['1', '2', '3', '4', '5']:  # 周一到周五，%w是从周日开始计数
+                try:
+                    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
+                    student_send()
+                except Exception as e:
+                    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
+            else:
+                print('周末不推送', '-' * 10)
         else:
-            print('周末不推送', '-' * 10)
-    else:
-        print('本学期尚未开始或本学期的18周的课程已全部结束')
+            print('本学期尚未开始或本学期的18周的课程已全部结束')
+    except Exception as e:
+        print('课表推送模块出错')
+        print(e)
+
     t_next += 86400
     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
     do_at_sometime(start, t_next_str)
@@ -55,6 +71,9 @@ def start():
 
 def task_start():
     do_at_sometime(start, start_time)
+
+
+# def review_word():
 
 
 if __name__ == "__main__":

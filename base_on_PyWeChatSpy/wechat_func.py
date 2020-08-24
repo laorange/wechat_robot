@@ -7,6 +7,7 @@ import logging
 
 import re
 import time
+import random
 from threading import Thread
 
 # project内
@@ -14,6 +15,8 @@ from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
 from util.basic_functions import read_file2list
 from util.csv2excel import csv_to_xlsx_pd
+from application.review_word.review_word import receive_word
+from application.review_word.get_word import get_word
 
 logger = logging.getLogger(__file__)
 formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
@@ -142,6 +145,9 @@ def my_proto_parser(data):
                             user_list_csv_str = user_list_csv.read()
                             send(message.wxid1, user_list_csv_str)
 
+                    if message.content[:3] == '@dc':
+                        receive_word(message.content[3:])
+
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
             elif message.type == 37:
@@ -240,6 +246,29 @@ def inform(code_inform, wxid: str):
 #     wxid_detail = spy.get_contact_details(wxid, update=False)
 #     print(type(wxid_detail))
 #     print(wxid_detail)
+
+def send_review_word(review_word_num: int):
+    word_send = ''
+    try:
+        word_info_list = get_word()
+        if review_word_num > len(word_info_list):
+            review_word_num = len(word_info_list)
+        index_ls = []
+        for i in range(review_word_num):
+            index_num = random.randint(0, len(word_info_list))
+            while index_num in index_ls:
+                index_num = random.randint(0, len(word_info_list))
+            index_ls.append(index_num)
+            possibility = random.random()
+            if word_info_list[index_num].possibility >= possibility:
+                if word_send == '':
+                    word_send = word_info_list[index_num].word
+                else:
+                    word_send = word_send + '\n' + word_info_list[index_num].word
+        if word_send:
+            send('wxid_oftjmj5649kd22', word_send)
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
