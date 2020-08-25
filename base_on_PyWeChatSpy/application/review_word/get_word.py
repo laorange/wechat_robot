@@ -3,6 +3,7 @@ from util.week import determine_date
 from util.basic_functions import read_file2list
 
 path = 'application/review_word/word_data.csv'
+path_test = 'word_data.csv'
 
 
 class WordInfo:
@@ -26,7 +27,11 @@ class WordInfo:
 
 def get_word():
     word_info_ls = []
-    word_list = read_file2list(path)
+    try:
+        word_list = read_file2list(path)
+    except Exception as e:
+        print(e)
+        word_list = read_file2list(path_test)
     for word in word_list:
         word_info = WordInfo(word.split(',')[0], word.split(',')[1], word.split(',')[2])
         word_info.determine(determine_date())

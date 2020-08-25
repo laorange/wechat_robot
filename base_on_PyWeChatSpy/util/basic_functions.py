@@ -16,11 +16,13 @@ def read_file2list(path_name):  # , encoding='UTF-8'
     # char_enc = result['encoding']
 
     try:
-        with open(path_name, 'rt') as source_text:   # , encoding=encoding
+        with open(path_name, 'rt', encoding='UTF-8') as source_text:   # , encoding=encoding
             lines_ls = source_text.readlines()
             for i in range(len(lines_ls)):
                 lines_ls[i] = lines_ls[i].strip()
         return lines_ls
+    except FileNotFoundError:
+        raise FileNotFoundError
     except Exception as e:
         try:
             with open(path_name, 'rt', encoding='ANSI') as source_text:   # , encoding=encoding

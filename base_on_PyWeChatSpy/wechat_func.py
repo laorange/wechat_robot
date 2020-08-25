@@ -148,6 +148,15 @@ def my_proto_parser(data):
                     if message.content[:3] == '@dc':
                         receive_word(message.content[3:])
 
+                    # 查询法语单词
+                    if message.content[:2] == '==':
+                        send('wxid_oftjmj5649kd22', 'http://www.frdic.com/dicts/fr/'+message.content[2:])
+
+                    # 手动发送复习单词
+                    code_review = re.match(r'@review(\d+)', message.content)
+                    if code_review:
+                        send_review_word(int(code_review.group(1)))
+
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
             elif message.type == 37:
@@ -249,24 +258,33 @@ def inform(code_inform, wxid: str):
 
 def send_review_word(review_word_num: int):
     word_send = ''
+    word_tran = ''
     try:
         word_info_list = get_word()
         if review_word_num > len(word_info_list):
             review_word_num = len(word_info_list)
         index_ls = []
-        for i in range(review_word_num):
-            index_num = random.randint(0, len(word_info_list))
+
+        i = 0
+        while i < review_word_num:
+            index_num = random.randint(0, len(word_info_list)-1)
             while index_num in index_ls:
-                index_num = random.randint(0, len(word_info_list))
+                index_num = random.randint(0, len(word_info_list)-1)
             index_ls.append(index_num)
             possibility = random.random()
             if word_info_list[index_num].possibility >= possibility:
                 if word_send == '':
                     word_send = word_info_list[index_num].word
+                    word_tran = 'http://www.frdic.com/dicts/fr/' + word_info_list[index_num].word
                 else:
                     word_send = word_send + '\n' + word_info_list[index_num].word
+                    word_tran = word_tran + '\n' + 'http://www.frdic.com/dicts/fr/' + word_info_list[index_num].word
+                i += 1
+
         if word_send:
+            send('wxid_oftjmj5649kd22', word_tran)
             send('wxid_oftjmj5649kd22', word_send)
+            print(f'复习了{review_word_num}个单词')
     except Exception as e:
         print(e)
 
