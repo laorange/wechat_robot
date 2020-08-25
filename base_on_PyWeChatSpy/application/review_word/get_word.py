@@ -2,7 +2,7 @@ import time
 from util.week import determine_date
 from util.basic_functions import read_file2list
 
-path = 'word_data.csv'
+path = 'application/review_word/word_data.csv'
 
 
 class WordInfo:
