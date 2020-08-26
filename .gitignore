@@ -134,3 +134,4 @@ PyWeChatSpy/
 data/
 wxpy.pkl
 wxpy_puid.pkl
+word_data.csv

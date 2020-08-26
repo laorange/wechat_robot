@@ -9,11 +9,13 @@ import re
 import time
 import random
 from threading import Thread
+from urllib.parse import quote
 
 # project内
 from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
 from util.basic_functions import read_file2list
+from util.week import determine_date
 from util.csv2excel import csv_to_xlsx_pd
 from application.review_word.review_word import receive_word
 from application.review_word.get_word import get_word
@@ -94,11 +96,11 @@ def my_proto_parser(data):
                                         message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
                                             3).upper() + ',P' + code_add.group(
                                             4).upper() + ',P' + code_add.group(5).upper() + '\n')
-                                send(message.wxid1, '信息添加成功')
+                                send(message.wxid1, '[信息添加成功]')
                             except Exception as e:
                                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
                         else:
-                            send(message.wxid1, 'sorry，本程序暂仅支持预科阶段的课表推送哟')
+                            send(message.wxid1, '[sorry，本程序暂仅支持预科阶段的课表推送哟]')
 
                     elif code_add.group(1) == '。':
                         try:
@@ -111,27 +113,28 @@ def my_proto_parser(data):
                                     try:
                                         user_ls.remove(user_info_str)
                                     except Exception as e:
-                                        print('移除失败', e)
-                                        send(message.wxid1, '信息删除失败，稍微将为您手动删除')
-                                        raise Exception('移除失败')
+                                        print('[移除失败]', e)
+                                        send(message.wxid1, '[信息删除失败，稍微将为您手动删除]')
+                                        raise Exception('[移除失败]')
                                 else:
-                                    send(message.wxid1, '未找到这条信息，请检查后重试；若始终无法成功，则是数据编码出现了问题，稍微我将为您手动删除')
-                                    raise Exception('未找到这条信息')
+                                    send(message.wxid1, '[未找到这条信息，请检查后重试；若始终无法成功，则是数据编码出现了问题，稍微我将为您手动删除]')
+                                    raise Exception('[未找到这条信息]')
                             except Exception as e:
                                 print(e)
                             else:
                                 with open(path_user_list, 'wt') as user_ls_csv:
                                     for user_info in user_ls:
                                         user_ls_csv.write(user_info)
-                                send(message.wxid1, '信息删除成功')
+                                send(message.wxid1, '[信息删除成功]')
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
                 # 只有发给/来自指定号的口令才生效的功能
                 if message.wxid1 == 'wxid_oftjmj5649kd22':
                     # inform
-                    code_inform = re.match(r'^@inform(20\d{2})([pabfqPABFQ])([a-eA-E])(.+)$', message.content)
+                    code_inform = re.match(r'^@inform(20\d{2})([abfpqABFPQ])([a-eA-E])([\s\S]+)', message.content)
                     if code_inform:
+                        print('!' * 5 + 'inform' + '!' * 5)
                         inform(code_inform, message.wxid1)
 
                     # csv to excel
@@ -150,7 +153,7 @@ def my_proto_parser(data):
 
                     # 查询法语单词
                     if message.content[:2] == '==':
-                        send('wxid_oftjmj5649kd22', 'http://www.frdic.com/dicts/fr/'+message.content[2:])
+                        send('wxid_oftjmj5649kd22', 'http://www.frdic.com/dicts/fr/' + message.content[2:])
 
                     # 手动发送复习单词
                     code_review = re.match(r'@review(\d+)', message.content)
@@ -267,9 +270,9 @@ def send_review_word(review_word_num: int):
 
         i = 0
         while i < review_word_num:
-            index_num = random.randint(0, len(word_info_list)-1)
+            index_num = random.randint(0, len(word_info_list) - 1)
             while index_num in index_ls:
-                index_num = random.randint(0, len(word_info_list)-1)
+                index_num = random.randint(0, len(word_info_list) - 1)
             index_ls.append(index_num)
             possibility = random.random()
             if word_info_list[index_num].possibility >= possibility:
@@ -278,13 +281,20 @@ def send_review_word(review_word_num: int):
                     word_tran = 'http://www.frdic.com/dicts/fr/' + word_info_list[index_num].word
                 else:
                     word_send = word_send + '\n' + word_info_list[index_num].word
-                    word_tran = word_tran + '\n' + 'http://www.frdic.com/dicts/fr/' + word_info_list[index_num].word
+                    word_tran = word_tran + '\n' + 'http://www.frdic.com/dicts/fr/' + quote(
+                        word_info_list[index_num].word)
+                word_info_list[index_num].review_times += 1
+                word_info_list[index_num].review_date = determine_date()
                 i += 1
 
         if word_send:
             send('wxid_oftjmj5649kd22', word_tran)
             send('wxid_oftjmj5649kd22', word_send)
             print(f'复习了{review_word_num}个单词')
+            with open('application/review_word/word_data.csv', 'wt', encoding='utf-8') as word_data_csv:
+                for word_info in word_info_list:
+                    word_data_csv.write(
+                        word_info.word + ',' + word_info.review_date + ',' + str(word_info.review_times) + '\n')
     except Exception as e:
         print(e)
 

@@ -9,7 +9,7 @@ from util.week import determine_week, determine_what_day, determine_date
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-08-26'
+start_date = '2020-08-27'
 start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 
