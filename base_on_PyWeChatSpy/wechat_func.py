@@ -20,6 +20,8 @@ from util.csv2excel import csv_to_xlsx_pd
 from application.review_word.review_word import receive_word
 from application.review_word.get_word import get_word
 
+wxid_default = 'wxid_oftjmj5649kd22'
+
 logger = logging.getLogger(__file__)
 formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
 sh = logging.StreamHandler()
@@ -130,7 +132,7 @@ def my_proto_parser(data):
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
                 # 只有发给/来自指定号的口令才生效的功能
-                if message.wxid1 == 'wxid_oftjmj5649kd22':
+                if message.wxid1 == wxid_default:
                     # inform
                     code_inform = re.match(r'^@inform(20\d{2})([abfpqABFPQ])([a-eA-E])([\s\S]+)', message.content)
                     if code_inform:
@@ -149,11 +151,16 @@ def my_proto_parser(data):
                             send(message.wxid1, user_list_csv_str)
 
                     if message.content[:3] == '@dc':
-                        receive_word(message.content[3:])
+                        try:
+                            receive_word(message.content[3:])
+                        except Exception as e:
+                            send(wxid_default, str(e))
+                        else:
+                            send(wxid_default, 'done')
 
                     # 查询法语单词
                     if message.content[:2] == '==':
-                        send('wxid_oftjmj5649kd22', 'http://www.frdic.com/dicts/fr/' + message.content[2:])
+                        send(wxid_default, 'http://www.frdic.com/dicts/fr/' + message.content[2:])
 
                     # 手动发送复习单词
                     code_review = re.match(r'@review(\d+)', message.content)
@@ -288,8 +295,8 @@ def send_review_word(review_word_num: int):
                 i += 1
 
         if word_send:
-            send('wxid_oftjmj5649kd22', word_tran)
-            send('wxid_oftjmj5649kd22', word_send)
+            send(wxid_default, word_tran)
+            send(wxid_default, word_send)
             print(f'复习了{review_word_num}个单词')
             with open('application/review_word/word_data.csv', 'wt', encoding='utf-8') as word_data_csv:
                 for word_info in word_info_list:
@@ -301,7 +308,7 @@ def send_review_word(review_word_num: int):
 
 if __name__ == '__main__':
     log_in()
-    # t2 = Thread(target=send_msg_when('wxid_oftjmj5649kd22', '测试1222', '2020-08-18 12:22:00'))
+    # t2 = Thread(target=send_msg_when(wxid_default, '测试1222', '2020-08-18 12:22:00'))
     # t2.start()
     # send_file(, 'qrcode_laorange.png')
-    # check_wxid_info('wxid_oftjmj5649kd22')
+    # check_wxid_info(wxid_default)
