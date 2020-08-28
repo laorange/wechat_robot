@@ -63,11 +63,17 @@ def start():
     except Exception as e:
         print('课表推送模块出错')
         print(e)
-
+'''
     t_next += 86400
     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
     do_at_sometime(start, t_next_str)
-
+'''
+def restart():
+    global t_next
+    for day in range(126):
+        t_next += 86400
+        t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
+        do_at_sometime(start, t_next_str)
 
 def task_start():
     do_at_sometime(start, start_time)
