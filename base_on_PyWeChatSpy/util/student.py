@@ -180,6 +180,9 @@ class Student:
         except Exception as e:
             print(f'student info send ----> fail\n{e}\n')
 
+    def test_send(self, date: str, send_time: str):
+        send_msg_when(self.name, '测试', date + ' ' + send_time)
+
 
 if __name__ == "__main__":
     student2 = Student('张三', 2019, 'A', 'PA', 'PA')
