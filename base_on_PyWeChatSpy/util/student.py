@@ -133,7 +133,10 @@ class Student:
             print('-' * 9, '↓', self.name, '↓', '-' * 10)
             # 7:00通报全天有哪些课，以及第一节课的详细信息
             weather = get_weather()
-            message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周\n' + weather
+            if week == -1:
+                message_weather = '今天是' + date + '，新学期即将开始\n' + weather
+            else:
+                message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周\n' + weather
             print(message_weather)
             send_msg_when(self.name, message_weather, date + ' 07:00:00')
         except Exception as e:
@@ -202,6 +205,6 @@ class Student:
 if __name__ == "__main__":
     student2 = Student('张三', 2019, 'A', 'PA', 'PA')
     student1 = Student('张三', 2019, 'B', 'PC', 'PC')
-    student2.get_schedule(14, 'Friday', '2020-08-21')
-    student1.get_schedule(14, 'Friday', '2020-08-21')
+    student2.get_schedule(14, 'Friday')
+    student1.get_schedule(14, 'Friday')
     raise Exception('test')
