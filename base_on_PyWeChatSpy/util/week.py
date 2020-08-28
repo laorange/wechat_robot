@@ -1,6 +1,6 @@
 import time
 
-t_refer_1_week = '2020-05-18'  # 本学期第一周周一的日期
+t_refer_1_week = '2020-08-31'  # 本学期第一周周一的日期
 t_refer_1_week = t_refer_1_week+' 00:00:00'
 t_refer_strp = time.strptime(t_refer_1_week, '%Y-%m-%d %H:%M:%S')
 t_refer = time.mktime(t_refer_strp)
