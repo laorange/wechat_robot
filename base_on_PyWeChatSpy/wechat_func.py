@@ -91,18 +91,15 @@ def my_proto_parser(data):
                 code_add = re.match(r'^([@。])(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', message.content)
                 if code_add and len(message.wxid2) == 0:
                     if code_add.group(1) == '@':
-                        if code_add.group(2) in ['2018', '2019', '2020']:
-                            try:
-                                with open(path_user_list, 'at') as user_ls:
-                                    user_ls.write(
-                                        message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
-                                            3).upper() + ',P' + code_add.group(
-                                            4).upper() + ',P' + code_add.group(5).upper() + '\n')
-                                send(message.wxid1, '[信息添加成功]')
-                            except Exception as e:
-                                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
-                        else:
-                            send(message.wxid1, '[sorry，本程序暂仅支持预科阶段的课表推送哟]')
+                        try:
+                            with open(path_user_list, 'at') as user_ls:
+                                user_ls.write(
+                                    message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
+                                        3).upper() + ',P' + code_add.group(
+                                        4).upper() + ',P' + code_add.group(5).upper() + '\n')
+                            send(message.wxid1, '[信息添加成功]')
+                        except Exception as e:
+                            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
                     elif code_add.group(1) == '。':
                         try:
