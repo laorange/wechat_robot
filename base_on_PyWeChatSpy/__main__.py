@@ -9,12 +9,12 @@ from util.week import determine_week, determine_what_day, determine_date
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-08-29'
+start_date = '2020-08-30'
 start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 
 # 测试时期 ---------------------------------------------------------------------#
-# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 10))
+# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 5))
 # 测试时期 ---------------------------------------------------------------------#
 
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
@@ -24,7 +24,7 @@ t_next = t_start
 user_list_path = 'data/private_space/user_list.csv'
 
 
-def student_send(before_term_begin=False):
+def student_send(before_term_begin=False, if_weekday=True):
     user_list = read_file2list(user_list_path)
 
     student_ls = []
@@ -33,11 +33,11 @@ def student_send(before_term_begin=False):
         student_ls.append(Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3], user_info_ls[4]))
 
     for student in student_ls:
-        if not before_term_begin:
+        if not before_term_begin and if_weekday:
             student.get_schedule(determine_week(), determine_what_day())
         if True:
             student.send_weather(determine_week(), determine_date())
-        if not before_term_begin:
+        if not before_term_begin and if_weekday:
             student.send_schedule(determine_date())
 
 
@@ -58,16 +58,18 @@ def start():
         what_day_num = time.strftime('%w', time.localtime())
         if determine_week() in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
             if what_day_num in ['1', '2', '3', '4', '5']:  # 周一到周五，%w是从周日开始计数
-                try:
-                    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
-                    if determine_week() == -1:
-                        student_send(before_term_begin=True)
-                    else:
-                        student_send(before_term_begin=False)
-                except Exception as e:
-                    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
+                if_weekday = True
             else:
-                print('周末不推送', '-' * 10)
+                if_weekday = False
+                print('-' * 10, '周末', '-' * 10)
+            try:
+                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
+                if determine_week() == -1:
+                    student_send(before_term_begin=True, if_weekday=if_weekday)
+                else:
+                    student_send(before_term_begin=False, if_weekday=if_weekday)
+            except Exception as e:
+                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
         else:
             print('本学期尚未开始或本学期的18周的课程已全部结束')
     except Exception as e:
@@ -75,8 +77,9 @@ def start():
         print(e)
 
 
-def restart():
+def multiple_start():
     global t_next
+    start()
     for day in range(150):
         t_next += 86400
         t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
@@ -84,7 +87,7 @@ def restart():
 
 
 def task_start():
-    do_at_sometime(restart, start_time)
+    do_at_sometime(multiple_start, start_time)
 
 
 if __name__ == "__main__":

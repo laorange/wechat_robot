@@ -159,9 +159,10 @@ class Student:
                             message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name
                     else:
                         message0 = message0 + '\n' + str(i + 1) + '. '
-                if message0 == '今天的课程表:\n1. \n2. \n3. \n4. ':
+                if len(self.c0.final_class_ch_name)+len(self.c1.final_class_ch_name)+len(
+                        self.c2.final_class_ch_name)+len(self.c3.final_class_ch_name)+len(self.c4.final_class_ch_name):
                     print('今天全天没有课')
-                    send_msg_when(self.name, '今天全天没有课', date + ' 07:00:00')
+                    send_msg_when(self.name, '今天全天没有课', date + ' 07:00:15')
                     raise Exception('今天全天没课')
                 else:
                     print(message0)
@@ -171,7 +172,7 @@ class Student:
                     print(message1)
                     send_msg_when(self.name, message0 + '\n\n' + message1, date + ' 07:00:15')
                 else:
-                    send_msg_when(self.name, message0, date + ' 07:00:00')
+                    send_msg_when(self.name, message0, date + ' 07:00:15')
 
                 if class_ls[1].final_class_ch_name:
                     message2 = f'第3,4节课是{self.c1.final_teacher}老师的{self.c1.final_class_ch_name}，地点:{self.c1.final_classroom}'

@@ -277,7 +277,6 @@ def send_review_word(review_word_num: int):
             index_num = random.randint(0, len(word_info_list) - 1)
             while index_num in index_ls:
                 index_num = random.randint(0, len(word_info_list) - 1)
-            index_ls.append(index_num)
             possibility = random.random()
             if word_info_list[index_num].possibility >= possibility:
                 if word_send == '':
@@ -289,6 +288,8 @@ def send_review_word(review_word_num: int):
                         word_info_list[index_num].word)
                 word_info_list[index_num].review_times += 1
                 word_info_list[index_num].review_date = determine_date()
+
+                index_ls.append(index_num)
                 i += 1
 
         if word_send:
