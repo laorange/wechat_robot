@@ -4,7 +4,6 @@ import time
 # from pprint import pprint
 from util.baijiaxing import bai_jia_xing
 
-
 time_today = time.strftime('%Y-%m-%d %H:%M', time.localtime())
 print(time_today)
 
@@ -57,11 +56,12 @@ def get_today_schedule(grade, what_day):
         start_colx = 9
         end_colx = 11
     if what_day == 'Saturday':
-        pass
+        start_colx = 11
+        end_colx = 13
     if what_day == 'Sunday':
         pass
 
-    today_schedule = [Class(), Class(), Class(), Class(), Class()]
+    today_schedule = [Class(), Class(), Class(), Class(), Class(), Class()]
 
     info_dict = {}
 
@@ -100,11 +100,14 @@ def get_today_schedule(grade, what_day):
                         today_schedule[i].class_fr_name_ls.append(class_fr_name)
 
                 if re.search(r'^[\u4E00-\u9FA5]+', each_info):
-                    if each_info[0] not in ['双', '单', '外', '教', '南']:
-                        if len(each_info) > 3 or each_info[0] in ['数', '化', '物']:
+                    if each_info[0] not in ['双', '单', '外', '教', '南'] or each_info[0] in ['数', '化', '物', '经', '法', ]:
+                        if len(each_info) > 3:
                             if each_info[0] not in bai_jia_xing or each_info[:2] in ['高等']:
                                 class_ch_name = each_info
                                 today_schedule[i].class_ch_name_ls.append(class_ch_name)
+
+                prob_week_match = None
+                prob_weeks_match = None
 
                 for _ in each_info_ls:
                     if _:
@@ -150,41 +153,49 @@ def get_today_schedule(grade, what_day):
                         # else:
                         #     no_property_time += 1
 
-                        if _ == '单周':
+                        if '单' in _:
                             dan_shuang_zhou = 1
 
-                        elif _ == '双周':
+                        elif '双' in _:
                             dan_shuang_zhou = 2
 
-                        if _[0] in bai_jia_xing and _[0] not in ['南', '单', '双'] and _[:2] != '高等' or _ in ['Joël'] or _[
-                                                                                                                      :2] == '外教':
-                            teacher = _
-                            today_schedule[i].teacher_ls.append(teacher)
+                        if _[0] in bai_jia_xing or _[:4] == 'Joël' or _[:2] == '外教':
+                            if _[:2] != '高等':
+                                teacher = _
+                                today_schedule[i].teacher_ls.append(teacher)
 
-                        if re.search(r'^\d{3}', _) or re.search(r'\d{3}$', _) or _[0] == '南':
+                        if re.search(r'^\d{3}', _) or re.search(r'\d{3}$', _) or _[0] == '南' and _[0] != '经':
                             classroom = _
                             today_schedule[i].classroom_ls.append(classroom)
 
-                        prob_week = re.match(r'(\d+)([-~])(\d+)周', _)
-                        prob_weeks = re.match(r'.*(\d+)[,， ]*?(\d+).?周', _)
-                        if prob_week:
+                        if re.match(r'(\d+)([-~])(\d+)周', _):
+                            prob_week_match = re.match(r'(\d+)([-~])(\d+)周', _)
+                        if re.match(r'.*(\d+)[,， ]*?(\d+).?周', _):
+                            prob_weeks_match = re.match(r'.*(\d+)[,， ]*?(\d+).?周', _)
+                        if prob_week_match:
                             # print('here1')
-                            prob_week = prob_week.groups()
+                            prob_week = prob_week_match.groups()
                             ls = list(range(int(prob_week[0]) - 1, int(prob_week[2])))
                             if dan_shuang_zhou == 1:  # 由于起始是第0周，导致单双周相反
-                                for _ in ls:
-                                    if _ % 2 == 1:
-                                        ls.remove(_)
+                                for week_checking in ls:
+                                    if week_checking % 2 == 1:
+                                        ls.remove(week_checking)
                             elif dan_shuang_zhou == 2:
-                                for _ in ls:
-                                    if _ % 2 == 0:
-                                        ls.remove(_)
-                            today_schedule[i].correspond_week.append(ls)
+                                for week_checking in ls:
+                                    if week_checking % 2 == 0:
+                                        ls.remove(week_checking)
+                            if re.match(r'(\d+)([-~])(\d+)周', _):
+                                today_schedule[i].correspond_week.append(ls)
 
-                        elif prob_weeks:
+                        elif prob_weeks_match:
                             # print('here2')
                             ls = list(re.findall(r'(\d{1,2})', _))
-                            today_schedule[i].correspond_week.append(ls)
+                            if re.match(r'.*(\d+)[,， ]*?(\d+).?周', _):
+                                today_schedule[i].correspond_week.append(ls)
+
+                        # 添加法语班的判定
+                        if '法语' in class_ch_name:
+                            class_property = 'F'
 
             max_len = max(len(today_schedule[i].correspond_class),
                           len(today_schedule[i].teacher_ls),
@@ -289,12 +300,13 @@ class Class:
 
 def grade_yi_tiao_long_fu_wu(grade):
     write_class_info(grade)
-    what_day_ls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    what_day_ls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     for i in range(len(what_day_ls)):
         what_day = what_day_ls[i]
         get_write_what_day(grade, what_day)
     with open(f'schedule/schedule{grade}.py', 'at', encoding='UTF-8') as schedule_py:
-        schedule_py.write(f'schedule_{grade} = [monday_ls, tuesday_ls, wednesday_ls, thursday_ls, friday_ls]\n')
+        schedule_py.write(
+            f'schedule_{grade} = [monday_ls, tuesday_ls, wednesday_ls, thursday_ls, friday_ls, saturday_ls]\n')
 
 
 if __name__ == "__main__":
