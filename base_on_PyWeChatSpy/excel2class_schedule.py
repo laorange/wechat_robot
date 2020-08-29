@@ -25,7 +25,7 @@ def get_today_schedule(grade, what_day):
     # if grade == 2017:
     #     path = 'data/excels/2017.xls'
     if grade == 2018:
-        path = ''
+        path = 'data/excels/2018.xls'
     if grade == 2019:
         path = 'data/excels/2019.xlsx'
     if grade == 2020:
@@ -299,6 +299,6 @@ def grade_yi_tiao_long_fu_wu(grade):
 
 if __name__ == "__main__":
     # grade_yi_tiao_long_fu_wu(2017)
-    # grade_yi_tiao_long_fu_wu(2018)
+    grade_yi_tiao_long_fu_wu(2018)
     grade_yi_tiao_long_fu_wu(2019)
     # grade_yi_tiao_long_fu_wu(2020)
