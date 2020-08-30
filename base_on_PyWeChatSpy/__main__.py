@@ -9,7 +9,7 @@ from util.week import determine_week, determine_what_day, determine_date
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-08-30'
+start_date = '2020-08-31'  # 正式开始，开学第一天，希望不用再重启了！！！
 start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 
@@ -57,11 +57,11 @@ def start():
     try:
         what_day_num = time.strftime('%w', time.localtime())
         if determine_week() in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
-            if what_day_num in ['1', '2', '3', '4', '5']:  # 周一到周五，%w是从周日开始计数
+            if what_day_num in ['1', '2', '3', '4', '5', '6']:  # 周一到周五，%w是从周日开始计数
                 if_weekday = True
             else:
                 if_weekday = False
-                print('-' * 10, '周末', '-' * 10)
+                print('-' * 10, '星期天', '-' * 10)
             try:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
                 if determine_week() == -1:
