@@ -38,9 +38,9 @@ monday1.correspond_week = [
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ]
-monday1.correspond_class = ['PB', 'PB', 'PA', 'PC']
+monday1.correspond_class = ['PB', 'PD', 'PA', 'PC']
 monday1.classroom_ls = ['207', '208', '309', '310']
-monday1.teacher_ls = ['刘文然', '关静PD', '胡雪兰/李文', '秦哲/Joël']
+monday1.teacher_ls = ['刘文然', '关静', '胡雪兰/李文', '秦哲/Joël']
 
 # Monday 第2节课
 monday2 = Class()
@@ -60,7 +60,7 @@ monday2.teacher_ls = ['刘文然', '田俊改', '胡艳敏', '胡雪兰/李文']
 monday3 = Class()
 monday3.class_property = ['all']
 monday3.class_fr_name_ls = ['Cours Sport']
-monday3.class_ch_name_ls = ['体育3待修改']
+monday3.class_ch_name_ls = ['体育3']
 monday3.correspond_week = [
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ]
 monday3.correspond_class = ['all']
@@ -83,7 +83,7 @@ monday_ls = (monday0, monday1, monday2, monday3, monday4)
 tuesday0 = Class()
 tuesday0.class_property = ['all']
 tuesday0.class_fr_name_ls = ['Cours chemie']
-tuesday0.class_ch_name_ls = ['化学1待修改']
+tuesday0.class_ch_name_ls = ['化学1']
 tuesday0.correspond_week = [
                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ]
 tuesday0.correspond_class = ['all']
@@ -106,12 +106,12 @@ tuesday1.teacher_ls = ['胡雪兰/李文', '胡艳敏/徐舟']
 tuesday2 = Class()
 tuesday2.class_property = ['all', 'all']
 tuesday2.class_fr_name_ls = ['Cours Mathématiques', 'Cours chemie']
-tuesday2.class_ch_name_ls = ['高等数学（3）', '化学1待修改']
+tuesday2.class_ch_name_ls = ['高等数学（3）', '化学1']
 tuesday2.correspond_week = [
                           [0, 1, 2, 3, 4, 5, 6, 7, 8], 
                           [9, 10, 11, 12], ]
 tuesday2.correspond_class = ['all', 'all']
-tuesday2.classroom_ls = ['教室201', '201']
+tuesday2.classroom_ls = ['201', '201']
 tuesday2.teacher_ls = ['田俊改', '王亚如/杜娟']
 
 # Tuesday 第3节课
@@ -120,12 +120,12 @@ tuesday3.class_property = ['F', 'F', 'F', 'F', 'F', 'F', 'F']
 tuesday3.class_fr_name_ls = ['Cours  Français', 'Cours  Français', 'Cours  Français', 'Cours  Français', 'Cours  Français', 'Cours  Français', 'Cours  Français']
 tuesday3.class_ch_name_ls = ['中级法语1', '中级法语1', '中级法语1', '中级法语1', '中级法语1', '中级法语1', '中级法语1']
 tuesday3.correspond_week = [
-                          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
+                          [0, 2, 4, 6, 8, 10, 12, 14, 16],
                           [0, 2, 4, 6, 8, 10, 12, 14, 16], 
                           [0, 2, 4, 6, 8, 10, 12, 14, 16], 
                           [0, 2, 4, 6, 8, 10, 12, 14, 16], 
                           [0, 2, 4, 6, 8, 10, 12, 14, 16], 
-                          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
+                          [1, 3, 5, 7, 9, 11, 13, 15, 17],
                           [1, 3, 5, 7, 9, 11, 13, 15, 17], ]
 tuesday3.correspond_class = ['PA', 'PB', 'PC', 'PD', 'PE', 'PA', 'PB']
 tuesday3.classroom_ls = ['107', '108', '120', '122', '207', '107', '108']
@@ -133,15 +133,14 @@ tuesday3.teacher_ls = ['王玥', '陈佳音', '王萱', '武婧岚', '李俊仙'
 
 # Tuesday 第4节课
 tuesday4 = Class()
-tuesday4.class_property = ['all', 'all']
-tuesday4.class_fr_name_ls = ['Cours Politique', 'AB班  郝锦花']
-tuesday4.class_ch_name_ls = []
+tuesday4.class_property = ['all']
+tuesday4.class_fr_name_ls = ['Cours Politique']
+tuesday4.class_ch_name_ls = ['毛泽东思想和中国特色社会主义理论体系概论（1）']
 tuesday4.correspond_week = [
-                          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ]
-tuesday4.correspond_class = ['all', 'all']
-tuesday4.classroom_ls = ['201', '201']
-tuesday4.teacher_ls = ['毛泽东思想和中国特色社会主义理论体系概论（1）', '郝锦花']
+tuesday4.correspond_class = ['all']
+tuesday4.classroom_ls = ['201']
+tuesday4.teacher_ls = ['郝锦花']
 
 tuesday_ls = (tuesday0, tuesday1, tuesday2, tuesday3, tuesday4) 
 
@@ -149,7 +148,7 @@ tuesday_ls = (tuesday0, tuesday1, tuesday2, tuesday3, tuesday4)
 wednesday0 = Class()
 wednesday0.class_property = ['P', 'P', 'P', 'P']
 wednesday0.class_fr_name_ls = ['Cours  Anglais', 'Cours  Anglais', 'Cours  Anglais', 'Cours  Anglais']
-wednesday0.class_ch_name_ls = ['大学英语（3 ）', '大学英语（3 ）', '大学英语（3 ）', '大学英语（3 ）']
+wednesday0.class_ch_name_ls = ['大学英语（3）', '大学英语（3）', '大学英语（3）', '大学英语（3）']
 wednesday0.correspond_week = [
                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], 
                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], 
@@ -167,7 +166,7 @@ wednesday1.class_ch_name_ls = ['高等数学(3)习题课', '高等数学(3)习�
 wednesday1.correspond_week = [
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
-                          [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 
+                          [2, 4, 6, 8, 10, 12, 14],
                           [2, 4, 6, 8, 10, 12, 14], ]
 wednesday1.correspond_class = ['PA', 'PC', 'PB', 'PD']
 wednesday1.classroom_ls = ['207', '208', '309', '310']
@@ -181,7 +180,7 @@ wednesday2.class_ch_name_ls = ['高等数学(3)习题课', '高等数学(3)习�
 wednesday2.correspond_week = [
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
-                          [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 
+                          [2, 4, 6, 8, 10, 12, 14],
                           [2, 4, 6, 8, 10, 12, 14], ]
 wednesday2.correspond_class = ['PB', 'PD', 'PA', 'PC']
 wednesday2.classroom_ls = ['207', '208', '309', '310']
@@ -258,7 +257,7 @@ thursday3.class_property = ['F', 'F', 'F']
 thursday3.class_fr_name_ls = ['Cours  Français', 'Cours  Français', 'Cours  Français']
 thursday3.class_ch_name_ls = ['中级法语1', '中级法语1', '中级法语1']
 thursday3.correspond_week = [
-                          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
+                          [1, 3, 5, 7, 9, 11, 13, 15, 17],
                           [1, 3, 5, 7, 9, 11, 13, 15, 17], 
                           [1, 3, 5, 7, 9, 11, 13, 15, 17], ]
 thursday3.correspond_class = ['PC', 'PD', 'PE']
@@ -273,7 +272,7 @@ thursday4.class_ch_name_ls = ['形势与政策2']
 thursday4.correspond_week = [
                           [9, 10, 11, 12, 13, 14], ]
 thursday4.correspond_class = ['all']
-thursday4.classroom_ls = ['教室220']
+thursday4.classroom_ls = ['220']
 thursday4.teacher_ls = ['刘晓宇']
 
 thursday_ls = (thursday0, thursday1, thursday2, thursday3, thursday4) 
@@ -286,7 +285,7 @@ friday0.class_ch_name_ls = ['高等数学（3）']
 friday0.correspond_week = [
                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ]
 friday0.correspond_class = ['all']
-friday0.classroom_ls = ['教室201']
+friday0.classroom_ls = ['201']
 friday0.teacher_ls = ['田俊改']
 
 # Friday 第1节课
@@ -307,9 +306,9 @@ friday2.class_property = ['all']
 friday2.class_fr_name_ls = ['Physique  TP']
 friday2.class_ch_name_ls = ['物理实验(1)理论课']
 friday2.correspond_week = [
-                          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ]
+                          [7], ]
 friday2.correspond_class = ['all']
-friday2.classroom_ls = ['201教室']
+friday2.classroom_ls = ['201']
 friday2.teacher_ls = []
 
 # Friday 第3节课
@@ -318,7 +317,7 @@ friday3.class_property = ['all']
 friday3.class_fr_name_ls = ['Physique  TP']
 friday3.class_ch_name_ls = ['物理实验(1)理论课']
 friday3.correspond_week = [
-                          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ]
+                          [7], ]
 friday3.correspond_class = ['all']
 friday3.classroom_ls = ['201教室']
 friday3.teacher_ls = []
