@@ -15,8 +15,9 @@ from urllib.parse import quote
 from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
 from util.basic_functions import read_file2list
-from util.week import determine_date
+from util.week import determine_date, determine_week, determine_what_day
 from util.csv2excel import csv_to_xlsx_pd
+from util.student_no_wechat import StudentNoWechat
 from application.review_word.review_word import receive_word
 from application.review_word.get_word import get_word
 
@@ -127,6 +128,25 @@ def my_proto_parser(data):
                                 send(message.wxid1, '[信息删除成功]')
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+
+                # @明天 获取明天的课表
+                if message.content == '@明天':
+                    user_list_path = 'data/private_space/user_list.csv'
+                    user_list = read_file2list(user_list_path)
+                    student_ls = []
+                    for user in user_list:
+                        user_info_ls = user.split(',')
+                        student_ls.append(
+                            StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
+                                            user_info_ls[4]))
+                    for student in student_ls:
+                        if message.wxid1 == student.name:
+                            student.get_schedule(determine_week(), determine_what_day())
+                            send(message.wxid1, student.return_tomorrow_schedule())
+
+                # 发送wxid
+                if message.content == '@wxid':
+                    send(message.wxid1, message.wxid1)
 
                 # 只有发给/来自指定号的口令才生效的功能
                 if message.wxid1 == wxid_default:

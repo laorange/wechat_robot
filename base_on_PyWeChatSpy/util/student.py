@@ -1,5 +1,5 @@
 ﻿# from schedule.schedule2017 import schedule_2017
-# from schedule.schedule2018 import schedule_2018
+from schedule.schedule2018 import schedule_2018
 from schedule.schedule2019 import schedule_2019
 # from schedule.schedule2020 import schedule_2020
 
@@ -50,7 +50,7 @@ class Student:
         elif what_day == 'Friday':
             what_day_num = 4
         elif what_day == 'Saturday':
-            pass
+            what_day_num = 5
         elif what_day == 'Sunday':
             pass
         else:
@@ -159,8 +159,7 @@ class Student:
                             message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name
                     else:
                         message0 = message0 + '\n' + str(i + 1) + '. '
-                if len(self.c0.final_class_ch_name)+len(self.c1.final_class_ch_name)+len(
-                        self.c2.final_class_ch_name)+len(self.c3.final_class_ch_name)+len(self.c4.final_class_ch_name):
+                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(self.c4.final_class_ch_name) == 0:
                     print('今天全天没有课')
                     send_msg_when(self.name, '今天全天没有课', date + ' 07:00:15')
                     raise Exception('今天全天没课')
