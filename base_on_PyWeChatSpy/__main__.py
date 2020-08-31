@@ -42,7 +42,8 @@ def student_send(before_term_begin=False, if_weekday=True):
             if True:
                 student.send_weather(determine_week(), determine_date())
             if not before_term_begin and if_weekday:
-                student.send_schedule(determine_date())
+                if student.grade in ['2018', '2019', '2020']:
+                    student.send_schedule(determine_date())
 
 
 def start():
