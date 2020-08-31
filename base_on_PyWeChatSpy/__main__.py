@@ -14,7 +14,7 @@ start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 
 # 测试时期 ---------------------------------------------------------------------#
-start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 5))
+# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 5))
 # 测试时期 ---------------------------------------------------------------------#
 
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
