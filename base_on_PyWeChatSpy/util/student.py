@@ -58,6 +58,9 @@ class Student:
                 raise Exception(f"get_schedule时，输入星期格式错误,what_day:{what_day}")
             if self.grade not in ['2018', '2019', '2020']:
                 schedule = self.schedule_grade[what_day_num]
+            elif self.grade == '2017':
+                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb')
+                raise Exception('普通的课表推送仅限于预科阶段')
             else:
                 raise Exception('普通的课表推送仅限于预科阶段')
 
