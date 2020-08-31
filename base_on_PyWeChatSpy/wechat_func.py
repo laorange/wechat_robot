@@ -141,7 +141,22 @@ def my_proto_parser(data):
                                             user_info_ls[4]))
                     for student in student_ls:
                         if message.wxid1 == student.name:
-                            student.get_schedule(determine_week(), determine_what_day())
+                            student.get_schedule(if_tomorrow=True, week=determine_week(), what_day=determine_what_day())
+                            send(message.wxid1, student.return_tomorrow_schedule())
+
+                # @今天 获取今天的课表
+                if message.content == '@今天':
+                    user_list_path = 'data/private_space/user_list.csv'
+                    user_list = read_file2list(user_list_path)
+                    student_ls = []
+                    for user in user_list:
+                        user_info_ls = user.split(',')
+                        student_ls.append(
+                            StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
+                                            user_info_ls[4]))
+                    for student in student_ls:
+                        if message.wxid1 == student.name:
+                            student.get_schedule(if_tomorrow=False, week=determine_week(), what_day=determine_what_day())
                             send(message.wxid1, student.return_tomorrow_schedule())
 
                 # 发送wxid
