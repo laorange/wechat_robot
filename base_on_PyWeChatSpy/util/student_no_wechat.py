@@ -37,19 +37,20 @@ class StudentNoWechat:
         self.c3 = ClassFinalInfo()
         self.c4 = ClassFinalInfo()
 
-    def get_schedule(self, week: int, what_day: str):
-        valid_what_day_ls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-        total_what_day_ls = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        if what_day in valid_what_day_ls:
-            today_index = valid_what_day_ls.index(what_day)
-            what_day = total_what_day_ls[today_index + 1]
-        elif what_day == 'Sunday':
-            week += 1
-            what_day = 'Monday'
-        elif what_day == 'Saturday':
-            return '明天是星期天，当前数据未记录周日的课表信息'
-        else:
-            raise Exception('what_day输入错误')
+    def get_schedule(self, if_tomorrow: bool, week: int, what_day: str):
+        if if_tomorrow:
+            valid_what_day_ls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+            total_what_day_ls = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+            if what_day in valid_what_day_ls:
+                today_index = valid_what_day_ls.index(what_day)
+                what_day = total_what_day_ls[today_index + 2]
+            elif what_day == 'Sunday':
+                week += 1
+                what_day = 'Monday'
+            elif what_day == 'Saturday':
+                return '明天是星期天，当前数据未记录周日的课表信息'
+            else:
+                raise Exception('what_day输入错误')
 
         what_day_num = -1
         if what_day == 'Monday':
@@ -148,12 +149,11 @@ class StudentNoWechat:
                 for i in range(5):
                     if class_ls[i].final_class_ch_name != '':
                         if class_ls[i].final_classroom != '':
-                            message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name + '，地点:' + \
-                                       class_ls[i].final_classroom
-                        elif class_ls[4].final_classroom == '':
-                            pass  # 如果晚上没课，则不显示第五条
+                            message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name + '，地点:' + class_ls[i].final_classroom
                         else:
                             message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name
+                    elif i == 4:
+                        pass  # 如果晚上没课，则不显示第五条
                     else:
                         message0 = message0 + '\n' + str(i + 1) + '. '
                 if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(self.c4.final_class_ch_name) == 0:

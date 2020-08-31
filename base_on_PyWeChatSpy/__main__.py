@@ -9,7 +9,7 @@ from util.week import determine_week, determine_what_day, determine_date
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-08-31'  # 正式开始，开学第一天，希望不用再重启了！！！
+start_date = '2020-09-01'
 start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 
@@ -29,16 +29,20 @@ def student_send(before_term_begin=False, if_weekday=True):
 
     student_ls = []
     for user in user_list:
-        user_info_ls = user.split(',')
-        student_ls.append(Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3], user_info_ls[4]))
+        try:
+            user_info_ls = user.split(',')
+            student_ls.append(Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3], user_info_ls[4]))
+        except Exception as e:
+            print('for user in user_list:main37:', e)
 
     for student in student_ls:
-        if not before_term_begin and if_weekday:
-            student.get_schedule(determine_week(), determine_what_day())
-        if True:
-            student.send_weather(determine_week(), determine_date())
-        if not before_term_begin and if_weekday:
-            student.send_schedule(determine_date())
+        if student.name:
+            if not before_term_begin and if_weekday:
+                student.get_schedule(determine_week(), determine_what_day())
+            if True:
+                student.send_weather(determine_week(), determine_date())
+            if not before_term_begin and if_weekday:
+                student.send_schedule(determine_date())
 
 
 def start():
@@ -62,6 +66,7 @@ def start():
             else:
                 if_weekday = False
                 print('-' * 10, '星期天', '-' * 10)
+
             try:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
                 if determine_week() == -1:
@@ -70,6 +75,8 @@ def start():
                     student_send(before_term_begin=False, if_weekday=if_weekday)
             except Exception as e:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
+                raise Exception(e)
+
         else:
             print('本学期尚未开始或本学期的18周的课程已全部结束')
     except Exception as e:
@@ -80,10 +87,10 @@ def start():
 def multiple_start():
     global t_next
     start()
-    for day in range(150):
-        t_next += 86400
-        t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
-        do_at_sometime(start, t_next_str)
+    # for day in range(150):
+    #     t_next += 86400
+    #     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
+    #     do_at_sometime(start, t_next_str)
 
 
 def task_start():
