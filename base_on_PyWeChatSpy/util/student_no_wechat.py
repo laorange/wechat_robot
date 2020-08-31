@@ -37,9 +37,12 @@ class StudentNoWechat:
         self.c3 = ClassFinalInfo()
         self.c4 = ClassFinalInfo()
 
+        self.if_tomorrow = True
+
     def get_schedule(self, if_tomorrow: bool, week: int, what_day: str):
+        self.if_tomorrow = if_tomorrow
         try:
-            if if_tomorrow:
+            if self.if_tomorrow:
                 valid_what_day_ls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
                 total_what_day_ls = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
                 if what_day in valid_what_day_ls:
@@ -159,7 +162,7 @@ class StudentNoWechat:
     def return_tomorrow_schedule(self):
         if self.grade in ['2018', '2019', '2020']:
             try:
-                message0 = '明天的课程表:'
+                message0 = '明天的课程表:' if self.if_tomorrow else '今天的课程表:'
                 class_ls = [self.c0, self.c1, self.c2, self.c3, self.c4]
                 for i in range(5):
                     if class_ls[i].final_class_ch_name != '':
