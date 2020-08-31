@@ -14,7 +14,7 @@ start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 
 # 测试时期 ---------------------------------------------------------------------#
-# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 5))
+start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 5))
 # 测试时期 ---------------------------------------------------------------------#
 
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
@@ -38,12 +38,13 @@ def student_send(before_term_begin=False, if_weekday=True):
     for student in student_ls:
         if student.name:
             if not before_term_begin and if_weekday:
-                student.get_schedule(determine_week(), determine_what_day())
+                student.get_schedule(determine_date(), determine_week(), determine_what_day())
             if True:
                 student.send_weather(determine_week(), determine_date())
             if not before_term_begin and if_weekday:
                 if student.grade in ['2018', '2019', '2020']:
                     student.send_schedule(determine_date())
+            time.sleep(0.1)
 
 
 def start():

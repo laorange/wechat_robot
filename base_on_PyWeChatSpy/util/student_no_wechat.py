@@ -71,10 +71,17 @@ class StudentNoWechat:
             else:
                 raise Exception(f"get_schedule时，输入星期格式错误,what_day:{what_day}")
 
-            if self.grade not in ['2018', '2019', '2020']:
+            if self.grade in ['2018', '2019', '2020']:
                 schedule = self.schedule_grade[what_day_num]
             else:
                 raise Exception('普通的课表推送仅限于预科阶段')
+
+            # 对schedule_ls的final系列的初始化
+            for i in range(5):
+                schedule[i].final_class_fr_name = ''
+                schedule[i].final_class_ch_name = ''
+                schedule[i].final_teacher = ''
+                schedule[i].final_classroom = ''
 
             for i in range(5):  # 第i节课
                 if len(schedule[i].class_property) == 0:

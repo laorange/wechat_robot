@@ -68,10 +68,11 @@ def get_today_schedule(grade, what_day):
     for class_num in range(5):
         i = [8, 12, 20, 24, 30][class_num]
         ls = table.row_values(i, start_colx=start_colx, end_colx=end_colx)
-        for _ in range(len(ls)):
-            ls[_] = re.split(r'[\n]', ls[_])
-            ls[_] = list(map(str.strip, ls[_]))
-            ls[_] = list(filter(None, ls[_]))
+        if ls:
+            for _ in range(len(ls)):
+                ls[_] = re.split(r'[\n]', ls[_])
+                ls[_] = list(map(str.strip, ls[_]))
+                ls[_] = list(filter(None, ls[_]))
         ls = list(filter(None, ls))
         # re.split(r'[\n]',
         exec("info_dict['c" + str(class_num) + "']=ls")

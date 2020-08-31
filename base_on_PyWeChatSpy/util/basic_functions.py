@@ -18,8 +18,9 @@ def read_file2list(path_name):  # , encoding='UTF-8'
     try:
         with open(path_name, 'rt', encoding='UTF-8') as source_text:   # , encoding=encoding
             lines_ls = source_text.readlines()
-            for i in range(len(lines_ls)):
-                lines_ls[i] = lines_ls[i].strip()
+            if lines_ls:
+                for i in range(len(lines_ls)):
+                    lines_ls[i] = lines_ls[i].strip()
         return lines_ls
     except FileNotFoundError:
         raise FileNotFoundError
@@ -28,16 +29,18 @@ def read_file2list(path_name):  # , encoding='UTF-8'
             with open(path_name, 'rt', encoding='ANSI') as source_text:   # , encoding=encoding
                 print(e)
                 lines_ls = source_text.readlines()
-                for i in range(len(lines_ls)):
-                    lines_ls[i] = lines_ls[i].strip()
+                if lines_ls:
+                    for i in range(len(lines_ls)):
+                        lines_ls[i] = lines_ls[i].strip()
             return lines_ls
         except Exception as e:
             try:
                 with open(path_name, 'rt', encoding='gbk') as source_text:  # , encoding=encoding
                     print(e)
                     lines_ls = source_text.readlines()
-                    for i in range(len(lines_ls)):
-                        lines_ls[i] = lines_ls[i].strip()
+                    if lines_ls:
+                        for i in range(len(lines_ls)):
+                            lines_ls[i] = lines_ls[i].strip()
                 return lines_ls
             except Exception as e:
                 print(e)
