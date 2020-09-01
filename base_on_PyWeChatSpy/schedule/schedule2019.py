@@ -128,7 +128,7 @@ tuesday3.correspond_week = [
                           [1, 3, 5, 7, 9, 11, 13, 15, 17],
                           [1, 3, 5, 7, 9, 11, 13, 15, 17], ]
 tuesday3.correspond_class = ['PA', 'PB', 'PC', 'PD', 'PE', 'PA', 'PB']
-tuesday3.classroom_ls = ['107', '108', '120', '122', '207', '107', '108']
+tuesday3.classroom_ls = ['107', '108', '212', '122', '207', '107', '108']
 tuesday3.teacher_ls = ['王玥', '陈佳音', '王萱', '武婧岚', '李俊仙', '外教Julien', '外教Caroline']
 
 # Tuesday 第4节课
@@ -196,7 +196,7 @@ wednesday3.correspond_week = [
                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 
                           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], ]
 wednesday3.correspond_class = ['PC', 'PD', 'PE']
-wednesday3.classroom_ls = ['120', '122', '207']
+wednesday3.classroom_ls = ['107', '108', '120']
 wednesday3.teacher_ls = ['外教Julien', '外教Caroline', '外教Thomas']
 
 # Wednesday 第4节课
@@ -261,7 +261,7 @@ thursday3.correspond_week = [
                           [1, 3, 5, 7, 9, 11, 13, 15, 17], 
                           [1, 3, 5, 7, 9, 11, 13, 15, 17], ]
 thursday3.correspond_class = ['PC', 'PD', 'PE']
-thursday3.classroom_ls = ['120', '122', '207']
+thursday3.classroom_ls = ['120', '108', '120']
 thursday3.teacher_ls = ['外教Julien', '外教Caroline', '外教Thomas']
 
 # Thursday 第4节课
