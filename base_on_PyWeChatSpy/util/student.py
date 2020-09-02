@@ -37,7 +37,10 @@ class Student:
         self.c3 = ClassFinalInfo()
         self.c4 = ClassFinalInfo()
 
+        # 为了新增周末补课的补课判断条件
+        self.week = -1
         self.what_day = 'Sunday'
+        self.replacement = False
 
     def get_schedule(self, date: str, week: int, what_day: str):
         try:
@@ -45,60 +48,77 @@ class Student:
             if week == 0 and what_day == 'Sunday':
                 week = 15
                 what_day = 'Monday'
+                self.replacement = True
             elif week == 1 and what_day == 'Sunday':
                 week = 15
                 what_day = 'Tuesday'
+                self.replacement = True
             elif week == 2 and what_day == 'Sunday':
                 week = 15
                 what_day = 'Wednesday'
+                self.replacement = True
             elif week == 3 and what_day == 'Sunday':
                 week = 15
                 what_day = 'Thursday'
+                self.replacement = True
             elif date == '2020-10-04':
                 week = 15
                 what_day = 'Friday'
+                self.replacement = True
             elif date == '2020-10-05':
                 week = 15
                 what_day = 'Saturday'
+                self.replacement = True
             elif date == '2020-10-06':
                 week = 16
                 what_day = 'Monday'
+                self.replacement = True
             elif date == '2020-10-07':
                 week = 16
                 what_day = 'Tuesday'
+                self.replacement = True
             elif week == 5 and what_day == 'Sunday':
                 week = 16
                 what_day = 'Wednesday'
+                self.replacement = True
             elif week == 6 and what_day == 'Sunday':
                 week = 16
                 what_day = 'Thursday'
+                self.replacement = True
             elif week == 7 and what_day == 'Sunday':
                 week = 16
                 what_day = 'Friday'
+                self.replacement = True
             elif week == 8 and what_day == 'Sunday':
                 week = 16
                 what_day = 'Saturday'
+                self.replacement = True
             elif week == 9 and what_day == 'Sunday':
                 week = 17
                 what_day = 'Monday'
+                self.replacement = True
             elif week == 10 and what_day == 'Sunday':
                 week = 17
                 what_day = 'Tuesday'
+                self.replacement = True
             elif week == 11 and what_day == 'Sunday':
                 week = 17
                 what_day = 'Wednesday'
+                self.replacement = True
             elif week == 12 and what_day == 'Sunday':
                 week = 17
                 what_day = 'Thursday'
+                self.replacement = True
             elif week == 13 and what_day == 'Sunday':
                 week = 17
                 what_day = 'Friday'
+                self.replacement = True
             elif week == 14 and what_day == 'Sunday':
                 week = 17
                 what_day = 'Saturday'
-
+                self.replacement = True
             # ------------对于周末补课的补课判断条件-------------- #
-
+            self.week = week
             self.what_day = what_day
 
             # what_day_num = -1
@@ -122,7 +142,7 @@ class Student:
             if self.grade in ['2018', '2019', '2020']:
                 schedule = self.schedule_grade[what_day_num]
             elif self.grade == '2017':
-                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb', date+' 07:00:15')
+                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb', date + ' 06:30:15')
                 raise Exception('普通的课表推送仅限于预科阶段')
             else:
                 raise Exception('普通的课表推送仅限于预科阶段')
@@ -160,9 +180,11 @@ class Student:
                                     if week in schedule[i].correspond_week[final_index]:
                                         try:
                                             if schedule[i].class_fr_name_ls:
-                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[
+                                                    final_index]
                                             if schedule[i].class_ch_name_ls:
-                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[
+                                                    final_index]
                                             if schedule[i].teacher_ls:
                                                 schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
                                             if schedule[i].classroom_ls:
@@ -175,9 +197,11 @@ class Student:
                                     if week in schedule[i].correspond_week[final_index]:
                                         try:
                                             if schedule[i].class_fr_name_ls:
-                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[
+                                                    final_index]
                                             if schedule[i].class_ch_name_ls:
-                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[
+                                                    final_index]
                                             if schedule[i].teacher_ls:
                                                 schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
                                             if schedule[i].classroom_ls:
@@ -190,9 +214,11 @@ class Student:
                                     if week in schedule[i].correspond_week[final_index]:
                                         try:
                                             if schedule[i].class_fr_name_ls:
-                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[
+                                                    final_index]
                                             if schedule[i].class_ch_name_ls:
-                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[
+                                                    final_index]
                                             if schedule[i].teacher_ls:
                                                 schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
                                             if schedule[i].classroom_ls:
@@ -212,12 +238,16 @@ class Student:
         try:
             # 发送天气
             print('-' * 9, '↓', self.name, '↓', '-' * 10)
-            # 7:00通报全天有哪些课，以及第一节课的详细信息
+            # 6:30通报全天有哪些课，以及第一节课的详细信息
             weather = get_weather()
             if week == -1:
                 message_weather = '今天是' + date + '，新学期即将开始\n' + weather
             else:
-                message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周\n' + weather
+                if not self.replacement:
+                    message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周\n' + weather
+                else:
+                    message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周，今天补的是第' + str(
+                        self.week + 1) + '周' + self.what_day + '的课\n' + weather
             print(message_weather)
             send_msg_when(self.name, message_weather, date + ' 06:30:00')
         except Exception as e:
@@ -235,17 +265,17 @@ class Student:
                 for i in range(5):
                     if class_ls[i].final_class_ch_name != '':
                         if class_ls[i].final_classroom != '':
-                            message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name + '，地点:' + \
-                                       class_ls[i].final_classroom
+                            message0 = message0 + '\n' + str(i + 1) + '. ' + \
+                                       class_ls[i].final_class_ch_name + '，地点:' + class_ls[i].final_classroom
                         else:
                             message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name
                     elif i == 4:
                         pass  # 如果晚上没课，则不显示第五条
                     else:
                         message0 = message0 + '\n' + str(i + 1) + '. '
-                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(
-                        self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(
-                        self.c4.final_class_ch_name) == 0:
+                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + \
+                        len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
+                        len(self.c4.final_class_ch_name) == 0:
                     print('今天全天没有课')
                     send_msg_when(self.name, '今天全天没有课', date + ' 06:30:15')
                     raise Exception('今天全天没课')
