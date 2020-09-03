@@ -1,7 +1,7 @@
 ﻿import time
 from threading import Thread
 
-from wechat_func import log_in, send_review_word
+from wechat_func import log_in, send_review_word_two_language
 from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
@@ -9,7 +9,7 @@ from util.week import determine_week, determine_what_day, determine_date
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-09-02'
+start_date = '2020-09-04'
 start_hms = '06:00:00'
 start_time = start_date + ' ' + start_hms
 
@@ -51,9 +51,10 @@ def start():
     global t_next
     # 自用的单词复习
     try:
-        review_word_num = 20  # 复习单词的数量
-        send_review_word(review_word_num)
-        do_at_sometime(lambda: send_review_word(review_word_num),
+        review_en_word_num = 20  # 复习英语单词的数量
+        review_fr_word_num = 20  # 复习法语单词的数量
+        send_review_word_two_language(review_en_word_num, review_fr_word_num)
+        do_at_sometime(lambda: send_review_word_two_language(review_en_word_num, review_fr_word_num),
                        time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next + 57600)))
     except Exception as e:
         print('自用的单词复习模块出错')

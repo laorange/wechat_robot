@@ -2,12 +2,14 @@ import time
 from util.week import determine_date
 from util.basic_functions import read_file2list
 
-path = 'application/review_word/word_data.csv'
+path_fr = 'application/review_word/word_data_fr.csv'
+path_en = 'application/review_word/word_data_en.csv'
 path_test = 'word_data.csv'
 
 
 class WordInfo:
-    def __init__(self, word: str, review_date: str, review_times: int):
+    def __init__(self, language, word: str, review_date: str, review_times: int):
+        self.language = language
         self.word = word
         self.review_date = review_date
         self.review_times = review_times
@@ -25,20 +27,27 @@ class WordInfo:
             self.possibility = 1
 
 
-def get_word():
+def get_word(if_english: bool):
     word_info_ls = []
     try:
-        word_list = read_file2list(path)
+        if if_english:
+            word_list = read_file2list(path_en)
+            language = 'English'
+        else:
+            word_list = read_file2list(path_fr)
+            language = 'French'
     except Exception as e:
+        language = ''
         print(e)
         word_list = read_file2list(path_test)
+
     for word in word_list:
-        word_info = WordInfo(word.split(',')[0], word.split(',')[1], int(word.split(',')[2]))
+        word_info = WordInfo(language, word.split(',')[0], word.split(',')[1], int(word.split(',')[2]))
         word_info.determine(determine_date())
         word_info_ls.append(word_info)
     return word_info_ls
 
 
 if __name__ == '__main__':
-    word_info_list = get_word()
+    word_info_list = get_word(if_english=False)
     raise Exception('test')

@@ -18,7 +18,7 @@ from util.basic_functions import read_file2list
 from util.week import determine_date, determine_week, determine_what_day
 from util.csv2excel import csv_to_xlsx_pd
 from util.student_no_wechat import StudentNoWechat
-from application.review_word.review_word import receive_word
+from application.review_word.receive_word import receive_word
 from application.review_word.get_word import get_word
 
 wxid_default = 'wxid_oftjmj5649kd22'
@@ -156,7 +156,8 @@ def my_proto_parser(data):
                                             user_info_ls[4]))
                     for student in student_ls:
                         if message.wxid1 == student.name:
-                            student.get_schedule(if_tomorrow=False, week=determine_week(), what_day=determine_what_day())
+                            student.get_schedule(if_tomorrow=False, week=determine_week(),
+                                                 what_day=determine_what_day())
                             send(message.wxid1, student.return_tomorrow_schedule())
 
                 # 发送wxid
@@ -182,13 +183,20 @@ def my_proto_parser(data):
                             user_list_csv_str = user_list_csv.read()
                             send(message.wxid1, user_list_csv_str)
 
-                    if message.content[:3] == '@dc':
+                    if message.content[:4] == '@dcf' or message.content[:4] == '@dce':
                         try:
-                            receive_word(message.content[3:])
+                            if message.content[3] == 'e':
+                                receive_word(if_english=True, words=message.content[4:])
+                                send(wxid_default, '已添加 英语单词')
+                            elif message.content[3] == 'f':
+                                receive_word(if_english=False, words=message.content[4:])
+                                send(wxid_default, '已添加 法语单词')
+                            else:
+                                raise Exception("'@dcf''@dce'判断条件出错")
                         except Exception as e:
                             send(wxid_default, str(e))
-                        else:
-                            send(wxid_default, 'done')
+                        # else:
+                        #     send(wxid_default, '添加成功')
 
                     # 查询法语单词
                     if message.content[:2] == '==':
@@ -197,7 +205,17 @@ def my_proto_parser(data):
                     # 手动发送复习单词
                     code_review = re.match(r'@review(\d+)', message.content)
                     if code_review:
-                        send_review_word(int(code_review.group(1)))
+                        send_review_word(if_english=True, review_word_num=int(code_review.group(1)))
+                        send_review_word(if_english=False, review_word_num=int(code_review.group(1)))
+
+                    # 清除英语单词的学习记录
+                    if message.content == '@clear en' or message.content == 'Clear en':
+                        clear_review_record(True)
+                        send(wxid_default, '已清除英语单词的学习记录')
+                    # 清除单词的学习记录
+                    elif message.content == '@clear fr' or message.content == 'Clear fr':
+                        clear_review_record(False)
+                        send(wxid_default, '已清除法语单词的学习记录')
 
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
@@ -298,11 +316,21 @@ def inform(code_inform, wxid: str):
 #     print(type(wxid_detail))
 #     print(wxid_detail)
 
-def send_review_word(review_word_num: int):
+def send_review_word_two_language(review_en_word_num: int, review_fr_word_num: int):
+    send_review_word(if_english=True, review_word_num=review_en_word_num)
+    send_review_word(if_english=False, review_word_num=review_fr_word_num)
+
+
+def send_review_word(if_english: bool, review_word_num: int):
     word_send = ''
     word_tran = ''
+    if if_english:
+        path_word_data = 'application/review_word/_en.csv'
+    else:
+        path_word_data = 'application/review_word/word_data_fr.csv'
+
     try:
-        word_info_list = get_word()
+        word_info_list = get_word(if_english=if_english)
         if review_word_num > len(word_info_list):
             review_word_num = len(word_info_list)
         index_ls = []
@@ -315,12 +343,20 @@ def send_review_word(review_word_num: int):
             possibility = random.random()
             if word_info_list[index_num].possibility >= possibility:
                 if word_send == '':
-                    word_send = word_info_list[index_num].word
-                    word_tran = 'http://www.frdic.com/dicts/fr/' + word_info_list[index_num].word
+                    word_send = '  1. ' + word_info_list[index_num].word
+                    if if_english:
+                        word_tran = '  1. http://dict.eudic.net/dicts/en/' + word_info_list[index_num].word
+                    else:
+                        word_tran = '  1. http://www.frdic.com/dicts/fr/' + word_info_list[index_num].word
                 else:
-                    word_send = word_send + '\n' + word_info_list[index_num].word
-                    word_tran = word_tran + '\n' + 'http://www.frdic.com/dicts/fr/' + quote(
-                        word_info_list[index_num].word)
+                    i_num_str = '  ' + str(i + 1) + '. ' if i + 1 < 10 else str(i + 1) + '. '
+                    word_send = word_send + '\n' + i_num_str + word_info_list[index_num].word
+                    if if_english:
+                        word_tran = word_tran + '\n' + i_num_str + 'http://dict.eudic.net/dicts/en/' + quote(
+                            word_info_list[index_num].word)
+                    else:
+                        word_tran = word_tran + '\n' + i_num_str + 'http://www.frdic.com/dicts/fr/' + quote(
+                            word_info_list[index_num].word)
                 word_info_list[index_num].review_times += 1
                 word_info_list[index_num].review_date = determine_date()
 
@@ -330,13 +366,28 @@ def send_review_word(review_word_num: int):
         if word_send:
             send(wxid_default, word_tran)
             send(wxid_default, word_send)
-            print(f'复习了{review_word_num}个单词')
-            with open('application/review_word/word_data.csv', 'wt', encoding='utf-8') as word_data_csv:
+            if if_english:
+                print(f'复习了{review_word_num}个英语单词')
+            else:
+                print(f'复习了{review_word_num}个法语单词')
+            with open(path_word_data, 'wt', encoding='utf-8') as word_data_csv:
                 for word_info in word_info_list:
                     word_data_csv.write(
                         word_info.word + ',' + word_info.review_date + ',' + str(word_info.review_times) + '\n')
     except Exception as e:
         print(e)
+
+
+def clear_review_record(if_english: bool):
+    if if_english:
+        path_word_data = 'application/review_word/word_data_en.csv'
+    else:
+        path_word_data = 'application/review_word/word_data_fr.csv'
+    word_info_list = get_word(if_english=if_english)
+    with open(path_word_data, 'wt', encoding='utf-8') as word_data_csv:
+        for word_info in word_info_list:
+            word_data_csv.write(
+                word_info.word + ',' + word_info.review_date + ',' + '0' + '\n')
 
 
 if __name__ == '__main__':
