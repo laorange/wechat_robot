@@ -164,6 +164,11 @@ def my_proto_parser(data):
                 if message.content == '@wxid':
                     send(message.wxid1, message.wxid1)
 
+                # 发送说明文件网址
+                if message.content[:3] == '@说明':
+                    send(message.wxid1,
+                         '点此链接可查看本程序的详细说明: https://gitee.com/laorange/wechat_robot/blob/master/README.md')
+
                 # 只有发给/来自指定号的口令才生效的功能
                 if message.wxid1 == wxid_default:
                     # inform
