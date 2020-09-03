@@ -90,7 +90,7 @@
 
 **带上你对学院的一切好奇 加入我们的迎新群 了解更多信息吧：** 
 
-+ **2020中欧合唱团迎新群** [点此处链接可直接加入qq群](https://qm.qq.com/cgi-bin/qm/qr?k=wJgodJbNDjOEYTHlkevKT_2F1JuD0-Jz&authKey=08aA9z2kFRSH/M7ib9cHY/X89Hw13n5D0pTDl/NaoMMcdOLY8OFiFxkMsyl7Sib8&noverify=0)
++ **2020中欧合唱团迎新群** [点此处链接可直接加入qq群,若链接失效也可以扫描下方二维码](https://qm.qq.com/cgi-bin/qm/qr?k=wJgodJbNDjOEYTHlkevKT_2F1JuD0-Jz&authKey=08aA9z2kFRSH/M7ib9cHY/X89Hw13n5D0pTDl/NaoMMcdOLY8OFiFxkMsyl7Sib8&noverify=0)
 
   ![二维码](https://github.com/laorange/wechat_robot/raw/master/util/groupqr.jpg)
 
