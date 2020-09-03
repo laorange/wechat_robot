@@ -4,7 +4,7 @@ from util.basic_functions import read_file2list
 
 path_fr = 'application/review_word/word_data_fr.csv'
 path_en = 'application/review_word/word_data_en.csv'
-path_test = 'word_data.csv'
+path_test = 'word_data_fr.csv'
 
 
 class WordInfo:
