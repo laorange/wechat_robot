@@ -129,8 +129,9 @@ def my_proto_parser(data):
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
-                # @明天 获取明天的课表
-                if message.content == '@明天':
+                # @今天,明天 获取今天/明天的课表
+                if message.content == '@今天' or message.content == '@明天':
+                    if_tomorrow = False if message.content == '@今天' else True
                     user_list_path = 'data/private_space/user_list.csv'
                     user_list = read_file2list(user_list_path)
                     student_ls = []
@@ -140,25 +141,15 @@ def my_proto_parser(data):
                             StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
                                             user_info_ls[4]))
                     for student in student_ls:
-                        if message.wxid1 == student.name:
-                            student.get_schedule(if_tomorrow=True, week=determine_week(), what_day=determine_what_day())
-                            send(message.wxid1, student.return_tomorrow_schedule())
-
-                # @今天 获取今天的课表
-                if message.content == '@今天':
-                    user_list_path = 'data/private_space/user_list.csv'
-                    user_list = read_file2list(user_list_path)
-                    student_ls = []
-                    for user in user_list:
-                        user_info_ls = user.split(',')
-                        student_ls.append(
-                            StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
-                                            user_info_ls[4]))
-                    for student in student_ls:
-                        if message.wxid1 == student.name:
-                            student.get_schedule(if_tomorrow=False, week=determine_week(),
-                                                 what_day=determine_what_day())
-                            send(message.wxid1, student.return_tomorrow_schedule())
+                        if student.name == message.wxid1:
+                            if student.grade in ['2018', '2019', '2020']:
+                                student.get_schedule(if_tomorrow=if_tomorrow, week=determine_week(),
+                                                     what_day=determine_what_day())
+                                send(message.wxid1, student.return_tomorrow_schedule())
+                            elif student.grade == '2017':
+                                send(message.wxid1, '可点击该链接查看课表:\nsolars.top/kb')
+                            else:
+                                send(message.wxid1, 'error,当前程序仅支持17,18,19,20级')
 
                 # 发送wxid
                 if message.content == '@wxid':
