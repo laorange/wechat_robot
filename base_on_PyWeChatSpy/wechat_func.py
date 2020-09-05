@@ -143,8 +143,8 @@ def my_proto_parser(data):
                     for student in student_ls:
                         if student.name == message.wxid1:
                             if student.grade in ['2018', '2019', '2020']:
-                                student.get_schedule(if_tomorrow=if_tomorrow, week=determine_week(),
-                                                     what_day=determine_what_day())
+                                student.get_schedule(date=determine_date(), if_tomorrow=if_tomorrow,
+                                                     week=determine_week(), what_day=determine_what_day())
                                 send(message.wxid1, student.return_tomorrow_schedule())
                             elif student.grade == '2017':
                                 send(message.wxid1, '可点击该链接查看课表:\nsolars.top/kb')
