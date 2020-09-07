@@ -152,8 +152,23 @@ class Student:
 
             if self.grade in ['2018', '2019', '2020']:
                 schedule = self.schedule_grade[what_day_num]
+            elif self.grade == '2015':
+                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb/15/\n'
+                                         '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                         '点击图片左侧切换到上一周，点击图片右侧切换到下一周'
+                              ,
+                              date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
+                raise Exception('\n普通的课表推送仅限于预科阶段')
+            elif self.grade == '2016':
+                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb/16/\n'
+                                         '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                         '点击图片左侧切换到上一周，点击图片右侧切换到下一周',
+                              date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
+                raise Exception('\n普通的课表推送仅限于预科阶段')
             elif self.grade == '2017':
-                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb',
+                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb/17/\n'
+                                         '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                         '点击图片左侧切换到上一周，点击图片右侧切换到下一周',
                               date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
                 raise Exception('\n普通的课表推送仅限于预科阶段')
             else:
@@ -290,7 +305,7 @@ class Student:
                     elif i == 4:
                         pass  # 如果晚上没课，则不显示第五条
                     else:
-                        message0 = message0 + '\n'
+                        message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课没课'
                 if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + \
                         len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
                         len(self.c4.final_class_ch_name) == 0:

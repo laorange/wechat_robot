@@ -285,7 +285,7 @@ class StudentNoWechat:
                     elif i == 4:
                         pass  # 如果晚上没课，则不显示第五条
                     else:
-                        message0 = message0 + '\n'
+                        message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课没课'
                 if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(self.c4.final_class_ch_name) == 0:
                     print('student tomorrow info send ----> None')
                     message0 = '明天全天没有课'
