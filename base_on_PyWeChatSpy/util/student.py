@@ -2,6 +2,7 @@
 from schedule.schedule2018 import schedule_2018
 from schedule.schedule2019 import schedule_2019
 # from schedule.schedule2020 import schedule_2020
+from random import randint
 
 from wechat_func import send_msg_when
 from util.weather import get_weather
@@ -41,6 +42,16 @@ class Student:
         self.week = -1
         self.what_day = 'Sunday'
         self.replacement = False
+
+        # 为了避免达到发送阈值
+        if randint(0, 1):
+            self.send_hour = '5'
+            self.send_min = str(randint(30, 59))
+            self.senf_sec = str(randint(0, 59))
+        else:
+            self.send_hour = '6'
+            self.send_min = str(randint(0, 30))
+            self.senf_sec = str(randint(0, 59))
 
     def get_schedule(self, date: str, week: int, what_day: str):
         try:
@@ -142,10 +153,11 @@ class Student:
             if self.grade in ['2018', '2019', '2020']:
                 schedule = self.schedule_grade[what_day_num]
             elif self.grade == '2017':
-                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb', date + ' 06:30:15')
-                raise Exception('普通的课表推送仅限于预科阶段')
+                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb',
+                              date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
+                raise Exception('\n普通的课表推送仅限于预科阶段')
             else:
-                raise Exception('普通的课表推送仅限于预科阶段')
+                raise Exception('\n普通的课表推送仅限于预科阶段')
 
             # 对schedule_ls的final系列的初始化
             for i in range(5):
@@ -249,7 +261,8 @@ class Student:
                     message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周，今天补的是第' + str(
                         self.week + 1) + '周' + self.what_day + '的课\n' + weather
             print(message_weather)
-            send_msg_when(self.name, message_weather, date + ' 06:30:00')
+            send_msg_when(self.name, message_weather,
+                          date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
         except Exception as e:
             print("发送天气时出错")
             print(e)
@@ -265,49 +278,57 @@ class Student:
                 for i in range(5):
                     if class_ls[i].final_class_ch_name != '':
                         if class_ls[i].final_classroom != '':
-                            message0 = message0 + '\n' + str(i + 1) + '. ' + \
-                                       class_ls[i].final_class_ch_name + '，地点:' + class_ls[i].final_classroom
+                            if class_ls[i].final_teacher != '':
+                                message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_teacher}老师的{class_ls[i].final_class_ch_name}，地点:{class_ls[i].final_classroom}'
+                            else:
+                                message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_class_ch_name}，地点:{class_ls[i].final_classroom}'
                         else:
-                            message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name
+                            if class_ls[i].final_teacher != '':
+                                message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_teacher}老师的{class_ls[i].final_class_ch_name}'
+                            else:
+                                message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_class_ch_name}'
                     elif i == 4:
                         pass  # 如果晚上没课，则不显示第五条
                     else:
-                        message0 = message0 + '\n' + str(i + 1) + '. '
+                        message0 = message0 + '\n'
                 if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + \
                         len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
                         len(self.c4.final_class_ch_name) == 0:
                     print('今天全天没有课')
-                    send_msg_when(self.name, '今天全天没有课', date + ' 06:30:15')
+                    send_msg_when(self.name, '今天全天没有课',
+                                  date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
                     raise Exception('今天全天没课')
                 else:
                     print(message0)
 
-                if self.c0.final_class_ch_name:
-                    message1 = f'第1,2节课是{self.c0.final_teacher}老师的{self.c0.final_class_ch_name}，地点:{self.c0.final_classroom}'
-                    print(message1)
-                    send_msg_when(self.name, message0 + '\n\n' + message1, date + ' 06:30:15')
-                else:
-                    send_msg_when(self.name, message0, date + ' 06:30:15')
-
-                if class_ls[1].final_class_ch_name:
-                    message2 = f'第3,4节课是{self.c1.final_teacher}老师的{self.c1.final_class_ch_name}，地点:{self.c1.final_classroom}'
-                    print(message2)
-                    send_msg_when(self.name, message2, date + ' 09:35:00')
-
-                if class_ls[2].final_class_ch_name:
-                    message3 = f'第5,6节课是{self.c2.final_teacher}老师的{self.c2.final_class_ch_name}，地点:{self.c2.final_classroom}'
-                    print(message3)
-                    send_msg_when(self.name, message3, date + ' 11:40:00')
-
-                if class_ls[3].final_class_ch_name:
-                    message4 = f'第7,8节课是{self.c3.final_teacher}老师的{self.c3.final_class_ch_name}，地点:{self.c3.final_classroom}'
-                    print(message4)
-                    send_msg_when(self.name, message4, date + ' 15:05:00')
-
-                if class_ls[4].final_class_ch_name:
-                    message5 = f'别忘了晚上还有一节课哟，第9,10节课是{self.c4.final_teacher}老师的{self.c4.final_class_ch_name}，地点:{self.c4.final_classroom}'
-                    print(message5)
-                    send_msg_when(self.name, message5, date + ' 17:10:00')
+                # if self.c0.final_class_ch_name:
+                #     message1 = f'第1,2节课是{self.c0.final_teacher}老师的{self.c0.final_class_ch_name}，地点:{self.c0.final_classroom}'
+                #     print(message1)
+                #     send_msg_when(self.name, message0 + '\n\n' + message1,
+                #                   date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
+                # else:
+                #     send_msg_when(self.name, message0,
+                #                   date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
+                #
+                # if class_ls[1].final_class_ch_name:
+                #     message2 = f'第3,4节课是{self.c1.final_teacher}老师的{self.c1.final_class_ch_name}，地点:{self.c1.final_classroom}'
+                #     print(message2)
+                #     send_msg_when(self.name, message2, date + ' 09:35:' + self.senf_sec)
+                #
+                # if class_ls[2].final_class_ch_name:
+                #     message3 = f'第5,6节课是{self.c2.final_teacher}老师的{self.c2.final_class_ch_name}，地点:{self.c2.final_classroom}'
+                #     print(message3)
+                #     send_msg_when(self.name, message3, date + ' 11:40:' + self.senf_sec)
+                #
+                # if class_ls[3].final_class_ch_name:
+                #     message4 = f'第7,8节课是{self.c3.final_teacher}老师的{self.c3.final_class_ch_name}，地点:{self.c3.final_classroom}'
+                #     print(message4)
+                #     send_msg_when(self.name, message4, date + ' 15:05:' + self.senf_sec)
+                #
+                # if class_ls[4].final_class_ch_name:
+                #     message5 = f'别忘了晚上还有一节课哟，第9,10节课是{self.c4.final_teacher}老师的{self.c4.final_class_ch_name}，地点:{self.c4.final_classroom}'
+                #     print(message5)
+                #     send_msg_when(self.name, message5, date + ' 17:10:' + self.senf_sec)
 
                 print('student info send ----> done\n')
 
