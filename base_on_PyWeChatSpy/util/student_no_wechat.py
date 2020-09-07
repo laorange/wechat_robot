@@ -273,13 +273,19 @@ class StudentNoWechat:
                 for i in range(5):
                     if class_ls[i].final_class_ch_name != '':
                         if class_ls[i].final_classroom != '':
-                            message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name + '，地点:' + class_ls[i].final_classroom
+                            if class_ls[i].final_teacher != '':
+                                message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_teacher}老师的{class_ls[i].final_class_ch_name}，地点:{class_ls[i].final_classroom}'
+                            else:
+                                message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_class_ch_name}，地点:{class_ls[i].final_classroom}'
                         else:
-                            message0 = message0 + '\n' + str(i + 1) + '. ' + class_ls[i].final_class_ch_name
+                            if class_ls[i].final_teacher != '':
+                                message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_teacher}老师的{class_ls[i].final_class_ch_name}'
+                            else:
+                                message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_class_ch_name}'
                     elif i == 4:
                         pass  # 如果晚上没课，则不显示第五条
                     else:
-                        message0 = message0 + '\n' + str(i + 1) + '. '
+                        message0 = message0 + '\n'
                 if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(self.c4.final_class_ch_name) == 0:
                     print('student tomorrow info send ----> None')
                     message0 = '明天全天没有课'
