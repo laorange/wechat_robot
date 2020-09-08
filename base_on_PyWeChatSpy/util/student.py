@@ -345,6 +345,8 @@ class Student:
                 #     print(message5)
                 #     send_msg_when(self.name, message5, date + ' 17:10:' + self.senf_sec)
 
+                send_msg_when(self.name, message0,
+                              date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
                 print('student info send ----> done\n')
 
             except Exception as e:
