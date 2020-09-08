@@ -185,10 +185,10 @@ def my_proto_parser(data):
                         csv_to_xlsx_pd()
 
                     # send user_info list to myself
-                    if message.content == '@ul':
-                        with open(path_user_list) as user_list_csv:
-                            user_list_csv_str = user_list_csv.read()
-                            send(message.wxid1, user_list_csv_str)
+                    # if message.content == '@ul':
+                    #     with open(path_user_list) as user_list_csv:
+                    #         user_list_csv_str = user_list_csv.read()
+                    #         send(message.wxid1, user_list_csv_str)
 
                     if message.content[:4] == '@dcf' or message.content[:4] == '@dce':
                         try:
