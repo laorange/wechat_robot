@@ -36,6 +36,10 @@ chatroom_list = []
 
 path_user_list = 'data/private_space/user_list.csv'
 
+url_2017 = 'solars.top/kb/17/S1/'
+url_2016 = 'solars.top/kb/16/S3/'
+url_2015 = 'solars.top/kb/15/S5/'
+
 
 class Student4inform:  # avoid the circular import
     def __init__(self, name, grade, a_or_b, p_ab_cd, f_ab_cd_e):
@@ -147,18 +151,18 @@ def my_proto_parser(data):
                                                      week=determine_week(), what_day=determine_what_day())
                                 send(message.wxid1, student.return_tomorrow_schedule())
                             elif student.grade == '2015':
-                                send(message.wxid1, '可点击该链接查看课表:\nsolars.top/kb/15/\n'
-                                     '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                     '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
+                                send(message.wxid1, '可点击该链接查看课表:\n' + url_2015 + '\n'
+                                                                                 '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                                                                 '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
                             elif student.grade == '2016':
                                 send(message.wxid1,
-                                     '可点击该链接查看课表:\nsolars.top/kb/16/\n'
-                                     '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                     '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
+                                     '可点击该链接查看课表:\n' + url_2016 + '\n'
+                                                                  '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                                                  '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
                             elif student.grade == '2017':
-                                send(message.wxid1, '可点击该链接查看课表:\nsolars.top/kb/17/\n'
-                                     '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                     '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
+                                send(message.wxid1, '可点击该链接查看课表:\n' + url_2017 + '\n'
+                                                                                 '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                                                                 '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
                             else:
                                 send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
 

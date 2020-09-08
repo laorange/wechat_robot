@@ -4,7 +4,11 @@ from schedule.schedule2019 import schedule_2019
 # from schedule.schedule2020 import schedule_2020
 
 # from wechat_func import send_msg_when
-from util.weather import get_weather
+# from util.weather import get_weather
+
+# url_2017 = 'solars.top/kb/17/S1/'
+# url_2016 = 'solars.top/kb/16/S3/'
+# url_2015 = 'solars.top/kb/15/S5/'
 
 
 class ClassFinalInfo:

@@ -7,6 +7,10 @@ from random import randint
 from wechat_func import send_msg_when
 from util.weather import get_weather
 
+url_2017 = 'solars.top/kb/17/S1/'
+url_2016 = 'solars.top/kb/16/S3/'
+url_2015 = 'solars.top/kb/15/S5/'
+
 
 class ClassFinalInfo:
     def __init__(self):
@@ -153,22 +157,22 @@ class Student:
             if self.grade in ['2018', '2019', '2020']:
                 schedule = self.schedule_grade[what_day_num]
             elif self.grade == '2015':
-                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb/15/\n'
-                                         '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                         '点击图片左侧切换到上一周，点击图片右侧切换到下一周'
+                send_msg_when(self.name, '可点击该链接查看课表:\n' + url_2015 + '\n'
+                                                                      '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                                                      '点击图片左侧切换到上一周，点击图片右侧切换到下一周'
                               ,
                               date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
                 raise Exception('\n普通的课表推送仅限于预科阶段')
             elif self.grade == '2016':
-                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb/16/\n'
-                                         '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                         '点击图片左侧切换到上一周，点击图片右侧切换到下一周',
+                send_msg_when(self.name, '可点击该链接查看课表:\n' + url_2016 + '\n'
+                                                                      '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                                                      '点击图片左侧切换到上一周，点击图片右侧切换到下一周',
                               date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
                 raise Exception('\n普通的课表推送仅限于预科阶段')
             elif self.grade == '2017':
-                send_msg_when(self.name, '可点击该链接查看课表:\nsolars.top/kb/17/\n'
-                                         '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                         '点击图片左侧切换到上一周，点击图片右侧切换到下一周',
+                send_msg_when(self.name, '可点击该链接查看课表:\n' + url_2017 + '\n'
+                                                                      '注:进入网页后显示的图片可能不是当前周的课表\n'
+                                                                      '点击图片左侧切换到上一周，点击图片右侧切换到下一周',
                               date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.senf_sec)
                 raise Exception('\n普通的课表推送仅限于预科阶段')
             else:
