@@ -1,4 +1,4 @@
-﻿# 使用说明 
+﻿﻿# 使用说明 
 
 + **操作方便**！！！
 
@@ -12,11 +12,11 @@
 
 ## 1.写在前面
 
-本程序预科阶段的推送程序由 [中欧合唱团](https://github.com/laorange/wechat_robot#6中欧合唱团) & [中欧科协](https://github.com/laorange/wechat_robot#7中欧科协) 的两位17级主席在2020年暑假期间合作编写而成。
+本程序预科阶段的推送程序由 [中欧合唱团](https://gitee.com/laorange/wechat_robot#6%E4%B8%AD%E6%AC%A7%E5%90%88%E5%94%B1%E5%9B%A2-) & [中欧科协](https://gitee.com/laorange/wechat_robot#7%E4%B8%AD%E6%AC%A7%E7%A7%91%E5%8D%8F-) 的两位17级主席在2020年暑假期间合作编写而成。
 
-本程序设计适用人群: **SIAE** *2015,2016,2017,* **2018, 2019, 2020级**学生。
+本程序设计适用人群: **SIAE** *2015, 2016, 2017,* **2018, 2019, 2020级**学生。
 
-+ **注:** 对于工程师阶段的同学，与预科阶段课表推送方式不同，本程序仅会在早上发送显示课表的网址(该网站由桑乐同学开发)，而不用去石墨文档扫码查看。
++ **注:** 对于工程师阶段的同学，与预科阶段课表推送方式不同，本程序仅会在早上发送显示课表的网址(该网站由桑乐同学开发)，以此替代石墨文档扫码查看的方式。
 
 ## 2.操作说明⭐
 
@@ -33,6 +33,10 @@
 + ``@2019Bcc``
 
 + ``@2020abe``
+
+信息添加后，自动推送将在**次日生效**
+
+**注**：工程师阶段的同学可直接发送``@年级aaa``，因为班级的检索只会在预科阶段的课表推送中生效
 
 ----
 
@@ -69,7 +73,7 @@
 
 + 如果您有好的建议的话，那就添加微信好友并告诉我们吧~   ‎|•'-'•)و✧
 
-![二维码](https://github.com/laorange/wechat_robot/raw/master/util/qrcode_laorange.png)
+![二维码](https://gitee.com/laorange/wechat_robot/raw/master/base_on_PyWeChatSpy/util/qrcode_laorange.png)
 
 如果上面的二维码图片未能正常显示，可以通过微信号``y123zc``添加。
 
@@ -95,7 +99,7 @@
 
 + **2020中欧合唱团迎新群** [点此处链接可直接加入qq群,若链接失效也可以扫描下方二维码](https://qm.qq.com/cgi-bin/qm/qr?k=wJgodJbNDjOEYTHlkevKT_2F1JuD0-Jz&authKey=08aA9z2kFRSH/M7ib9cHY/X89Hw13n5D0pTDl/NaoMMcdOLY8OFiFxkMsyl7Sib8&noverify=0)
 
-  ![二维码](https://github.com/laorange/wechat_robot/raw/master/util/groupqr.jpg)
+  ![二维码](https://gitee.com/laorange/wechat_robot/raw/master/base_on_PyWeChatSpy/util/groupqr.jpg)
 
 ------
 
