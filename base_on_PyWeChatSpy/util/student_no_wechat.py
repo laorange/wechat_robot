@@ -4,11 +4,15 @@ from schedule.schedule2019 import schedule_2019
 # from schedule.schedule2020 import schedule_2020
 
 # from wechat_func import send_msg_when
-# from util.weather import get_weather
+from util.weather import get_weather
 
-# url_2017 = 'solars.top/kb/17/S1/'
-# url_2016 = 'solars.top/kb/16/S3/'
-# url_2015 = 'solars.top/kb/15/S5/'
+url_2017 = 'solars.top/kb/17/S1/'
+url_2016 = 'solars.top/kb/16/S3/'
+url_2015 = 'solars.top/kb/15/S5/'
+
+preparatory_grades = ['2018', '2019', '2020']
+engineer_grades = ['2017', '2016', '2015']
+url_engineer_grades = [url_2017, url_2016, url_2015]
 
 
 class ClassFinalInfo:
@@ -41,14 +45,14 @@ class StudentNoWechat:
         self.c3 = ClassFinalInfo()
         self.c4 = ClassFinalInfo()
 
-        self.if_tomorrow = True
+        self.if_tomorrow = False
 
         # 为了新增周末补课的补课判断条件
         self.week = -1
         self.what_day = 'Sunday'
         self.replacement = False
 
-    def get_schedule(self, if_tomorrow: bool, date: int, week: int, what_day: str):
+    def get_schedule(self, if_tomorrow: bool, date: str, week: int, what_day: str):
         self.if_tomorrow = if_tomorrow
         try:
             if self.if_tomorrow:
@@ -178,10 +182,18 @@ class StudentNoWechat:
             else:
                 raise Exception(f"get_schedule时，输入星期格式错误,what_day:{what_day}")
 
-            if self.grade in ['2018', '2019', '2020']:
+            # 工程师阶段
+            if self.grade in preparatory_grades:
                 schedule = self.schedule_grade[what_day_num]
+            elif self.grade in engineer_grades:
+                message0 = url_engineer_grades[engineer_grades.index(self.grade)]
+                if self.week < 17 and self.what_day == 'Sunday' and if_tomorrow:
+                    message0 = '可点击该链接查看课表:\n' + message0 + '?p=' + str(self.week + 3)
+                else:
+                    message0 = '可点击该链接查看课表:\n' + message0
+                return message0
             else:
-                raise Exception('普通的课表推送仅限于预科阶段')
+                raise Exception('不属于适用年级')
 
             # 对schedule_ls的final系列的初始化
             for i in range(5):
@@ -263,7 +275,7 @@ class StudentNoWechat:
         except Exception as e:
             print(e)
 
-    def return_tomorrow_schedule(self):
+        # def return_tomorrow_schedule(self):
         if self.grade in ['2018', '2019', '2020']:
             try:
                 message0 = '明天的课程表:' if self.if_tomorrow else '今天的课程表:'
@@ -290,9 +302,14 @@ class StudentNoWechat:
                         pass  # 如果晚上没课，则不显示第五条
                     else:
                         message0 = message0 + '\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课没课'
-                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(self.c4.final_class_ch_name) == 0:
+                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(
+                        self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(
+                    self.c4.final_class_ch_name) == 0:
                     print('student tomorrow info send ----> None')
-                    message0 = '明天全天没有课'
+                    if if_tomorrow:
+                        message0 = '明天全天没有课'
+                    else:
+                        message0 = '今天全天没有课'
                 return message0
 
             except Exception as e:

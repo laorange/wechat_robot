@@ -146,23 +146,11 @@ def my_proto_parser(data):
                                             user_info_ls[4]))
                     for student in student_ls:
                         if student.name == message.wxid1:
-                            if student.grade in ['2018', '2019', '2020']:
-                                student.get_schedule(date=determine_date(), if_tomorrow=if_tomorrow,
-                                                     week=determine_week(), what_day=determine_what_day())
-                                send(message.wxid1, student.return_tomorrow_schedule())
-                            elif student.grade == '2015':
-                                send(message.wxid1, '可点击该链接查看课表:\n' + url_2015 + '\n'
-                                                                                 '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                                                                 '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
-                            elif student.grade == '2016':
-                                send(message.wxid1,
-                                     '可点击该链接查看课表:\n' + url_2016 + '\n'
-                                                                  '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                                                  '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
-                            elif student.grade == '2017':
-                                send(message.wxid1, '可点击该链接查看课表:\n' + url_2017 + '\n'
-                                                                                 '注:进入网页后显示的图片可能不是当前周的课表\n'
-                                                                                 '点击图片左侧切换到上一周，点击图片右侧切换到下一周')
+                            if student.grade in ['2015', '2016', '2017', '2018', '2019', '2020']:
+                                message0 = student.get_schedule(date=determine_date(), if_tomorrow=if_tomorrow,
+                                                                week=determine_week(), what_day=determine_what_day())
+                                send(message.wxid1, message0)
+
                             else:
                                 send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
 

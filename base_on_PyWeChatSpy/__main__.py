@@ -9,8 +9,8 @@ from util.week import determine_week, determine_what_day, determine_date
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-09-09'
-start_hms = '00:01:00'
+start_date = '2020-09-12'
+start_hms = '04:01:00'
 start_time = start_date + ' ' + start_hms
 
 # 测试时期 ---------------------------------------------------------------------#
@@ -31,19 +31,19 @@ def student_send(before_term_begin=False):
     for user in user_list:
         try:
             user_info_ls = user.split(',')
-            student_ls.append(Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3], user_info_ls[4]))
+            student_ls.append(
+                Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3], user_info_ls[4]))
         except Exception as e:
             print('for user in user_list:main37:', e)
 
     for student in student_ls:
         if student.name:
             if not before_term_begin:
-                student.get_schedule(determine_date(), determine_week(), determine_what_day())
+                student.send_schedule_auto(if_tomorrow=False, date=determine_date(),
+                                           week=determine_week(), what_day=determine_what_day())
+
             if True:
                 student.send_weather(determine_week(), determine_date())
-            if not before_term_begin:
-                if student.grade in ['2018', '2019', '2020']:
-                    student.send_schedule(determine_date())
             time.sleep(0.1)
 
 
@@ -53,9 +53,9 @@ def start():
     try:
         review_en_word_num = 20  # 复习英语单词的数量
         review_fr_word_num = 20  # 复习法语单词的数量
-        send_review_word_two_language(review_en_word_num, review_fr_word_num)
-        do_at_sometime(lambda: send_review_word_two_language(review_en_word_num, review_fr_word_num),
-                       time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next + 57600)))
+        # send_review_word_two_language(review_en_word_num, review_fr_word_num)
+        # do_at_sometime(lambda: send_review_word_two_language(review_en_word_num, review_fr_word_num),
+        #                time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next + 57600)))
     except Exception as e:
         print('自用的单词复习模块出错')
         print(e)
