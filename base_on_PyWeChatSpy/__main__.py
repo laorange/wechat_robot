@@ -7,9 +7,11 @@ from util.student import Student
 from util.func_apscheduler import do_at_sometime
 from util.week import determine_week, determine_what_day, determine_date
 
+from data.private_space.mysql_func import get_user_list
+
 # from application.review_word.get_word import get_word
 
-start_date = '2020-09-12'
+start_date = '2020-09-15'
 start_hms = '04:01:00'
 start_time = start_date + ' ' + start_hms
 
@@ -25,12 +27,14 @@ user_list_path = 'data/private_space/user_list.csv'
 
 
 def student_send(before_term_begin=False):
-    user_list = read_file2list(user_list_path)
+    # user_list = read_file2list(user_list_path)
+    user_list = get_user_list()
 
     student_ls = []
     for user in user_list:
         try:
-            user_info_ls = user.split(',')
+            # user_info_ls = user.split(',')
+            user_info_ls = list(user)
             student_ls.append(
                 Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3], user_info_ls[4]))
         except Exception as e:
@@ -53,7 +57,7 @@ def start():
     try:
         review_en_word_num = 20  # 复习英语单词的数量
         review_fr_word_num = 20  # 复习法语单词的数量
-        # send_review_word_two_language(review_en_word_num, review_fr_word_num)
+        send_review_word_two_language(review_en_word_num, review_fr_word_num)
         # do_at_sometime(lambda: send_review_word_two_language(review_en_word_num, review_fr_word_num),
         #                time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next + 57600)))
     except Exception as e:

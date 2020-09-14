@@ -10,8 +10,8 @@ url_2017 = 'solars.top/kb/17/S1/'
 url_2016 = 'solars.top/kb/16/S3/'
 url_2015 = 'solars.top/kb/15/S5/'
 
-preparatory_grades = ['2018', '2019', '2020']
-engineer_grades = ['2017', '2016', '2015']
+preparatory_grades = [2018, 2019, 2020]
+engineer_grades = [2017, 2016, 2015]
 url_engineer_grades = [url_2017, url_2016, url_2015]
 
 
@@ -32,11 +32,11 @@ class StudentNoWechat:
         self.f_ab_cd_e = f_ab_cd_e  # 法语班
 
         self.schedule_grade = []
-        if grade in ['2018', '2019', '2020']:
+        if grade in [2018, 2019, 2020]:
             try:
                 exec('self.schedule_grade = schedule_' + str(grade))
             except Exception as e:
-                print('在读取{grade}级课表时出错')
+                print(f'在读取{grade}级课表时出错')
                 print(e)
 
         self.c0 = ClassFinalInfo()
@@ -187,7 +187,7 @@ class StudentNoWechat:
                 schedule = self.schedule_grade[what_day_num]
             elif self.grade in engineer_grades:
                 message0 = url_engineer_grades[engineer_grades.index(self.grade)]
-                if self.week < 17 and self.what_day == 'Sunday' and if_tomorrow:
+                if self.week < 17 and self.what_day == 'Monday' and if_tomorrow:
                     message0 = '可点击该链接查看课表:\n' + message0 + '?p=' + str(self.week + 3)
                 else:
                     message0 = '可点击该链接查看课表:\n' + message0
@@ -276,7 +276,7 @@ class StudentNoWechat:
             print(e)
 
         # def return_tomorrow_schedule(self):
-        if self.grade in ['2018', '2019', '2020']:
+        if self.grade in [2018, 2019, 2020]:
             try:
                 message0 = '明天的课程表:' if self.if_tomorrow else '今天的课程表:'
                 if self.replacement:
