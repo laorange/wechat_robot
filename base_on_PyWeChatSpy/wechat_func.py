@@ -19,7 +19,7 @@ from util.week import determine_date, determine_week, determine_what_day
 from util.csv2excel import csv_to_xlsx_pd
 from util.student_no_wechat import StudentNoWechat
 from application.review_word.receive_word import receive_word
-from application.review_word.get_word import get_word
+# from application.review_word.get_word import get_word
 
 from data.private_space.mysql_func import *
 
@@ -171,9 +171,13 @@ def my_proto_parser(data):
 
                 # 发送当前已填信息
                 if message.content == '@信息':
-                    user_list_list = list(check_user(message.wxid1))
-                    user_info = str(user_list_list[1]) + user_list_list[2] + user_list_list[3][-1] + user_list_list[4][-1]
-                    send(message.wxid1, user_info)
+                    user_list_tuple = check_user(message.wxid1)
+                    if user_list_tuple:
+                        user_list_list = list(user_list_tuple)
+                        user_info = str(user_list_list[1]) + user_list_list[2] + user_list_list[3][-1] + user_list_list[4][-1]
+                        send(message.wxid1, user_info)
+                    else:
+                        send(message.wxid1, '未检索到信息')
 
                 # 发送wxid
                 if message.content == '@wxid':
@@ -206,10 +210,10 @@ def my_proto_parser(data):
                     if message.content[:4] == '@dcf' or message.content[:4] == '@dce':
                         try:
                             if message.content[3] == 'e':
-                                receive_word(if_english=True, words=message.content[4:])
+                                add_word_to_mysql(if_english=True, word_text=message.content[4:])
                                 send(wxid_default, '已添加 英语单词')
                             elif message.content[3] == 'f':
-                                receive_word(if_english=False, words=message.content[4:])
+                                add_word_to_mysql(if_english=False, word_text=message.content[4:])
                                 send(wxid_default, '已添加 法语单词')
                             else:
                                 raise Exception("'@dcf''@dce'判断条件出错")
@@ -220,7 +224,7 @@ def my_proto_parser(data):
 
                     # 查询法语单词
                     if message.content[:2] == '==':
-                        send(wxid_default, 'http://www.frdic.com/dicts/fr/' + message.content[2:])
+                        send(wxid_default, 'http://www.frdic.com/dicts/fr/' + quote(message.content[2:]))
 
                     # 手动发送复习单词
                     code_review = re.match(r'@review(\d+)', message.content)
@@ -230,11 +234,11 @@ def my_proto_parser(data):
 
                     # 清除英语单词的学习记录
                     if message.content == '@clear en' or message.content == 'Clear en':
-                        clear_review_record(True)
+                        clear_all_review_record(True)
                         send(wxid_default, '已清除英语单词的学习记录')
                     # 清除单词的学习记录
                     elif message.content == '@clear fr' or message.content == 'Clear fr':
-                        clear_review_record(False)
+                        clear_all_review_record(False)
                         send(wxid_default, '已清除法语单词的学习记录')
 
             elif message.type == 3:
@@ -285,6 +289,8 @@ spy = WeChatSpy(parser=my_proto_parser, key="授权Key", logger=logger)
 
 
 def send(wxid: str, content: str):
+    if len(content) >= 1000:
+        content = content[:999]
     spy.send_text(wxid, content)
 
 
@@ -336,6 +342,7 @@ def inform(code_inform, wxid: str):
 #     print(type(wxid_detail))
 #     print(wxid_detail)
 
+
 def send_review_word_two_language(review_en_word_num: int, review_fr_word_num: int):
     send_review_word(if_english=True, review_word_num=review_en_word_num)
     send_review_word(if_english=False, review_word_num=review_fr_word_num)
@@ -344,13 +351,9 @@ def send_review_word_two_language(review_en_word_num: int, review_fr_word_num: i
 def send_review_word(if_english: bool, review_word_num: int):
     word_send = ''
     word_tran = ''
-    if if_english:
-        path_word_data = 'application/review_word/_en.csv'
-    else:
-        path_word_data = 'application/review_word/word_data_fr.csv'
 
     try:
-        word_info_list = get_word(if_english=if_english)
+        word_info_list = get_word_from_mysql(if_english=if_english)
         if review_word_num > len(word_info_list):
             review_word_num = len(word_info_list)
         index_ls = []
@@ -377,6 +380,9 @@ def send_review_word(if_english: bool, review_word_num: int):
                     else:
                         word_tran = word_tran + '\n' + i_num_str + 'http://www.frdic.com/dicts/fr/' + quote(
                             word_info_list[index_num].word)
+
+                review_times_plus1(if_english, word_info_list[index_num].word)
+
                 word_info_list[index_num].review_times += 1
                 word_info_list[index_num].review_date = determine_date()
 
@@ -390,24 +396,14 @@ def send_review_word(if_english: bool, review_word_num: int):
                 print(f'复习了{review_word_num}个英语单词')
             else:
                 print(f'复习了{review_word_num}个法语单词')
-            with open(path_word_data, 'wt', encoding='utf-8') as word_data_csv:
-                for word_info in word_info_list:
-                    word_data_csv.write(
-                        word_info.word + ',' + word_info.review_date + ',' + str(word_info.review_times) + '\n')
     except Exception as e:
         print(e)
 
 
-def clear_review_record(if_english: bool):
-    if if_english:
-        path_word_data = 'application/review_word/word_data_en.csv'
-    else:
-        path_word_data = 'application/review_word/word_data_fr.csv'
-    word_info_list = get_word(if_english=if_english)
-    with open(path_word_data, 'wt', encoding='utf-8') as word_data_csv:
-        for word_info in word_info_list:
-            word_data_csv.write(
-                word_info.word + ',' + word_info.review_date + ',' + '0' + '\n')
+def clear_all_review_record(if_english: bool):
+    word_info_list = get_word_from_mysql(if_english=if_english)
+    for word_info in word_info_list:
+        clear_review_record(if_english=if_english, word=word_info.word)
 
 
 if __name__ == '__main__':

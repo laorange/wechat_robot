@@ -11,7 +11,7 @@ from data.private_space.mysql_func import get_user_list
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-09-15'
+start_date = '2020-09-16'
 start_hms = '04:01:00'
 start_time = start_date + ' ' + start_hms
 

@@ -1,5 +1,5 @@
-﻿from schedule.schedule2018 import schedule_2018
-from schedule.schedule2019 import schedule_2019
+﻿# from schedule.schedule2018 import schedule_2018
+# from schedule.schedule2019 import schedule_2019
 # from schedule.schedule2020 import schedule_2020
 from random import randint
 
