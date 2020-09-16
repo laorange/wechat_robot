@@ -2,7 +2,7 @@
 from threading import Thread
 
 from wechat_func import log_in, send_review_word_two_language
-from util.basic_functions import read_file2list
+# from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
 from util.week import determine_week, determine_what_day, determine_date

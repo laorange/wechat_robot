@@ -354,48 +354,49 @@ def send_review_word(if_english: bool, review_word_num: int):
 
     try:
         word_info_list = get_word_from_mysql(if_english=if_english)
-        if review_word_num > len(word_info_list):
-            review_word_num = len(word_info_list)
-        index_ls = []
+        if word_info_list:
+            if review_word_num > len(word_info_list):
+                review_word_num = len(word_info_list)
+            index_ls = []
 
-        i = 0
-        while i < review_word_num:
-            index_num = random.randint(0, len(word_info_list) - 1)
-            while index_num in index_ls:
+            i = 0
+            while i < review_word_num:
                 index_num = random.randint(0, len(word_info_list) - 1)
-            possibility = random.random()
-            if word_info_list[index_num].possibility >= possibility:
-                if word_send == '':
-                    word_send = '  1. ' + word_info_list[index_num].word
-                    if if_english:
-                        word_tran = '  1. http://dict.eudic.net/dicts/en/' + word_info_list[index_num].word
+                while index_num in index_ls:
+                    index_num = random.randint(0, len(word_info_list) - 1)
+                possibility = random.random()
+                if word_info_list[index_num].possibility >= possibility:
+                    if word_send == '':
+                        word_send = '  1. ' + word_info_list[index_num].word
+                        if if_english:
+                            word_tran = '  1. http://dict.eudic.net/dicts/en/' + word_info_list[index_num].word
+                        else:
+                            word_tran = '  1. http://www.frdic.com/dicts/fr/' + word_info_list[index_num].word
                     else:
-                        word_tran = '  1. http://www.frdic.com/dicts/fr/' + word_info_list[index_num].word
+                        i_num_str = '  ' + str(i + 1) + '. ' if i + 1 < 10 else str(i + 1) + '. '
+                        word_send = word_send + '\n' + i_num_str + word_info_list[index_num].word
+                        if if_english:
+                            word_tran = word_tran + '\n' + i_num_str + 'http://dict.eudic.net/dicts/en/' + quote(
+                                word_info_list[index_num].word)
+                        else:
+                            word_tran = word_tran + '\n' + i_num_str + 'http://www.frdic.com/dicts/fr/' + quote(
+                                word_info_list[index_num].word)
+
+                    review_times_plus1(if_english, word_info_list[index_num].word)
+
+                    word_info_list[index_num].review_times += 1
+                    word_info_list[index_num].review_date = determine_date()
+
+                    index_ls.append(index_num)
+                    i += 1
+
+            if word_send:
+                send(wxid_default, word_tran)
+                send(wxid_default, word_send)
+                if if_english:
+                    print(f'复习了{review_word_num}个英语单词')
                 else:
-                    i_num_str = '  ' + str(i + 1) + '. ' if i + 1 < 10 else str(i + 1) + '. '
-                    word_send = word_send + '\n' + i_num_str + word_info_list[index_num].word
-                    if if_english:
-                        word_tran = word_tran + '\n' + i_num_str + 'http://dict.eudic.net/dicts/en/' + quote(
-                            word_info_list[index_num].word)
-                    else:
-                        word_tran = word_tran + '\n' + i_num_str + 'http://www.frdic.com/dicts/fr/' + quote(
-                            word_info_list[index_num].word)
-
-                review_times_plus1(if_english, word_info_list[index_num].word)
-
-                word_info_list[index_num].review_times += 1
-                word_info_list[index_num].review_date = determine_date()
-
-                index_ls.append(index_num)
-                i += 1
-
-        if word_send:
-            send(wxid_default, word_tran)
-            send(wxid_default, word_send)
-            if if_english:
-                print(f'复习了{review_word_num}个英语单词')
-            else:
-                print(f'复习了{review_word_num}个法语单词')
+                    print(f'复习了{review_word_num}个法语单词')
     except Exception as e:
         print(e)
 
