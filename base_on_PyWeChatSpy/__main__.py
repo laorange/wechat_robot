@@ -1,7 +1,7 @@
 ﻿import time
 from threading import Thread
 
-from wechat_func import log_in, send_review_word_two_language
+from wechat_func import log_in, send_review_word_two_language, personalisation
 # from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
@@ -11,7 +11,7 @@ from data.private_space.mysql_func import get_user_list
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-09-16'
+start_date = '2020-09-18'
 start_hms = '04:01:00'
 start_time = start_date + ' ' + start_hms
 
@@ -52,28 +52,26 @@ def student_send(before_term_begin=False):
 
 
 def start():
+    # ①对特定要求的定制发送任务
+    try:
+        personalisation()
+    except Exception as e:
+        print(e)
+
     global t_next
-    # 自用的单词复习
+    # ②自用的单词复习
     try:
         review_en_word_num = 20  # 复习英语单词的数量
         review_fr_word_num = 20  # 复习法语单词的数量
         send_review_word_two_language(review_en_word_num, review_fr_word_num)
-        # do_at_sometime(lambda: send_review_word_two_language(review_en_word_num, review_fr_word_num),
-        #                time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next + 57600)))
     except Exception as e:
         print('自用的单词复习模块出错')
         print(e)
 
-    # 课表推送
+    # ⭐③课表推送
     try:
         # what_day_num = time.strftime('%w', time.localtime())
         if determine_week() in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
-            # if what_day_num in ['1', '2', '3', '4', '5', '6']:  # 周一到周五，%w是从周日开始计数
-            #     if_weekday = True
-            # else:
-            #     if_weekday = False
-            #     print('-' * 10, '星期天', '-' * 10)
-
             try:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
                 if determine_week() == -1:
@@ -83,7 +81,6 @@ def start():
             except Exception as e:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
                 raise Exception(e)
-
         else:
             print('本学期尚未开始或本学期的18周的课程已全部结束')
     except Exception as e:

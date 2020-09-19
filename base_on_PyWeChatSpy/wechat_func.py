@@ -6,7 +6,7 @@ from PyWeChatSpy.PyWeChatSpy.command import *
 import logging
 
 import re
-import time
+# import time
 import random
 from threading import Thread
 from urllib.parse import quote
@@ -14,11 +14,11 @@ from urllib.parse import quote
 # project内
 from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
-from util.basic_functions import read_file2list
-from util.week import determine_date, determine_week, determine_what_day
+# from util.basic_functions import read_file2list
+# from util.week import *
 from util.csv2excel import csv_to_xlsx_pd
 from util.student_no_wechat import StudentNoWechat
-from application.review_word.receive_word import receive_word
+# from application.review_word.receive_word import receive_word
 # from application.review_word.get_word import get_word
 
 from data.private_space.mysql_func import *
@@ -202,10 +202,8 @@ def my_proto_parser(data):
                         csv_to_xlsx_pd()
 
                     # send user_info list to myself
-                    # if message.content == '@ul':
-                    #     with open(path_user_list) as user_list_csv:
-                    #         user_list_csv_str = user_list_csv.read()
-                    #         send(message.wxid1, user_list_csv_str)
+                    if message.content == '@ul':
+                        send(wxid_default, count_user_each_grade())
 
                     if message.content[:4] == '@dcf' or message.content[:4] == '@dce':
                         try:
@@ -311,15 +309,15 @@ def log_in():
 
 
 def inform(code_inform, wxid: str):
-    user_list_path = 'data/private_space/user_list.csv'
-    user_list = read_file2list(user_list_path)
+    # user_list_path = 'data/private_space/user_list.csv'
+    user_list = get_user_list()
     student_ls = []
     for user in user_list:
-        user_info_ls = user.split(',')
+        user_info_ls = list(user)
         student_ls.append(Student4inform(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
                                          user_info_ls[4]))
     for student in student_ls:
-        if student.grade == code_inform.group(1):
+        if student.grade == int(code_inform.group(1)):
             if code_inform.group(2) in ['p', 'P']:
                 if 'P' + code_inform.group(3).upper() == student.p_ab_cd:
                     send(student.name, code_inform.group(4))
@@ -405,6 +403,13 @@ def clear_all_review_record(if_english: bool):
     word_info_list = get_word_from_mysql(if_english=if_english)
     for word_info in word_info_list:
         clear_review_record(if_english=if_english, word=word_info.word)
+
+
+# 定制发送
+def personalisation():
+    # zjc的每日提醒
+    wxid_zjc = 'wxid_70vvmt9lxao722'
+    send_msg_when(wxid_zjc, '法语听力打卡', determine_date() + ' 09:35:00')
 
 
 if __name__ == '__main__':
