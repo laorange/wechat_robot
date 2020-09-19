@@ -210,13 +210,13 @@ class StudentNoWechat:
                         if schedule[i].class_property[final_index] == 'all':
                             if week in schedule[i].correspond_week[final_index]:
                                 try:
-                                    if schedule[i].class_fr_name_ls:
+                                    if len(schedule[i].class_fr_name_ls) > final_index:
                                         schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                    if schedule[i].class_ch_name_ls:
+                                    if len(schedule[i].class_ch_name_ls) > final_index:
                                         schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                    if schedule[i].teacher_ls:
+                                    if len(schedule[i].teacher_ls) > final_index:
                                         schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                    if schedule[i].classroom_ls:
+                                    if len(schedule[i].classroom_ls) > final_index:
                                         schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                 except Exception as e:
                                     print(f'在处理{self.name}的第({i})节课时出错,{e}')
@@ -225,13 +225,13 @@ class StudentNoWechat:
                             if self.a_or_b == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
                                     try:
-                                        if schedule[i].class_fr_name_ls:
+                                        if len(schedule[i].class_fr_name_ls) > final_index:
                                             schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                        if schedule[i].class_ch_name_ls:
+                                        if len(schedule[i].class_ch_name_ls) > final_index:
                                             schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                        if schedule[i].teacher_ls:
+                                        if len(schedule[i].teacher_ls) > final_index:
                                             schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                        if schedule[i].classroom_ls:
+                                        if len(schedule[i].classroom_ls) > final_index:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
                                         print(f'在处理{self.name}的第({i})节课时出错,{e}')
@@ -240,13 +240,13 @@ class StudentNoWechat:
                             if self.p_ab_cd == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
                                     try:
-                                        if schedule[i].class_fr_name_ls:
+                                        if len(schedule[i].class_fr_name_ls) > final_index:
                                             schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                        if schedule[i].class_ch_name_ls:
+                                        if len(schedule[i].class_ch_name_ls) > final_index:
                                             schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                        if schedule[i].teacher_ls:
+                                        if len(schedule[i].teacher_ls) > final_index:
                                             schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                        if schedule[i].classroom_ls:
+                                        if len(schedule[i].classroom_ls) > final_index:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
                                         print(f'在处理{self.name}的第({i})节课时出错,{e}')
@@ -255,13 +255,13 @@ class StudentNoWechat:
                             if self.f_ab_cd_e == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
                                     try:
-                                        if schedule[i].class_fr_name_ls:
+                                        if len(schedule[i].class_fr_name_ls) > final_index:
                                             schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                        if schedule[i].class_ch_name_ls:
+                                        if len(schedule[i].class_ch_name_ls) > final_index:
                                             schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                        if schedule[i].teacher_ls:
+                                        if len(schedule[i].teacher_ls) > final_index:
                                             schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                        if schedule[i].classroom_ls:
+                                        if len(schedule[i].classroom_ls) > final_index:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
                                         print(f'在处理{self.name}的第({i})节课时出错,{e}')
