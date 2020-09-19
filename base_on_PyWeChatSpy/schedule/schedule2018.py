@@ -321,36 +321,48 @@ friday_ls = (friday0, friday1, friday2, friday3, friday4)
 
 # Saturday 第0节课
 saturday0 = Class()
-saturday0.class_property = ['all']
+saturday0.class_property = ['all', 'F', 'F', 'F', 'F']
 saturday0.class_fr_name_ls = []
-saturday0.class_ch_name_ls = ['工程制图']
+saturday0.class_ch_name_ls = ['工程制图',
+                              '物理实验:光的衍射(光栅常数、光波波长测定)',
+                              '物理实验:霍尔位置传感器测杨氏模量',
+                              '物理实验:光电效应测普朗克常量',
+                              '物理实验:霍尔效应及元件基本参数测定']
 saturday0.correspond_week = [
-                          [0, 2, 4, 6, 8, 10, 12], ]
-saturday0.correspond_class = ['all']
-saturday0.classroom_ls = ['教室220']
-saturday0.teacher_ls = ['丁宁']
+                          [0, 2, 4, 6, 8, 10, 12], [3], [3], [5], [5]]
+saturday0.correspond_class = ['all', 'PA', 'PB', 'PA', 'PB']
+saturday0.classroom_ls = ['教室220', '实验楼313', '实验楼401', '实验楼312', '实验楼402']
+saturday0.teacher_ls = ['丁宁', '', '', '', '']
 
 # Saturday 第1节课
 saturday1 = Class()
-saturday1.class_property = ['AB']
+saturday1.class_property = ['AB', 'F', 'F', 'F', 'F']
 saturday1.class_fr_name_ls = []
-saturday1.class_ch_name_ls = ['工程制图 习题课']
+saturday1.class_ch_name_ls = ['工程制图 习题课',
+                              '物理实验:光的衍射(光栅常数、光波波长测定)',
+                              '物理实验:霍尔位置传感器测杨氏模量',
+                              '(考试)物理实验:光电效应测普朗克常量',
+                              '物理实验:霍尔效应及元件基本参数测定']
 saturday1.correspond_week = [
-                          [0, 2, 4, 6, 8, 10, 12, 13], ]
-saturday1.correspond_class = ['A']
-saturday1.classroom_ls = ['教室220']
-saturday1.teacher_ls = ['丁宁']
+                          [0, 2, 4, 6, 8, 10, 12, 13], [3], [3], [5], [5]]
+saturday1.correspond_class = ['A', 'PB', 'PC', 'PB', 'PC']
+saturday1.classroom_ls = ['教室220', '实验楼313', '实验楼401', '实验楼312', '实验楼402']
+saturday1.teacher_ls = ['丁宁', '', '', '', '']
 
 # Saturday 第2节课
 saturday2 = Class()
-saturday2.class_property = ['AB']
+saturday2.class_property = ['AB', 'F', 'F', 'F', 'F']
 saturday2.class_fr_name_ls = []
-saturday2.class_ch_name_ls = ['工程制图 习题课']
+saturday2.class_ch_name_ls = ['工程制图 习题课',
+                              '物理实验:光的衍射(光栅常数、光波波长测定)',
+                              '物理实验:霍尔位置传感器测杨氏模量',
+                              '(考试)物理实验:光电效应测普朗克常量',
+                              '(考试)物理实验:霍尔效应及元件基本参数测定']
 saturday2.correspond_week = [
-                          [0, 2, 4, 6, 8, 10, 12, 13], ]
-saturday2.correspond_class = ['B']
-saturday2.classroom_ls = ['教室220']
-saturday2.teacher_ls = ['丁宁']
+                          [0, 2, 4, 6, 8, 10, 12, 13], [3], [3], [5], [5]]
+saturday2.correspond_class = ['B', 'PC', 'PA', 'PC', 'PA']
+saturday2.classroom_ls = ['教室220', '实验楼313', '实验楼401', '实验楼312', '实验楼402']
+saturday2.teacher_ls = ['丁宁', '', '', '', '']
 
 # Saturday 第3节课
 saturday3 = Class()
