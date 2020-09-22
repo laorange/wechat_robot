@@ -9,6 +9,15 @@ url_2017 = 'solars.top/kb/17/S1/'
 url_2016 = 'solars.top/kb/16/S3/'
 url_2015 = 'solars.top/kb/15/S5/'
 
+url_schedule_18 = 'solars.top/img/18.png'
+url_schedule_19 = 'solars.top/img/19.png'
+url_schedule_20 = 'solars.top/img/20.png'
+# url_schedule_preparatory_grades = [url_schedule_18, url_schedule_19, url_schedule_20]
+url_19_td1 = 'solars.top/img/19td1.png'
+url_19_td2 = 'solars.top/img/19td2.png'
+# 手动改改吧...
+url_19_td = url_19_td1
+
 preparatory_grades = [2018, 2019, 2020]
 engineer_grades = [2017, 2016, 2015]
 url_engineer_grades = [url_2017, url_2016, url_2015]
@@ -116,7 +125,7 @@ class StudentNoWechat:
             elif week == 12 and what_day == 'Sunday':
                 week = 17
                 what_day = 'Thursday'
-                c = True
+                self.replacement = True
             elif week == 13 and what_day == 'Sunday':
                 week = 17
                 what_day = 'Friday'
@@ -309,6 +318,18 @@ class StudentNoWechat:
                         message0 = '明天全天没有课'
                     else:
                         message0 = '今天全天没有课'
+
+                # 新增预科阶段的验证网站
+                message_url = ''
+                if self.grade == 2018:
+                    message_url = '\n\n※课表图片链接:\n' + url_schedule_18 + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
+                elif self.grade == 2019:
+                    message_url = '\n\n※课表图片链接:\n' + url_schedule_19 + '\n※可点此查看td课信息:\n' + url_19_td + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
+                elif self.grade == 2020:
+                    message_url = '\n\n※课表图片链接:\n' + url_schedule_20 + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
+
+                message0 = message0 + message_url
+
                 return message0
 
             except Exception as e:

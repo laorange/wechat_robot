@@ -4,10 +4,6 @@ from wechat_func import send_msg_when
 from util.weather import get_weather
 from util.student_no_wechat import StudentNoWechat
 
-url_2017 = 'solars.top/kb/17/S1/'
-url_2016 = 'solars.top/kb/16/S3/'
-url_2015 = 'solars.top/kb/15/S5/'
-
 preparatory_grades = [2018, 2019, ]  # 2020 课表未就绪
 engineer_grades = [2017, 2016, 2015]
 
@@ -65,11 +61,9 @@ class Student(StudentNoWechat):
                         len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
                         len(self.c4.final_class_ch_name) == 0:
                     print('今天全天没有课')
-                    send_msg_when(self.name, '今天全天没有课',
-                                  date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_schedule)
-                    raise Exception('今天全天没课')
-                else:
-                    print(message0)
+                    message0 = '今天全天没有课'
+
+                print(message0)
                 send_msg_when(self.name, message0,
                               date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_schedule)
                 print('student info send ----> done\n')
