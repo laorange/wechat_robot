@@ -1,76 +1,76 @@
 ﻿# 使用说明 
 
-+ **操作方便**！！！
++ 本程序设计适用人群: **SIAE** *2015, 2016, 2017,* **2018, 2019, 2020级**学生。
 
-  只需要**发送8个字符**，告别繁琐的课表，再也不用担心找不到下节课在哪儿上课啦！！！
+  只需要向我**发送6个字符**，告别繁琐的课表，再也不用担心找不到下节课在哪儿上课啦！！！
 
-+ ***这样的良心机器人记得推荐给你的小伙伴们哟~~***
++ **这样的良心机器人记得推荐给你的小伙伴们哟~~**
 
 ## 索引：
-1. [写在前面](https://gitee.com/laorange/wechat_robot#1%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2)
-2. [操作说明](https://gitee.com/laorange/wechat_robot#2%E6%93%8D%E4%BD%9C%E8%AF%B4%E6%98%8E)
-3. [推送时间](https://gitee.com/laorange/wechat_robot#3%E6%8E%A8%E9%80%81%E6%97%B6%E9%97%B4)
-4. [其他说明](https://gitee.com/laorange/wechat_robot#4%E5%85%B6%E4%BB%96%E8%AF%B4%E6%98%8E)
-5. [二维码](https://gitee.com/laorange/wechat_robot#5%E4%BA%8C%E7%BB%B4%E7%A0%81)
-6. [中欧合唱团简介](https://gitee.com/laorange/wechat_robot#6%E4%B8%AD%E6%AC%A7%E5%90%88%E5%94%B1%E5%9B%A2-)
-7. [中欧科协简介](https://gitee.com/laorange/wechat_robot#7%E4%B8%AD%E6%AC%A7%E7%A7%91%E5%8D%8F-)
-8. [其他院内社团简介](https://gitee.com/laorange/wechat_robot#8%E5%85%B6%E4%BB%96%E9%99%A2%E5%86%85%E7%A4%BE%E5%9B%A2%E5%AE%A3%E4%BC%A0%E8%B5%84%E6%96%99)
-9. [更新日志](https://gitee.com/laorange/wechat_robot/blob/master/README.md#9-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
+2. [操作说明](https://gitee.com/laorange/wechat_robot#1%E6%93%8D%E4%BD%9C%E8%AF%B4%E6%98%8E)
+3. [推送时间](https://gitee.com/laorange/wechat_robot#2%E6%8E%A8%E9%80%81%E6%97%B6%E9%97%B4)
+4. [其他说明](https://gitee.com/laorange/wechat_robot#3%E5%85%B6%E4%BB%96%E8%AF%B4%E6%98%8E)
+6. [中欧合唱团简介](https://gitee.com/laorange/wechat_robot#4%E4%B8%AD%E6%AC%A7%E5%90%88%E5%94%B1%E5%9B%A2-)
+7. [中欧科协简介](https://gitee.com/laorange/wechat_robot#5%E4%B8%AD%E6%AC%A7%E7%A7%91%E5%8D%8F-)
+8. [其他院内社团简介](https://gitee.com/laorange/wechat_robot#6%E5%85%B6%E4%BB%96%E9%99%A2%E5%86%85%E7%A4%BE%E5%9B%A2%E5%AE%A3%E4%BC%A0%E8%B5%84%E6%96%99)
+9. [更新日志](https://gitee.com/laorange/wechat_robot/blob/master/README.md#7-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
 
 ------
 
 ###### ***正文开始：***
 
-## 1.写在前面
+## 1.操作说明⭐
 
-本程序预科阶段的推送程序由 [中欧合唱团](https://gitee.com/laorange/wechat_robot#6%E4%B8%AD%E6%AC%A7%E5%90%88%E5%94%B1%E5%9B%A2-) & [中欧科协](https://gitee.com/laorange/wechat_robot#7%E4%B8%AD%E6%AC%A7%E7%A7%91%E5%8D%8F-) 的两位17级主席在2020年暑假期间合作编写而成。
+①首先请添加下面的微信：
 
-本程序设计适用人群: **SIAE** *2015, 2016, 2017,* **2018, 2019, 2020级**学生。
+![二维码](https://gitee.com/laorange/wechat_robot/raw/master/base_on_PyWeChatSpy/util/qr_laorange.jpg)
 
-+ **注:** 对于工程师阶段的同学，与预科阶段课表推送方式不同，本程序仅会在早上发送显示课表的网址(该网站由桑乐同学开发)，以此替代石墨文档扫码查看的方式。
+如果上面的二维码图片未能正常显示，可以通过微信号``y123zc``添加。
 
-## 2.操作说明⭐
+------
 
-向该微信发送  ``@`` ``年级`` ``行政班``  ``td班`` `` 法语班``  来**启用**推送。
+②向该微信发送  ``@`` ``年级`` ``行政班``  ``td班`` `` 法语班``  来**启用**推送。
 
-+ **数据之间请不要间隔空格以及任何字符**,  总计**8个**字符
+**数据之间请不要间隔空格以及任何字符**,  总计**6个**字符 (大小写字母均可)
 
-*例：* ***(大小写字母 均可)***
+*例：* 
 
-+ ``@2017AAA``
++ ``@18BDd``
 
-+ ``@2018BDd``
++ ``@19Bcc``
 
-+ ``@2019Bcc``
++ ``@20abe``
 
-+ ``@2020abe``
++ ``@17AAA``
+
+  **注**：**工程师阶段的同学可直接发送``@年级aaa``,无需输入班级**
 
 信息添加后，自动推送将在**次日生效**
 
-**注**：**工程师阶段的同学可直接发送``@年级aaa``，因为班级的检索只会在预科阶段的课表推送中生效**
-
 ----
 
-如果您发现输入有误或不再需要该推送时，
+③如果您发现输入有误或不再需要该推送时，终止口令是将``@``换成``。``(中文句号)，其余与启用口令一致，例如：
 
-请输入  ``。`` ``年级`` ``行政班`` ``td班`` ``法语班``  来**关闭**推送 ,即把启动推送时的``@``换成``。``(中文句号)
++ ``。18BDd``
++ ``。19Bcc``
++ ``。20abe``
 
 ----
 
 除上述指令，您还可以通过下面的指令主动获取信息:
 
 + ``@说明`` 获取本操作说明的网址 
-
 + ``@今天`` 立即获取今天的课程表
-
 + ``@明天`` 立即获取明天的课程表
 
-## 3.推送时间
+## 2.推送时间
 
 + ``05:30`` ~ ``06:30`` 随机一个时间点 推送当天的天气、污染指数、当天课表(包含课程名,老师,教室信息)
 
+  **注:** 对于工程师阶段的同学，与预科阶段课表推送方式不同，本程序仅会在早上发送显示课表的网址(该网站由17-桑乐同学开发)，以此替代石墨文档扫码查看的方式。
 
-## 4.其他说明
+
+## 3.其他说明
 
 由于该微信除了做机器人，同时还保持着日常使用，若有任何疑问&建议均可直接通过该微信向我(们)提起。
 
@@ -78,23 +78,19 @@
 
 本程序的源代码可在 [github上](https://github.com/laorange/wechat_robot) 或 [gitee上](https://gitee.com/laorange/wechat_robot) 查看。
 
-## 5.二维码
 
-+ 如果您觉得还不错的话，那就添加微信好友并开始使用吧~   ‎|•'-'•)و❤
-
-+ 如果您有好的建议的话，那就添加微信好友并告诉我们吧~   ‎|•'-'•)و✧
-
-![二维码](https://gitee.com/laorange/wechat_robot/raw/master/base_on_PyWeChatSpy/util/qrcode_laorange.png)
-
-如果上面的二维码图片未能正常显示，可以通过微信号``y123zc``添加。
 
 ------
 
-**诚邀20级萌新们接着往下看看哟~** 或许这里有你们想要了解的社团信息~ 👇
+## **诚邀20级萌新们接着往下看看哟~** 
+
+或许这里有你们想要了解的社团信息~ 👇
 
 ------
 
-## 6.中欧合唱团 🎵
+本程序预科阶段的推送程序由 [中欧合唱团](https://gitee.com/laorange/wechat_robot#4%E4%B8%AD%E6%AC%A7%E5%90%88%E5%94%B1%E5%9B%A2-) & [中欧科协](https://gitee.com/laorange/wechat_robot#5%E4%B8%AD%E6%AC%A7%E7%A7%91%E5%8D%8F-) 的两位17级主席在2020年暑假期间合作编写而成。
+
+## 4.中欧合唱团 🎵
 
 常规社团招新时间是每年3,4月，不同于别的社团，通常中欧合唱团在本学期已有为学院争光添彩的机会与使命，且团内换届大会是在每年的9月举行，故:
 
@@ -114,13 +110,13 @@
 
 ------
 
-## 7.中欧科协 🎓
+## 5.中欧科协 🎓
 
 + [中欧科协简介2020.3](https://mp.weixin.qq.com/s?__biz=MzI5OTI2NzMyNg==&mid=2247487250&idx=4&sn=543f29b5f55cafa1242bf4af6118206c&chksm=ec986a83dbefe3951caec31c65f77c664d8a4cbae0676f3d115f2e30ae6dd3660389f285e7cf&mpshare=1&scene=1&srcid=0817UesipdadVHjYitqCJoHH&sharer_sharetime=1597660252329&sharer_shareid=437640bc163aeb961c4264f63d00e9e7&key=bd8ad81032fdfaf23e81b61b3e5e2e93340b8fa59fd9c6afb9409200576491ff8311905fe2a19070de6032c46c97186ef96b51d9244fd8ff35129ac1128f664e8f68dab6c0ad5832ff019e497d643acf46ebfe2e0a7a7e78b5c6ae1c5ea2c7a4eb3d010fd0cd9fac9e60d27860666c6c92eb4b618808ca5537b58a4d534e15b7&ascene=1&uin=MjI3NDM4MDYzMg%3D%3D&devicetype=Windows+Server+2016&version=62080085&lang=zh_CN&exportkey=A7lDFBq65%2BisMAE98G8pAbY%3D&pass_ticket=tApxNb2%2F1KYzvr9GyvKRaNP6cacnrXxHkDF9MdU0v9a00H4qeeErj47eiljmFeMy) 
 
 ------
 
-## 8.其他院内社团宣传资料✨
+## 6.其他院内社团宣传资料✨
 
 + [院内社团宣传资料合集(2020.3)](https://mp.weixin.qq.com/s/_A9FSgGg2OqxjwFcK_h2vw)
 
@@ -128,7 +124,17 @@
 
 ------
 
-## 9. 更新日志
+## 7. 更新日志
+
++ 2020.9.25更新
+
+  1. 简化添加信息的指令
+
++ 2020.9.19更新
+
+  1. 每日推送时会发送总课表图片的网址
+2. 19级每日推送时会发送td轮换表图片的网址
+  3. 更新18级周六实验课的信息
 
 + 2020.9.14更新
 
@@ -142,7 +148,11 @@
 
   2. 可避免重复添加信息
 
-  3. 使用``。``命令删除当前信息时，仅需满足``。``+``20??``+``任意符合条件的3个班级字母``即可删除当前信息 [正则表达式:'^。20\d{2}[abAB][a-dA-D][a-eA-E]$']
+  3. 使用``。``命令删除当前信息时，仅需满足``。``+``??``+``任意符合条件的3个班级字母``即可删除当前信息，参考以下正则表达式：
+
+     ```pyt
+     ^[@。]\d{2}[abAB][a-dA-D][a-eA-E]$
+     ```
 
 + 2020.9.12更新
 
