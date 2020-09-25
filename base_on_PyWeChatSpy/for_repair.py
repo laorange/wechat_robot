@@ -13,6 +13,7 @@ from threading import Thread
 
 # project内
 from data.message import send_mail
+
 # from util.func_apscheduler import do_at_sometime
 
 wxid_default = 'wxid_oftjmj5649kd22'
@@ -30,9 +31,9 @@ chatroom_list = []
 
 path_user_list = 'data/private_space/user_list.csv'
 
-url_2017 = 'solars.top/kb/17/S1/'
-url_2016 = 'solars.top/kb/16/S3/'
-url_2015 = 'solars.top/kb/15/S5/'
+url_17 = 'solars.top/kb/17/S1/'
+url_16 = 'solars.top/kb/16/S3/'
+url_15 = 'solars.top/kb/15/S5/'
 
 
 class Student4inform:  # avoid the circular import
@@ -98,7 +99,7 @@ def my_proto_parser(data):
 
                 elif message.content[0] == '@' and message.wxid2 == '' and message.wxid1[-8:] != 'chatroom':
                     send(message.wxid1,
-                         'sorry，程序正在维护中。您仍可以向我发送@说明来查看本程序的使用说明，除此以外其余功能都暂时失效，请稍后再试')
+                         'sorry，程序正在维护中。您仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效，请稍后再试')
 
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
@@ -157,9 +158,19 @@ def log_in():
     print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'start receiving wechat message')
 
 
+def check_wxid_info(wxid: str):
+    wxid_detail = spy.get_contact_details(wxid, update=False)
+    # print(type(wxid_detail))
+    # print(wxid_detail)
+
+
 if __name__ == '__main__':
     log_in()
-    # t2 = Thread(target=send_msg_when(wxid_default, '测试1222', '2020-08-18 12:22:00'))
-    # t2.start()
-    # send_file(, 'qrcode_laorange.png')
-    # check_wxid_info(wxid_default)
+    # id_for_check = ['wxid_05y4vxo5az4n22', 'wxid_4fuc7xqgzox722', 'wxid_akeuhced41lg21', 'wxid_apf85yacqnc511',
+    #                 'wxid_bjjvb22db76311', 'wxid_fpdcwt46zrzc22', 'wxid_ks1wry1vyb3122', 'wxid_m943tmk85n0022',
+    #                 'wxid_qortcjb2mc6922', 'wxid_t84qg4635ueg22', 'wxid_wg1bnt5dc3s132', ]
+    # for wechat_id in id_for_check:
+    #     print(wechat_id)
+    #     check_wxid_info(wechat_id)
+    #     print('\n\n')
+    #     time.sleep(5)

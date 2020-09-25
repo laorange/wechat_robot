@@ -1,13 +1,13 @@
-from schedule.schedule2018 import schedule_2018
-from schedule.schedule2019 import schedule_2019
-# from schedule.schedule2020 import schedule_2020
+from schedule.schedule18 import schedule_18
+from schedule.schedule19 import schedule_19
+# from schedule.schedule20 import schedule_20
 
 # from wechat_func import send_msg_when
 from util.weather import get_weather
 
-url_2017 = 'solars.top/kb/17/S1/'
-url_2016 = 'solars.top/kb/16/S3/'
-url_2015 = 'solars.top/kb/15/S5/'
+url_17 = 'solars.top/kb/17/S1/'
+url_16 = 'solars.top/kb/16/S3/'
+url_15 = 'solars.top/kb/15/S5/'
 
 url_schedule_18 = 'solars.top/img/18.png'
 url_schedule_19 = 'solars.top/img/19.png'
@@ -18,9 +18,9 @@ url_19_td2 = 'solars.top/img/19td2.png'
 # 手动改改吧...
 url_19_td = url_19_td1
 
-preparatory_grades = [2018, 2019, 2020]
-engineer_grades = [2017, 2016, 2015]
-url_engineer_grades = [url_2017, url_2016, url_2015]
+preparatory_grades = [18, 19, 20]
+engineer_grades = [17, 16, 15]
+url_engineer_grades = [url_17, url_16, url_15]
 
 
 class ClassFinalInfo:
@@ -40,7 +40,7 @@ class StudentNoWechat:
         self.f_ab_cd_e = f_ab_cd_e  # 法语班
 
         self.schedule_grade = []
-        if grade in [2018, 2019, 2020]:
+        if grade in [18, 19, 20]:
             try:
                 exec('self.schedule_grade = schedule_' + str(grade))
             except Exception as e:
@@ -284,7 +284,7 @@ class StudentNoWechat:
             print(e)
 
         # def return_tomorrow_schedule(self):
-        if self.grade in [2018, 2019, 2020]:
+        if self.grade in [18, 19, 20]:
             try:
                 message0 = '明天的课程表:' if self.if_tomorrow else '今天的课程表:'
                 if self.replacement:
@@ -321,11 +321,11 @@ class StudentNoWechat:
 
                 # 新增预科阶段的验证网站
                 message_url = ''
-                if self.grade == 2018:
+                if self.grade == 18:
                     message_url = '\n\n※课表图片链接:\n' + url_schedule_18 + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
-                elif self.grade == 2019:
+                elif self.grade == 19:
                     message_url = '\n\n※课表图片链接:\n' + url_schedule_19 + '\n※可点此查看td课信息:\n' + url_19_td + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
-                elif self.grade == 2020:
+                elif self.grade == 20:
                     message_url = '\n\n※课表图片链接:\n' + url_schedule_20 + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
 
                 message0 = message0 + message_url

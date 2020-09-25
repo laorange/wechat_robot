@@ -4,8 +4,8 @@ from wechat_func import send_msg_when
 from util.weather import get_weather
 from util.student_no_wechat import StudentNoWechat
 
-preparatory_grades = [2018, 2019, ]  # 2020 课表未就绪
-engineer_grades = [2017, 2016, 2015]
+preparatory_grades = [18, 19, ]  # 20 课表未就绪
+engineer_grades = [17, 16, 15]
 
 
 class Student(StudentNoWechat):
@@ -79,7 +79,7 @@ class Student(StudentNoWechat):
 
 
 if __name__ == "__main__":
-    # student1 = Student('张三', 2019, 'B', 'PC', 'PC')
+    # student1 = Student('张三', 19, 'B', 'PC', 'PC')
     # # student1.get_schedule(14, 'Friday')
     # raise Exception('test')
     pass

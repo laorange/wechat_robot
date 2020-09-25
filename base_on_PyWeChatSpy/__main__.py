@@ -11,7 +11,8 @@ from data.private_space.mysql_func import get_user_list
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-09-23'
+# 国庆时记得维护 L95
+start_date = '2020-09-24'
 start_hms = '04:01:00'
 start_time = start_date + ' ' + start_hms
 
@@ -91,7 +92,7 @@ def start():
 def multiple_start():
     global t_next
     start()
-    for day in range(130):
+    for day in range(10):
         t_next += 86400
         t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
         do_at_sometime(start, t_next_str)

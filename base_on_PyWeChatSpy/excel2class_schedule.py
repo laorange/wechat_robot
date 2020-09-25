@@ -21,13 +21,13 @@ class Class:
 
 def get_today_schedule(grade, what_day):
     path = ''
-    # if grade == 2017:
-    #     path = 'data/excels/2017.xls'
-    if grade == 2018:
-        path = 'data/excels/2018.xls'
-    if grade == 2019:
-        path = 'data/excels/2019.xlsx'
-    if grade == 2020:
+    # if grade == 17:
+    #     path = 'data/excels/17.xls'
+    if grade == 18:
+        path = 'data/excels/18.xls'
+    if grade == 19:
+        path = 'data/excels/19.xlsx'
+    if grade == 20:
         path = ''
 
     data = xlrd.open_workbook(path)
@@ -311,7 +311,7 @@ def grade_yi_tiao_long_fu_wu(grade):
 
 
 if __name__ == "__main__":
-    # grade_yi_tiao_long_fu_wu(2017)
-    grade_yi_tiao_long_fu_wu(2018)
-    grade_yi_tiao_long_fu_wu(2019)
-    # grade_yi_tiao_long_fu_wu(2020)
+    # grade_yi_tiao_long_fu_wu(17)
+    grade_yi_tiao_long_fu_wu(18)
+    grade_yi_tiao_long_fu_wu(19)
+    # grade_yi_tiao_long_fu_wu(20)

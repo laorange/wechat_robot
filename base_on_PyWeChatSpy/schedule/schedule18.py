@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# 2018级课表 更新时间:2020-08-29 20:03
+# 18级课表 更新时间:2020-08-29 20:03
 class Class:
     def __init__(self):
         self.class_property = []
@@ -386,4 +386,4 @@ saturday4.teacher_ls = []
 
 saturday_ls = (saturday0, saturday1, saturday2, saturday3, saturday4)
 
-schedule_2018 = [monday_ls, tuesday_ls, wednesday_ls, thursday_ls, friday_ls, saturday_ls]
+schedule_18 = [monday_ls, tuesday_ls, wednesday_ls, thursday_ls, friday_ls, saturday_ls]

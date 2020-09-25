@@ -38,9 +38,9 @@ chatroom_list = []
 
 path_user_list = 'data/private_space/user_list.csv'
 
-url_2017 = 'solars.top/kb/17/S1/'
-url_2016 = 'solars.top/kb/16/S3/'
-url_2015 = 'solars.top/kb/15/S5/'
+url_17 = 'solars.top/kb/17/S1/'
+url_16 = 'solars.top/kb/16/S3/'
+url_15 = 'solars.top/kb/15/S5/'
 
 
 class Student4inform:  # avoid the circular import
@@ -95,15 +95,10 @@ def my_proto_parser(data):
                 if message.wxid1 == "filehelper":
                     spy.send_text("filehelper", "Hello PyWeChatSpy")
 
-                code_add = re.match(r'^([@。])(20\d{2})([abAB])([a-dA-D])([a-eA-E])$', message.content)
+                code_add = re.match(r'^([@。])(\d{2})([abAB])([a-dA-D])([a-eA-E])$', message.content)
                 if code_add and len(message.wxid2) == 0:
                     if code_add.group(1) == '@':
                         try:
-                            # with open(path_user_list, 'at') as user_ls:
-                            #     user_ls.write(
-                            #         message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
-                            #             3).upper() + ',P' + code_add.group(
-                            #             4).upper() + ',P' + code_add.group(5).upper() + '\n')
                             if_add_success = add_user(message.wxid1, int(code_add.group(2)), code_add.group(3).upper(),
                                                       'P' + code_add.group(4).upper(), 'P' + code_add.group(5).upper())
                             if if_add_success:
@@ -115,31 +110,8 @@ def my_proto_parser(data):
 
                     elif code_add.group(1) == '。':
                         try:
-                            # with open(path_user_list) as user_list_csv:
-                            #     user_ls = user_list_csv.readlines()
-                            # user_info_str = message.wxid1 + ',' + code_add.group(2) + ',' + code_add.group(
-                            #     3).upper() + ',P' + code_add.group(4).upper() + ',P' + code_add.group(5).upper() + '\n'
-                            # try:
-                            #     if user_info_str in user_ls:
-                            #         try:
-                            #             user_ls.remove(user_info_str)
-                            #         except Exception as e:
-                            #             print('[移除失败]', e)
-                            #             send(message.wxid1, '[信息删除失败，稍微将为您手动删除]')
-                            #             raise Exception('[移除失败]')
-                            #     else:
-                            #         send(message.wxid1, '[未找到这条信息，请检查后重试；若始终无法成功，则是数据编码出现了问题，稍微我将为您手动删除]')
-                            #         raise Exception('[未找到这条信息]')
-
                             if_delete_success = delete_user(message.wxid1)
 
-                            # except Exception as e:
-                            #     print(e)
-                            #
-                            # else:
-                            #     with open(path_user_list, 'wt') as user_ls_csv:
-                            #         for user_info in user_ls:
-                            #             user_ls_csv.write(user_info)
                             if if_delete_success:
                                 send(message.wxid1, '[信息删除成功]')
                             else:
@@ -150,8 +122,6 @@ def my_proto_parser(data):
                 # @今天,明天 获取今天/明天的课表
                 if message.content == '@今天' or message.content == '@明天':
                     if_tomorrow = False if message.content == '@今天' else True
-                    # user_list_path = 'data/private_space/user_list.csv'
-                    # user_list = read_file2list(user_list_path)
                     user_list = get_user_list()
                     student_ls = []
                     for user in user_list:
@@ -161,7 +131,7 @@ def my_proto_parser(data):
                                             user_info_ls[4]))
                     for student in student_ls:
                         if student.name == message.wxid1:
-                            if student.grade in [2015, 2016, 2017, 2018, 2019, 2020]:
+                            if student.grade in [15, 16, 17, 18, 19, 20]:
                                 message0 = student.get_schedule(date=determine_date(), if_tomorrow=if_tomorrow,
                                                                 week=determine_week(), what_day=determine_what_day())
                                 send(message.wxid1, message0)
@@ -191,7 +161,7 @@ def my_proto_parser(data):
                 # 只有发给/来自指定号的口令才生效的功能
                 if message.wxid1 == wxid_default:
                     # inform
-                    code_inform = re.match(r'^@inform(20\d{2})([abfpqABFPQ])([a-eA-E])([\s\S]+)', message.content)
+                    code_inform = re.match(r'^@inform(\d{2})([abfpqABFPQ])([a-eA-E])([\s\S]+)', message.content)
                     if code_inform:
                         print('!' * 5 + 'inform' + '!' * 5)
                         inform(code_inform, message.wxid1)
