@@ -20,6 +20,7 @@ def do_at_sometime(func, run_time, task_name='my_job_id'):
         intervalTrigger = DateTrigger(run_date=run_time)
         scheduler.add_job(func, intervalTrigger, id=task_name)
         scheduler.start()
+        print("create thr task at " + run_time)
     except Exception as e:
         print(e)
 

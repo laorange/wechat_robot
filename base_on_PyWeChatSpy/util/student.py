@@ -15,12 +15,14 @@ class Student(StudentNoWechat):
         if randint(0, 1):
             self.send_hour = '5'
             self.send_min = str(randint(30, 59))
-            self.send_sec_weather = str(randint(0, 29))
+            self.send_sec_weather = str(randint(10, 29))
             self.send_sec_schedule = str(randint(30, 59))
         else:
             self.send_hour = '6'
             self.send_min = str(randint(0, 30))
-            self.send_sec_weather = str(randint(0, 29))
+            if int(self.send_min) < 10:
+                self.send_min = "0" + self.send_min
+            self.send_sec_weather = str(randint(10, 29))
             self.send_sec_schedule = str(randint(30, 59))
 
     def send_weather(self, week: int, date: str):

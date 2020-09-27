@@ -35,6 +35,9 @@ url_17 = 'solars.top/kb/17/S1/'
 url_16 = 'solars.top/kb/16/S3/'
 url_15 = 'solars.top/kb/15/S5/'
 
+inform_message = 'sorry，程序正在维护中。您仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效，请稍后再试'
+                 # '\n\n※9.26维护公告:为准备建站今天白天将会断开数据库连接，维护结束前(预计18:00)添加、查询、删除功能将暂停使用'
+
 
 class Student4inform:  # avoid the circular import
     def __init__(self, name, grade, a_or_b, p_ab_cd, f_ab_cd_e):
@@ -98,8 +101,7 @@ def my_proto_parser(data):
                          '点此链接可查看本程序的详细说明: https://gitee.com/laorange/wechat_robot/blob/master/README.md')
 
                 elif message.content[0] == '@' and message.wxid2 == '' and message.wxid1[-8:] != 'chatroom':
-                    send(message.wxid1,
-                         'sorry，程序正在维护中。您仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效，请稍后再试')
+                    send(message.wxid1, inform_message)
 
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)

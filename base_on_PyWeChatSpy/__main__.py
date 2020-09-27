@@ -12,8 +12,8 @@ from data.private_space.mysql_func import get_user_list
 # from application.review_word.get_word import get_word
 
 # 国庆时记得维护 L95
-start_date = '2020-09-24'
-start_hms = '04:01:00'
+start_date = '2020-09-28'
+start_hms = '04:00:00'
 start_time = start_date + ' ' + start_hms
 
 # 测试时期 ---------------------------------------------------------------------#
