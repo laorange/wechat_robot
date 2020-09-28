@@ -39,6 +39,9 @@ class StudentNoWechat:
         self.p_ab_cd = p_ab_cd  # td班
         self.f_ab_cd_e = f_ab_cd_e  # 法语班
 
+        # 通知
+        self.inform_msg = ''  # "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
+
         self.schedule_grade = []
         if grade in preparatory_grades:
             try:
@@ -199,6 +202,7 @@ class StudentNoWechat:
                     message0 = '可点击该链接查看课表:\n' + message0 + '?p=' + str(self.week + 3)
                 else:
                     message0 = '可点击该链接查看课表:\n' + message0
+                message0 = message0 + self.inform_msg
                 return message0
             else:
                 raise Exception('不属于适用年级')
@@ -322,13 +326,13 @@ class StudentNoWechat:
                 # 新增预科阶段的验证网站
                 message_url = ''
                 if self.grade == 18:
-                    message_url = '\n\n※课表图片链接:\n' + url_schedule_18 + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
+                    message_url = '\n\n※课表图片链接:\n' + url_schedule_18
                 elif self.grade == 19:
-                    message_url = '\n\n※课表图片链接:\n' + url_schedule_19 + '\n※可点此查看td课信息:\n' + url_19_td + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
+                    message_url = '\n\n※课表图片链接:\n' + url_schedule_19 + '\n※可点此查看td课信息:\n' + url_19_td
                 elif self.grade == 20:
-                    message_url = '\n\n※课表图片链接:\n' + url_schedule_20 + "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
+                    message_url = '\n\n※课表图片链接:\n' + url_schedule_20
 
-                message0 = message0 + message_url
+                message0 = message0 + message_url + self.inform_msg
 
                 return message0
 
