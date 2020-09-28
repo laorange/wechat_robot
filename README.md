@@ -7,13 +7,11 @@
 + **这样的良心机器人记得推荐给你的小伙伴们哟~~**
 
 ## 索引：
-2. [操作说明](https://gitee.com/laorange/wechat_robot#1%E6%93%8D%E4%BD%9C%E8%AF%B4%E6%98%8E)
-3. [推送时间](https://gitee.com/laorange/wechat_robot#2%E6%8E%A8%E9%80%81%E6%97%B6%E9%97%B4)
-4. [其他说明](https://gitee.com/laorange/wechat_robot#3%E5%85%B6%E4%BB%96%E8%AF%B4%E6%98%8E)
-6. [中欧合唱团简介](https://gitee.com/laorange/wechat_robot#4%E4%B8%AD%E6%AC%A7%E5%90%88%E5%94%B1%E5%9B%A2-)
-7. [中欧科协简介](https://gitee.com/laorange/wechat_robot#5%E4%B8%AD%E6%AC%A7%E7%A7%91%E5%8D%8F-)
-8. [其他院内社团简介](https://gitee.com/laorange/wechat_robot#6%E5%85%B6%E4%BB%96%E9%99%A2%E5%86%85%E7%A4%BE%E5%9B%A2%E5%AE%A3%E4%BC%A0%E8%B5%84%E6%96%99)
-9. [更新日志](https://gitee.com/laorange/wechat_robot/blob/master/README.md#7-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
+1. [操作说明](https://gitee.com/laorange/wechat_robot#1%E6%93%8D%E4%BD%9C%E8%AF%B4%E6%98%8E)
+2. [推送时间](https://gitee.com/laorange/wechat_robot#2%E6%8E%A8%E9%80%81%E6%97%B6%E9%97%B4)
+3. [其他说明](https://gitee.com/laorange/wechat_robot#3%E5%85%B6%E4%BB%96%E8%AF%B4%E6%98%8E)
+4. ~ 6. [院内社团介绍](https://gitee.com/laorange/wechat_robot#4%E4%B8%AD%E6%AC%A7%E5%90%88%E5%94%B1%E5%9B%A2-)
+7. [更新日志](https://gitee.com/laorange/wechat_robot/blob/master/README.md#7-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
 
 ------
 
@@ -29,9 +27,7 @@
 
 ------
 
-②向该微信发送  ``@`` ``年级`` ``行政班``  ``td班`` `` 法语班``  来**启用**推送。
-
-**数据之间请不要间隔空格以及任何字符**,  总计**6个**字符 (大小写字母均可)
+②向该微信发送  ``@`` ``年级`` ``行政班``  ``td班`` `` 法语班``  来**启用**推送，总计**6个**字符 (大小写字母均可)
 
 *例：* 
 
@@ -43,7 +39,9 @@
 
 + ``@17AAA``
 
-  **注**：**工程师阶段的同学可直接发送``@年级aaa``,无需输入班级**
+  **注**：**工程师阶段的同学可直接发送``@年级aaa``,无需输入准确班级**
+
++ 若仍然不太清楚应该发送什么指令，可点击["指令生成页面"](http://laorange.top/code.html)来获取指令
 
 信息添加后，自动推送将在**次日生效**
 
@@ -92,21 +90,15 @@
 
 ## 4.中欧合唱团 🎵
 
-常规社团招新时间是每年3,4月，不同于别的社团，通常中欧合唱团在本学期已有为学院争光添彩的机会与使命，且团内换届大会是在每年的9月举行，故:
+中欧合唱团**将于2020年9月30日晚上8点在中欧楼219教室招新**
 
-**即刻** 开始邀请 所有喜爱音乐的2020级新生们 了解并参与中欧合唱团各项精彩活动；明年4月社团招新月愿意留在团内的学弟学妹们即可正式登记加入。
+作为中欧学院**唯一**的**艺术类社团**，***中欧合唱团，不只是合唱团***。
 
-***作为中欧学院唯一的艺术类社团，中欧合唱团，不只是合唱团***。
-
-受到疫情影响，从今年开始多元化，中欧合唱团的活动将会**小型化**、**乐队化**！这里有一群热爱音乐的人聚在一起，除了声乐爱好者们，无论是钢琴、吉他、小提琴等西洋乐器，还是古筝、二胡、笛子等民乐，你都能在这里找到志同道合的小伙伴！
+受到疫情影响，从今年开始**多元化**、**小型化**、**乐队化**！这里有一群热爱音乐的人聚在一起，除了声乐爱好者们，无论是钢琴、吉他、小提琴等西洋乐器，还是古筝、二胡、笛子等民乐，你都能在这里找到志同道合的小伙伴！
 
 欢迎大家加入中欧合唱团这个大家庭，在繁重的学业下劳逸结合，让大学生活更加丰富多彩！
 
-**带上你对学院的一切好奇 加入我们的迎新群 了解更多信息吧：** 
-
-+ **2020中欧合唱团迎新群** [点此处链接可直接加入qq群,若链接失效也可以扫描下方二维码](https://qm.qq.com/cgi-bin/qm/qr?k=wJgodJbNDjOEYTHlkevKT_2F1JuD0-Jz&authKey=08aA9z2kFRSH/M7ib9cHY/X89Hw13n5D0pTDl/NaoMMcdOLY8OFiFxkMsyl7Sib8&noverify=0)
-
-  ![二维码](https://gitee.com/laorange/wechat_robot/raw/master/base_on_PyWeChatSpy/util/groupqr.jpg)
+点此查看这篇[学院官方公众号下的文章](https://mp.weixin.qq.com/s?__biz=MzI5OTI2NzMyNg==&mid=2247492571&idx=3&sn=e007c8bf8bc26562e07c7fb9ddd31036&chksm=ec9b864adbec0f5c74c881981aa414aa4144542546b479efda1e9087c77151fd22df4bc23db5&mpshare=1&scene=1&srcid=0928SwL6sv9BWzumHiXNMXeo&sharer_sharetime=1601300343028&sharer_shareid=b1a2358e0828e85563df8361764971a0&key=46b8c66d5abbe49c02ea332d56202a91594afb6049fdb975a763147514dcb34f295257d0f9ba5a3bc8191949358aa8d6ebd6c0d216f7c89c503818b6c8207a04edb5706fc40e9f787d95d6264324c72dee47220c0f417ceb73f43a5e0488340d57e024e11833392b1b4b30ccdb454c456ae29845adbfb9e375009066c7f1a698&ascene=1&uin=MjI3NDM4MDYzMg%3D%3D&devicetype=Windows+Server+2016&version=62080085&lang=zh_CN&exportkey=AxeoAgHz1I%2FY5Xb%2BSzPrCAw%3D&pass_ticket=btE5ME4jar%2F4W%2FO5ugoCcdRQNpWbZ9nYzeLjLU5HIY0vhowLj%2FgAEQKRjpoBwdaL&wx_header=0)来了解更多：[文章链接](https://mp.weixin.qq.com/s?__biz=MzI5OTI2NzMyNg==&mid=2247492571&idx=3&sn=e007c8bf8bc26562e07c7fb9ddd31036&chksm=ec9b864adbec0f5c74c881981aa414aa4144542546b479efda1e9087c77151fd22df4bc23db5&mpshare=1&scene=1&srcid=0928SwL6sv9BWzumHiXNMXeo&sharer_sharetime=1601300343028&sharer_shareid=b1a2358e0828e85563df8361764971a0&key=46b8c66d5abbe49c02ea332d56202a91594afb6049fdb975a763147514dcb34f295257d0f9ba5a3bc8191949358aa8d6ebd6c0d216f7c89c503818b6c8207a04edb5706fc40e9f787d95d6264324c72dee47220c0f417ceb73f43a5e0488340d57e024e11833392b1b4b30ccdb454c456ae29845adbfb9e375009066c7f1a698&ascene=1&uin=MjI3NDM4MDYzMg%3D%3D&devicetype=Windows+Server+2016&version=62080085&lang=zh_CN&exportkey=AxeoAgHz1I%2FY5Xb%2BSzPrCAw%3D&pass_ticket=btE5ME4jar%2F4W%2FO5ugoCcdRQNpWbZ9nYzeLjLU5HIY0vhowLj%2FgAEQKRjpoBwdaL&wx_header=0)
 
 ------
 
@@ -133,7 +125,7 @@
 + 2020.9.19更新
 
   1. 每日推送时会发送总课表图片的网址
-2. 19级每日推送时会发送td轮换表图片的网址
+  2. 19级每日推送时会发送td轮换表图片的网址
   3. 更新18级周六实验课的信息
 
 + 2020.9.14更新
@@ -150,7 +142,7 @@
 
   3. 使用``。``命令删除当前信息时，仅需满足``。``+``??``+``任意符合条件的3个班级字母``即可删除当前信息，参考以下正则表达式：
 
-     ```pyt
+     ```python
      ^[@。]\d{2}[abAB][a-dA-D][a-eA-E]$
      ```
 
