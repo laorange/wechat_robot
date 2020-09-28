@@ -11,13 +11,12 @@ from data.private_space.mysql_func import get_user_list
 
 # from application.review_word.get_word import get_word
 
-# 国庆时记得维护 L95
-start_date = '2020-09-28'
-start_hms = '04:00:00'
+start_date = '2020-09-29'
+start_hms = '04:01:00'
 start_time = start_date + ' ' + start_hms
 
 # 测试时期 ---------------------------------------------------------------------#
-# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 5))
+start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 5))
 # 测试时期 ---------------------------------------------------------------------#
 
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
@@ -64,7 +63,7 @@ def start():
     try:
         review_en_word_num = 20  # 复习英语单词的数量
         review_fr_word_num = 20  # 复习法语单词的数量
-        send_review_word_two_language(review_en_word_num, review_fr_word_num)
+        # send_review_word_two_language(review_en_word_num, review_fr_word_num)
     except Exception as e:
         print('自用的单词复习模块出错')
         print(e)

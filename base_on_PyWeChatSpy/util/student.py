@@ -4,7 +4,7 @@ from wechat_func import send_msg_when
 from util.weather import get_weather
 from util.student_no_wechat import StudentNoWechat
 
-preparatory_grades = [18, 19, ]  # 20 课表未就绪
+preparatory_grades = [18, 19, ]  # 2020 课表未就绪
 engineer_grades = [17, 16, 15]
 
 
@@ -15,14 +15,12 @@ class Student(StudentNoWechat):
         if randint(0, 1):
             self.send_hour = '5'
             self.send_min = str(randint(30, 59))
-            self.send_sec_weather = str(randint(10, 29))
+            self.send_sec_weather = str(randint(0, 29))
             self.send_sec_schedule = str(randint(30, 59))
         else:
             self.send_hour = '6'
             self.send_min = str(randint(0, 30))
-            if int(self.send_min) < 10:
-                self.send_min = "0" + self.send_min
-            self.send_sec_weather = str(randint(10, 29))
+            self.send_sec_weather = str(randint(0, 29))
             self.send_sec_schedule = str(randint(30, 59))
 
     def send_weather(self, week: int, date: str):
