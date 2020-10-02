@@ -5,23 +5,28 @@ from wechat_func import log_in, send_review_word_two_language, personalisation
 # from util.basic_functions import read_file2list
 from util.student import Student
 from util.func_apscheduler import do_at_sometime
-from util.week import determine_week, determine_what_day, determine_date
+from util.week import *
 
 from data.private_space.mysql_func import get_user_list
 
 # from application.review_word.get_word import get_word
 
-start_date = '2020-09-29'
-start_hms = '04:01:00'
+start_date = determine_date()
+start_hms = '00:01:00'
 start_time = start_date + ' ' + start_hms
-
-# 测试时期 ---------------------------------------------------------------------#
-# start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + 5))
-# 测试时期 ---------------------------------------------------------------------#
-
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
 t_start = time.mktime(t_start_strp)
-t_next = t_start
+time_for_sleep = t_start - time.time()
+if time_for_sleep < 0:
+    time_for_sleep = t_start - get_time_time(-86400)
+    print('今日的自动推送已错过，自动生成明日的推送任务')
+    if time_for_sleep < 0:
+        raise Exception("main l24逻辑错误")
+print(f"time_for_sleep:{time_for_sleep}")
+
+# 测试时期 ---------------------------------------------------------------------#
+# time_for_sleep = 5
+# 测试时期 ---------------------------------------------------------------------#
 
 user_list_path = 'data/private_space/user_list.csv'
 
@@ -89,20 +94,22 @@ def start():
 
 
 def multiple_start():
-    global t_next
-    start()
-    for day in range(10):
-        t_next += 86400
-        t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
-        do_at_sometime(start, t_next_str)
+    time.sleep(time_for_sleep)
+    # for day in range(10):
+    #     t_next += 86400
+    #     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
+    #     do_at_sometime(start, t_next_str)
+    while True:
+        start()
+        time.sleep(86400)
 
 
-def task_start():
-    do_at_sometime(multiple_start, start_time)
+# def task_start():
+#     do_at_sometime(multiple_start, start_time)
 
 
 if __name__ == "__main__":
     t1 = Thread(target=log_in)
-    t2 = Thread(target=task_start)
+    t2 = Thread(target=multiple_start)
     t1.start()
     t2.start()
