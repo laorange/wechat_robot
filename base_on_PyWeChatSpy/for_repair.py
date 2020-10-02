@@ -35,8 +35,8 @@ url_17 = 'solars.top/kb/17/S1/'
 url_16 = 'solars.top/kb/16/S3/'
 url_15 = 'solars.top/kb/15/S5/'
 
-inform_message = 'sorry，程序正在维护中。您仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效，请稍后再试'
-                 # '\n\n※9.26维护公告:为准备建站今天白天将会断开数据库连接，维护结束前(预计18:00)添加、查询、删除功能将暂停使用'
+inform_message = 'sorry，程序正在维护中。您仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效' \
+                 '\n\n※维护公告: 10.1, 10.2两天中添加、查询、删除功能将暂停使用，祝大家国庆中秋节快乐！'
 
 
 class Student4inform:  # avoid the circular import

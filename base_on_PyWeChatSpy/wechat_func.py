@@ -104,7 +104,7 @@ def my_proto_parser(data):
                             if if_add_success:
                                 send(message.wxid1, '[信息添加成功]')
                             else:
-                                send(message.wxid1, '[error]')
+                                send(message.wxid1, '[error]出错了，应该是在数据库中已有信息，可发送"@信息"查看当前在数据库中储存的信息')
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
@@ -115,7 +115,7 @@ def my_proto_parser(data):
                             if if_delete_success:
                                 send(message.wxid1, '[信息删除成功]')
                             else:
-                                send(message.wxid1, '[error]')
+                                send(message.wxid1, '[error]出错了')
                         except Exception as e:
                             print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 

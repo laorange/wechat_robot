@@ -1,6 +1,6 @@
 from schedule.schedule18 import schedule_18
 from schedule.schedule19 import schedule_19
-# from schedule.schedule2020 import schedule_2020
+from schedule.schedule20 import schedule_20
 
 # from wechat_func import send_msg_when
 from util.weather import get_weather
@@ -9,12 +9,12 @@ url_17 = 'solars.top/kb/17/S1/'
 url_2016 = 'solars.top/kb/16/S3/'
 url_2015 = 'solars.top/kb/15/S5/'
 
-url_schedule_18 = 'solars.top/img/18.png'
-url_schedule_19 = 'solars.top/img/19.png'
-url_schedule_20 = 'solars.top/img/20.png'
+url_schedule_18 = 'laorange.top/img/18.png'
+url_schedule_19 = 'laorange.top/img/19.png'
+url_schedule_20 = 'laorange.top/img/20.jpg'
 # url_schedule_preparatory_grades = [url_schedule_18, url_schedule_19, url_schedule_20]
-url_19_td1 = 'solars.top/img/19td1.png'
-url_19_td2 = 'solars.top/img/19td2.png'
+url_19_td1 = 'laorange.top/img/19td1.png'
+url_19_td2 = 'laorange.top/img/19td2.png'
 # 手动改改吧...
 url_19_td = url_19_td1
 
@@ -81,37 +81,21 @@ class StudentNoWechat:
                     raise Exception('what_day输入错误')
 
             # ------------对于周末补课的补课判断条件-------------- #
-            if week == 0 and what_day == 'Sunday':
+            if week == 5 and what_day == 'Sunday':
+                week = 16
+                what_day = 'Thursday'
+                self.replacement = True
+            elif week == 6 and what_day == 'Sunday':
                 week = 15
                 what_day = 'Monday'
                 self.replacement = True
-            elif week == 1 and what_day == 'Sunday':
-                week = 15
-                what_day = 'Tuesday'
-                self.replacement = True
-            elif week == 2 and what_day == 'Sunday':
-                week = 15
-                what_day = 'Wednesday'
-                self.replacement = True
-            elif week == 3 and what_day == 'Sunday':
-                week = 15
-                what_day = 'Thursday'
-                self.replacement = True
-            elif week == 5 and what_day == 'Sunday':
-                week = 16
-                what_day = 'Wednesday'
-                self.replacement = True
-            elif week == 6 and what_day == 'Sunday':
-                week = 16
-                what_day = 'Thursday'
-                self.replacement = True
             elif week == 7 and what_day == 'Sunday':
-                week = 16
-                what_day = 'Friday'
+                week = 15
+                what_day = 'Wednesday'
                 self.replacement = True
             elif week == 8 and what_day == 'Sunday':
-                week = 16
-                what_day = 'Saturday'
+                week = 15
+                what_day = 'Thursday'
                 self.replacement = True
             elif week == 9 and what_day == 'Sunday':
                 week = 17
@@ -133,18 +117,18 @@ class StudentNoWechat:
                 week = 17
                 what_day = 'Friday'
                 self.replacement = True
-            elif week == 14 and what_day == 'Sunday':
-                week = 17
-                what_day = 'Saturday'
-                self.replacement = True
+            # elif week == 14 and what_day == 'Sunday':
+            #     week = 17
+            #     what_day = 'Saturday'
+            #     self.replacement = True
             if if_tomorrow:
                 if date == '2020-10-03':
                     week = 15
                     what_day = 'Friday'
                     self.replacement = True
                 elif date == '2020-10-04':
-                    week = 15
-                    what_day = 'Saturday'
+                    week = 16
+                    what_day = 'Friday'
                     self.replacement = True
                 elif date == '2020-10-05':
                     week = 16
@@ -154,14 +138,18 @@ class StudentNoWechat:
                     week = 16
                     what_day = 'Tuesday'
                     self.replacement = True
+                elif date == '2020-10-07':
+                    week = 16
+                    what_day = 'Wednesday'
+                    self.replacement = True
             else:
                 if date == '2020-10-04':
                     week = 15
                     what_day = 'Friday'
                     self.replacement = True
                 elif date == '2020-10-05':
-                    week = 15
-                    what_day = 'Saturday'
+                    week = 16
+                    what_day = 'Friday'
                     self.replacement = True
                 elif date == '2020-10-06':
                     week = 16
@@ -170,6 +158,10 @@ class StudentNoWechat:
                 elif date == '2020-10-07':
                     week = 16
                     what_day = 'Tuesday'
+                    self.replacement = True
+                elif date == '2020-10-08':
+                    week = 16
+                    what_day = 'Wednesday'
                     self.replacement = True
             # ------------对于周末补课的补课判断条件-------------- #
             self.week = week
@@ -285,7 +277,7 @@ class StudentNoWechat:
                     exec("self.c" + str(i) + ".final_classroom = schedule[i].final_classroom")
 
         except Exception as e:
-            print(e)
+            print("error272", e)
 
         # def return_tomorrow_schedule(self):
         if self.grade in preparatory_grades:

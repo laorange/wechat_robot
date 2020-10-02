@@ -4,7 +4,7 @@ from wechat_func import send_msg_when
 from util.weather import get_weather
 from util.student_no_wechat import StudentNoWechat
 
-preparatory_grades = [18, 19, ]  # 2020 课表未就绪
+preparatory_grades = [18, 19, 20]  # 2020 课表未就绪
 engineer_grades = [17, 16, 15]
 
 
@@ -57,12 +57,6 @@ class Student(StudentNoWechat):
 
         if self.grade in preparatory_grades and if_send:
             try:
-                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + \
-                        len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
-                        len(self.c4.final_class_ch_name) == 0:
-                    print('今天全天没有课')
-                    message0 = '今天全天没有课'
-
                 print(message0)
                 send_msg_when(self.name, message0,
                               date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_schedule)
