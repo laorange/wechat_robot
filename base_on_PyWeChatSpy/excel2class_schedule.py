@@ -28,7 +28,7 @@ def get_today_schedule(grade, what_day):
     if grade == 19:
         path = 'data/excels/19.xlsx'
     if grade == 20:
-        path = ''
+        path = 'data/excels/20.xls'
 
     data = xlrd.open_workbook(path)
     table = data.sheets()[0]
@@ -66,7 +66,7 @@ def get_today_schedule(grade, what_day):
     info_dict = {}
 
     for class_num in range(5):
-        i = [8, 12, 20, 24, 30][class_num]
+        i = [8, 12, 19, 23, 29][class_num]
         ls = table.row_values(i, start_colx=start_colx, end_colx=end_colx)
         if ls:
             for _ in range(len(ls)):
@@ -312,6 +312,6 @@ def grade_yi_tiao_long_fu_wu(grade):
 
 if __name__ == "__main__":
     # grade_yi_tiao_long_fu_wu(17)
-    grade_yi_tiao_long_fu_wu(18)
-    grade_yi_tiao_long_fu_wu(19)
-    # grade_yi_tiao_long_fu_wu(20)
+    # grade_yi_tiao_long_fu_wu(18)
+    # grade_yi_tiao_long_fu_wu(19)
+    grade_yi_tiao_long_fu_wu(20)
