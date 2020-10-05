@@ -95,29 +95,29 @@ def my_proto_parser(data):
                 if message.wxid1 == "filehelper":
                     spy.send_text("filehelper", "Hello PyWeChatSpy")
 
-                code_add = re.match(r'^([@。])(\d{2})([abAB])([a-dA-D])([a-eA-E])$', message.content)
+                code_add = re.match(r'^(@)(\d{2})([abAB])([a-dA-D])([a-eA-E])$', message.content)
                 if code_add and len(message.wxid2) == 0:
-                    if code_add.group(1) == '@':
-                        try:
-                            if_add_success = add_user(message.wxid1, int(code_add.group(2)), code_add.group(3).upper(),
-                                                      'P' + code_add.group(4).upper(), 'P' + code_add.group(5).upper())
-                            if if_add_success:
-                                send(message.wxid1, '[信息添加成功]')
-                            else:
-                                send(message.wxid1, '[error]出错了，应该是在数据库中已有信息，可发送"@信息"查看当前在数据库中储存的信息')
-                        except Exception as e:
-                            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+                    try:
+                        if_add_success = add_user(message.wxid1, int(code_add.group(2)), code_add.group(3).upper(),
+                                                  'P' + code_add.group(4).upper(), 'P' + code_add.group(5).upper())
+                        if if_add_success:
+                            send(message.wxid1, '[信息添加成功, 明早将开始自动推送]')
+                        else:
+                            send(message.wxid1, '[error]在数据库中已有信息，重复添加无效。可发送"@信息"查看当前在数据库中储存的信息')
+                    except Exception as e:
+                        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
-                    elif code_add.group(1) == '。':
-                        try:
-                            if_delete_success = delete_user(message.wxid1)
+                # 退订
+                if message.content == '@td':
+                    try:
+                        if_delete_success = delete_user(message.wxid1)
 
-                            if if_delete_success:
-                                send(message.wxid1, '[信息删除成功]')
-                            else:
-                                send(message.wxid1, '[error]出错了')
-                        except Exception as e:
-                            print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+                        if if_delete_success:
+                            send(message.wxid1, '[退订成功]')
+                        else:
+                            send(message.wxid1, '[error]出错了')
+                    except Exception as e:
+                        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
                 # @今天,明天 获取今天/明天的课表
                 if message.content == '@今天' or message.content == '@明天':
@@ -139,15 +139,19 @@ def my_proto_parser(data):
                             else:
                                 send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
 
+                if message.content == '@后天':
+                    send(message.wxid1, '[没有这个功能哟～[社会社会]暂只支持"@今天"&"@明天"]')
+
                 # 发送当前已填信息
                 if message.content == '@信息':
                     user_list_tuple = check_user(message.wxid1)
                     if user_list_tuple:
                         user_list_list = list(user_list_tuple)
-                        user_info = str(user_list_list[1]) + user_list_list[2] + user_list_list[3][-1] + user_list_list[4][-1]
+                        user_info = "当前在数据库中储存的信息是:\n@" + str(user_list_list[1]) + user_list_list[2] + user_list_list[3][-1] + \
+                                    user_list_list[4][-1]
                         send(message.wxid1, user_info)
                     else:
-                        send(message.wxid1, '未检索到信息')
+                        send(message.wxid1, '未在数据库中检索到该账号的信息')
 
                 # 发送wxid
                 if message.content == '@wxid':
