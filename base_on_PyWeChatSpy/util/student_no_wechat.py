@@ -61,10 +61,12 @@ class StudentNoWechat:
         # 为了新增周末补课的补课判断条件
         self.week = -1
         self.what_day = 'Sunday'
+        self.what_day_real = 'Sunday'
         self.replacement = False
 
     def get_schedule(self, if_tomorrow: bool, date: str, week: int, what_day: str):
         self.if_tomorrow = if_tomorrow
+        self.what_day_real = what_day
         try:
             if self.if_tomorrow:
                 valid_what_day_ls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
@@ -190,7 +192,7 @@ class StudentNoWechat:
                 schedule = self.schedule_grade[what_day_num]
             elif self.grade in engineer_grades:
                 message0 = url_engineer_grades[engineer_grades.index(self.grade)]
-                if self.week < 17 and self.what_day == 'Monday' and if_tomorrow:
+                if self.week < 17 and self.what_day_real == 'Sunday' and if_tomorrow:
                     message0 = '可点击该链接查看课表:\n' + message0 + '?p=' + str(self.week + 3)
                 else:
                     message0 = '可点击该链接查看课表:\n' + message0

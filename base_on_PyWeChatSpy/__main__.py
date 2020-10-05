@@ -58,12 +58,11 @@ def student_send(before_term_begin=False):
 
 def start():
     # ①对特定要求的定制发送任务
-    try:
-        personalisation()
-    except Exception as e:
-        print(e)
+    # try:
+    #     personalisation()
+    # except Exception as e:
+    #     print(e)
 
-    global t_next
     # ②自用的单词复习
     try:
         review_en_word_num = 20  # 复习英语单词的数量
