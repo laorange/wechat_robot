@@ -29,14 +29,16 @@ class Student(StudentNoWechat):
             print('-' * 9, '↓', self.name, '↓', '-' * 10)
             # 6:30通报全天有哪些课，以及第一节课的详细信息
             weather = get_weather()
+            message_weather = ''
             if week == -1:
                 message_weather = '今天是' + date + '，新学期即将开始\n' + weather
             else:
-                if not self.replacement:
+                if not self.replacement or self.grade in engineer_grades:
                     message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周\n' + weather
                 else:
-                    message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周，今天补的是第' + str(
-                        self.week + 1) + '周' + self.what_day + '的课\n' + weather
+                    if self.grade in preparatory_grades:
+                        message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周，今天补的是第' + str(
+                            self.week + 1) + '周' + self.what_day + '的课\n' + weather
             print(message_weather)
             send_msg_when(self.name, message_weather,
                           date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_weather)
