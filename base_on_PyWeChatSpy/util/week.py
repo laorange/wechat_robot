@@ -10,14 +10,14 @@ def get_time_time(t_delay: int or float = 0):
     return time.time() + t_delay
 
 
-def determine_week():
-    t_now = time.time()
+def determine_week(t_delay: int or float = 0):
+    t_now = time.time() + t_delay
     week = int((t_now - t_refer) // 604800)
     return week
 
 
-def determine_what_day():
-    what_day = time.strftime('%A', time.localtime())
+def determine_what_day(t_delay: int or float = 0):
+    what_day = time.strftime('%A', time.localtime(time.time() + t_delay))
     return what_day
 
 

@@ -4,7 +4,7 @@ from wechat_func import send_msg_when
 from util.weather import get_weather
 from util.student_no_wechat import StudentNoWechat
 
-preparatory_grades = [18, 19, 20]  # 2020 课表未就绪
+preparatory_grades = [18, 19, 20]
 engineer_grades = [17, 16, 15]
 
 
@@ -14,7 +14,7 @@ class Student(StudentNoWechat):
         # 为了避免达到发送阈值
         if randint(0, 1):
             self.send_hour = '5'
-            self.send_min = str(randint(30, 59))
+            self.send_min = str(randint(15, 59))
             self.send_sec_weather = str(randint(0, 29))
             self.send_sec_schedule = str(randint(30, 59))
         else:
@@ -46,16 +46,16 @@ class Student(StudentNoWechat):
             print("发送天气时出错")
             print(e)
 
-    def send_schedule_auto(self, if_tomorrow: bool, date: str, week: int, what_day: str):
-        message0 = self.get_schedule(if_tomorrow, date, week, what_day)
+    def send_schedule_auto(self, date: str, week: int, what_day: str):
+        message0 = self.get_schedule('今天', date, week, what_day)
 
         if_send = True
         # if self.what_day == 'Sunday':
         #     if_send = False
         #     print('周日不发送')
-        if date in ['2020-10-01', '2020-10-02', '2020-10-03']:
-            if_send = False
-            print('国庆假期')
+        # if date in ['2020-10-01', '2020-10-02', '2020-10-03']:
+        #     if_send = False
+        #     print('国庆假期')
 
         if self.grade in preparatory_grades and if_send:
             try:

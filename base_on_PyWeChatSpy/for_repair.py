@@ -176,3 +176,28 @@ if __name__ == '__main__':
     #     check_wxid_info(wechat_id)
     #     print('\n\n')
     #     time.sleep(5)
+
+    import pymysql
+    db = pymysql.connect("localhost", "root", "paulniubi", "wechat_robot")
+    # 使用 cursor() 方法创建一个游标对象 cursor
+    cursor = db.cursor()
+
+    # grade_ls = []
+    #
+    # sql1 = 'SELECT `wechat_id` FROM `wechat_robot`.`user_list` WHERE `grade` = 20;'
+    #
+    # db.ping(reconnect=True)
+    # cursor.execute(sql1)
+    # while True:
+    #     row = cursor.fetchone()
+    #     if not row:
+    #         break
+    #     grade_ls.append(str(row[0]))
+    #
+    # for wechat_id in grade_ls:
+    #     print(wechat_id)
+    #     check_wxid_info(wechat_id)
+    #     print('\n\n')
+    #     time.sleep(5)
+
+    blacklist = ['wxid_l7g2lb2rsop622']

@@ -48,8 +48,9 @@ def student_send(before_term_begin=False):
     for student in student_ls:
         if student.name:
             if not before_term_begin:
-                student.send_schedule_auto(if_tomorrow=False, date=determine_date(),
-                                           week=determine_week(), what_day=determine_what_day())
+                student.send_schedule_auto(date=determine_date(),
+                                           week=determine_week(),
+                                           what_day=determine_what_day())
 
             if True:
                 student.send_weather(determine_week(), determine_date())

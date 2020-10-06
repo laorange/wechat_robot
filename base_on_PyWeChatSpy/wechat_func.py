@@ -25,6 +25,9 @@ from data.private_space.mysql_func import *
 
 wxid_default = 'wxid_oftjmj5649kd22'
 
+# 黑名单
+blacklist = []
+
 logger = logging.getLogger(__file__)
 formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
 sh = logging.StreamHandler()
@@ -96,7 +99,7 @@ def my_proto_parser(data):
                     spy.send_text("filehelper", "Hello PyWeChatSpy")
 
                 code_add = re.match(r'^(@)(\d{2})([abAB])([a-dA-D])([a-eA-E])$', message.content)
-                if code_add and len(message.wxid2) == 0:
+                if code_add and len(message.wxid2) == 0 and message.wxid1 not in blacklist:
                     try:
                         if_add_success = add_user(message.wxid1, int(code_add.group(2)), code_add.group(3).upper(),
                                                   'P' + code_add.group(4).upper(), 'P' + code_add.group(5).upper())
@@ -106,6 +109,8 @@ def my_proto_parser(data):
                             send(message.wxid1, '[error]在数据库中已有信息，重复添加无效。可发送"@信息"查看当前在数据库中储存的信息')
                     except Exception as e:
                         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+                elif code_add and message.wxid1 in blacklist and len(message.wxid2) == 0:
+                    send(message.wxid1, '[refuse]很抱歉，您已被列入本程序黑名单')
 
                 # 退订
                 if message.content == '@td':
@@ -120,34 +125,73 @@ def my_proto_parser(data):
                         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
                 # @今天,明天 获取今天/明天的课表
-                if message.content == '@今天' or message.content == '@明天':
-                    if_tomorrow = False if message.content == '@今天' else True
-                    user_list = get_user_list()
-                    student_ls = []
-                    for user in user_list:
-                        user_info_ls = list(user)
-                        student_ls.append(
-                            StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
-                                            user_info_ls[4]))
-                    for student in student_ls:
-                        if student.name == message.wxid1:
-                            if student.grade in [15, 16, 17, 18, 19, 20]:
-                                message0 = student.get_schedule(date=determine_date(), if_tomorrow=if_tomorrow,
-                                                                week=determine_week(), what_day=determine_what_day())
+                code_situation = re.match(r'^@(.+天)$', message.content)
+                if code_situation:
+                    situation = code_situation.group(1)
+                    # user_list = get_user_list()
+                    # student_ls = []
+                    # for user in user_list:
+                    #     user_info_ls = list(user)
+                    #     student_ls.append(
+                    #         StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
+                    #                         user_info_ls[4]))
+
+                    user_info_ls = check_user(message.wxid1)
+                    student = StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
+                                              user_info_ls[4])
+
+                    if student.name == message.wxid1:
+                        if student.grade in [15, 16, 17, 18, 19, 20]:
+                            if situation == "今天":
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=determine_date(),
+                                                                week=determine_week(),
+                                                                what_day=determine_what_day())
+                                send(message.wxid1, message0)
+                            elif situation == "明天":
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=determine_date(86400),
+                                                                week=determine_week(86400),
+                                                                what_day=determine_what_day(86400))
+                                send(message.wxid1, message0)
+                            elif situation == "后天":
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=determine_date(2*86400),
+                                                                week=determine_week(2*86400),
+                                                                what_day=determine_what_day(2*86400))
+                                send(message.wxid1, message0)
+                            elif situation == "大后天":
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=determine_date(3*86400),
+                                                                week=determine_week(3*86400),
+                                                                what_day=determine_what_day(3*86400))
                                 send(message.wxid1, message0)
 
-                            else:
-                                send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
+                            # elif situation[-2:] == "后天" and len(situation) > 2:
+                            #     num = 2
+                            #     for i in range(len(situation)-2):
+                            #         if situation[i] == '大':
+                            #             num += 1
+                            #     if num != 2:
+                            #         message0 = student.get_schedule(situation=situation,
+                            #                                         date=determine_date(num * 86400),
+                            #                                         week=determine_week(num * 86400),
+                            #                                         what_day=determine_what_day(num * 86400))
+                            #         send(message.wxid1, message0)
 
-                if message.content == '@后天':
-                    send(message.wxid1, '[没有这个功能哟～[社会社会]暂只支持"@今天"&"@明天"]')
+                        else:
+                            send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
+
+                # if message.content == '@后天':
+                #     send(message.wxid1, '[没有这个功能哟～[社会社会]暂只支持"@今天"&"@明天"]')
 
                 # 发送当前已填信息
                 if message.content == '@信息':
                     user_list_tuple = check_user(message.wxid1)
                     if user_list_tuple:
                         user_list_list = list(user_list_tuple)
-                        user_info = "当前在数据库中储存的信息是:\n@" + str(user_list_list[1]) + user_list_list[2] + user_list_list[3][-1] + \
+                        user_info = "当前在数据库中储存的信息是:\n@" + str(user_list_list[1]) + user_list_list[2] + \
+                                    user_list_list[3][-1] + \
                                     user_list_list[4][-1]
                         send(message.wxid1, user_info)
                     else:
