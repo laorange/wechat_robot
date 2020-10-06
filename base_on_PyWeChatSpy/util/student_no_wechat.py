@@ -309,7 +309,7 @@ class StudentNoWechat:
                 if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(
                         self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(
                     self.c4.final_class_ch_name) == 0:
-                    print('student tomorrow info send ----> None')
+                    print('student schedule info send ----> None')
 
                     message0 = f'{self.situation}全天没有课'
 

@@ -166,6 +166,30 @@ def my_proto_parser(data):
                                                                 week=determine_week(3*86400),
                                                                 what_day=determine_what_day(3*86400))
                                 send(message.wxid1, message0)
+                            elif situation == "大大后天":
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=determine_date(4*86400),
+                                                                week=determine_week(4*86400),
+                                                                what_day=determine_what_day(4*86400))
+                                send(message.wxid1, message0)
+                            elif situation == "大大大后天":
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=determine_date(5*86400),
+                                                                week=determine_week(5*86400),
+                                                                what_day=determine_what_day(5*86400))
+                                send(message.wxid1, message0)
+                            elif situation == "大大大大后天":
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=determine_date(5*86400),
+                                                                week=determine_week(5*86400),
+                                                                what_day=determine_what_day(5*86400))
+                                send(message.wxid1, message0)
+                            elif situation == "大大大大大后天":
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=determine_date(6*86400),
+                                                                week=determine_week(6*86400),
+                                                                what_day=determine_what_day(6*86400))
+                                send(message.wxid1, message0)
 
                             # elif situation[-2:] == "后天" and len(situation) > 2:
                             #     num = 2
@@ -351,6 +375,7 @@ def inform(code_inform, wxid: str):
                     send(student.name, code_inform.group(4))
             elif code_inform.group(2) in ['q', 'Q']:
                 send(student.name, code_inform.group(4))
+            time.sleep(1)
     spy.send_text(wxid, 'done')
 
 
