@@ -65,8 +65,11 @@ class StudentNoWechat:
         self.replacement = False
 
     def get_schedule(self, situation: str, date: str, week: int, what_day: str):
+        real_week = week
         self.situation = situation
         self.what_day_real = what_day
+        if week > 17:
+            return "如果没猜错的话，此时本学期的课程已结束"
         try:
             # TODO: 补充 周末补课的判断条件
             if week == 5 and what_day == 'Sunday':
@@ -154,7 +157,7 @@ class StudentNoWechat:
             elif self.grade in engineer_grades:
                 message0 = url_engineer_grades[engineer_grades.index(self.grade)]
                 if self.week < 17 and self.situation != '今天':
-                    message0 = '可点击该链接查看课表:\n' + message0 + '?p=' + str(week + 3)
+                    message0 = '可点击该链接查看课表:\n' + message0 + '?p=' + str(real_week + 3)
                 else:
                     message0 = '可点击该链接查看课表:\n' + message0
                 message0 = message0 + self.inform_msg
