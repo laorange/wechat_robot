@@ -11,8 +11,8 @@ engineer_grades = [17, 16, 15]
 class Student(StudentNoWechat):
     def __init__(self, name, grade, a_or_b, p_ab_cd, f_ab_cd_e):
         super(Student, self).__init__(name, grade, a_or_b, p_ab_cd, f_ab_cd_e)
-        # 为了避免达到发送阈值
-        if randint(0, 1):
+        # 为了避免达到发送阈值 使发送时间随机
+        if randint(0, 2):
             self.send_hour = '5'
             self.send_min = str(randint(15, 59))
             self.send_sec_weather = str(randint(0, 29))

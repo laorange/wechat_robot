@@ -39,7 +39,7 @@ class StudentNoWechat:
         self.p_ab_cd = p_ab_cd  # td班
         self.f_ab_cd_e = f_ab_cd_e  # 法语班
 
-        # 通知
+        # TODO: 通知
         self.inform_msg = ''  # "\n\n※注:solars.top服务器类型是限制流量的，还请大家需时查看，请勿频繁刷新"
 
         self.schedule_grade = []
@@ -68,21 +68,7 @@ class StudentNoWechat:
         self.situation = situation
         self.what_day_real = what_day
         try:
-            # if self.situation == '明天':
-            #     valid_what_day_ls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-            #     total_what_day_ls = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-            #     if what_day in valid_what_day_ls:
-            #         today_index = valid_what_day_ls.index(what_day)
-            #         what_day = total_what_day_ls[today_index + 2]
-            #     elif what_day == 'Sunday':
-            #         week += 1
-            #         what_day = 'Monday'
-            #     elif what_day == 'Saturday':
-            #         what_day = 'Sunday'
-            #     else:
-            #         raise Exception('what_day输入错误')
-
-            # ------------对于周末补课的补课判断条件-------------- #
+            # TODO: 补充 周末补课的判断条件
             if week == 5 and what_day == 'Sunday':
                 week = 16
                 what_day = 'Thursday'
@@ -119,33 +105,6 @@ class StudentNoWechat:
                 week = 17
                 what_day = 'Friday'
                 self.replacement = True
-            # elif week == 14 and what_day == 'Sunday':
-            #     week = 17
-            #     what_day = 'Saturday'
-            #     self.replacement = True
-
-            # if if_tomorrow:
-            #     if date == '2020-10-03':
-            #         week = 15
-            #         what_day = 'Friday'
-            #         self.replacement = True
-            #     elif date == '2020-10-04':
-            #         week = 16
-            #         what_day = 'Friday'
-            #         self.replacement = True
-            #     elif date == '2020-10-05':
-            #         week = 16
-            #         what_day = 'Monday'
-            #         self.replacement = True
-            #     elif date == '2020-10-06':
-            #         week = 16
-            #         what_day = 'Tuesday'
-            #         self.replacement = True
-            #     elif date == '2020-10-07':
-            #         week = 16
-            #         what_day = 'Wednesday'
-            #         self.replacement = True
-            # else:
 
             if date == '2020-10-04':
                 week = 15
@@ -167,7 +126,8 @@ class StudentNoWechat:
                 week = 16
                 what_day = 'Wednesday'
                 self.replacement = True
-            # ------------对于周末补课的补课判断条件-------------- #
+            # ------------补充 周末补课的判断条件-------------- #
+
             self.week = week
             self.what_day = what_day
 
@@ -187,10 +147,10 @@ class StudentNoWechat:
             elif what_day == 'Sunday':
                 pass
 
-            # 预科阶段
+            # TODO: 预科阶段 获取总schedule
             if self.grade in preparatory_grades and what_day_num >= 0:
                 schedule = self.schedule_grade[what_day_num]
-            # 工程师阶段
+            # TODO: 工程师阶段 返回课表链接
             elif self.grade in engineer_grades:
                 message0 = url_engineer_grades[engineer_grades.index(self.grade)]
                 if self.week < 17 and self.situation != '今天':
@@ -202,13 +162,14 @@ class StudentNoWechat:
             else:
                 raise Exception('不属于适用年级')
 
-            # 对schedule_ls的final系列的初始化
+            # TODO: 对schedule_ls的final系列的初始化
             for i in range(5):
                 schedule[i].final_class_fr_name = ''
                 schedule[i].final_class_ch_name = ''
                 schedule[i].final_teacher = ''
                 schedule[i].final_classroom = ''
 
+            # TODO: ⭐根据用户信息 解析出课程表
             for i in range(5):  # 第i节课
                 if len(schedule[i].class_property) == 0:
                     print(f'{self.name}:{self.situation}第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
@@ -228,7 +189,6 @@ class StudentNoWechat:
                                         schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                 except Exception as e:
                                     print(f'在处理{self.name}的第({i})节课时出错,{e}')
-
                         elif schedule[i].class_property[final_index] == 'AB':
                             if self.a_or_b == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
@@ -243,7 +203,6 @@ class StudentNoWechat:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
                                         print(f'在处理{self.name}的第({i})节课时出错,{e}')
-
                         elif schedule[i].class_property[final_index] == 'P':
                             if self.p_ab_cd == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
@@ -258,7 +217,6 @@ class StudentNoWechat:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
                                         print(f'在处理{self.name}的第({i})节课时出错,{e}')
-
                         elif schedule[i].class_property[final_index] == 'F':
                             if self.f_ab_cd_e == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
@@ -273,7 +231,6 @@ class StudentNoWechat:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
                                         print(f'在处理{self.name}的第({i})节课时出错,{e}')
-
                     exec("self.c" + str(i) + ".final_class_fr_name = schedule[i].final_class_fr_name")
                     exec("self.c" + str(i) + ".final_class_ch_name = schedule[i].final_class_ch_name")
                     exec("self.c" + str(i) + ".final_teacher = schedule[i].final_teacher")
@@ -282,7 +239,7 @@ class StudentNoWechat:
         except Exception as e:
             print("error272", e)
 
-        # def return_tomorrow_schedule(self):
+        # TODO: 返回 待发送的课表信息
         if self.grade in preparatory_grades:
             try:
                 message0 = f'{self.situation}的课程表:'
@@ -306,9 +263,9 @@ class StudentNoWechat:
                         pass  # 如果晚上没课，则不显示第五条
                     else:
                         message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课没课'
-                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + len(
-                        self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + len(
-                    self.c4.final_class_ch_name) == 0:
+                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + \
+                        len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
+                        len(self.c4.final_class_ch_name) == 0:
                     print('student schedule info send ----> None')
 
                     message0 = f'{self.situation}全天没有课'
@@ -323,7 +280,6 @@ class StudentNoWechat:
                     message_url = '\n\n※课表图片链接:\n' + url_schedule_20
 
                 message0 = message0 + message_url + self.inform_msg
-
                 return message0
 
             except Exception as e:

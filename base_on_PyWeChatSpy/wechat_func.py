@@ -41,6 +41,9 @@ chatroom_list = []
 
 path_user_list = 'data/private_space/user_list.csv'
 
+preparatory_grades = [18, 19, 20]
+engineer_grades = [17, 16, 15]
+
 url_17 = 'solars.top/kb/17/S1/'
 url_16 = 'solars.top/kb/16/S3/'
 url_15 = 'solars.top/kb/15/S5/'
@@ -98,6 +101,7 @@ def my_proto_parser(data):
                 if message.wxid1 == "filehelper":
                     spy.send_text("filehelper", "Hello PyWeChatSpy")
 
+                # TODO: 添加信息
                 code_add = re.match(r'^(@)(\d{2})([abAB])([a-dA-D])([a-eA-E])$', message.content)
                 if code_add and len(message.wxid2) == 0 and message.wxid1 not in blacklist:
                     try:
@@ -106,13 +110,14 @@ def my_proto_parser(data):
                         if if_add_success:
                             send(message.wxid1, '[信息添加成功, 明早将开始自动推送]')
                         else:
-                            send(message.wxid1, '[error]在数据库中已有信息，重复添加无效。可发送"@信息"查看当前在数据库中储存的信息')
+                            send(message.wxid1, '[error]在数据库中已有信息，重复添加无效。\
+                                                可发送"@信息"查看当前在数据库中储存的信息，若输入有误，请先发送"@td"来退订')
                     except Exception as e:
                         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
                 elif code_add and message.wxid1 in blacklist and len(message.wxid2) == 0:
                     send(message.wxid1, '[refuse]很抱歉，您已被列入本程序黑名单')
 
-                # 退订
+                # TODO: 退订
                 if message.content == '@td':
                     try:
                         if_delete_success = delete_user(message.wxid1)
@@ -124,7 +129,7 @@ def my_proto_parser(data):
                     except Exception as e:
                         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
 
-                # @今天,明天 获取今天/明天的课表
+                # TODO: @今天,明天,后天...的课表
                 code_situation = re.match(r'^@(.+天)$', message.content)
                 if code_situation:
                     situation = code_situation.group(1)
@@ -141,7 +146,7 @@ def my_proto_parser(data):
                                               user_info_ls[4])
 
                     if student.name == message.wxid1:
-                        if student.grade in [15, 16, 17, 18, 19, 20]:
+                        if student.grade in preparatory_grades or student.grade in engineer_grades:
                             if situation == "今天":
                                 message0 = student.get_schedule(situation=situation,
                                                                 date=determine_date(),
@@ -156,52 +161,18 @@ def my_proto_parser(data):
                                 send(message.wxid1, message0)
                             elif situation == "后天":
                                 message0 = student.get_schedule(situation=situation,
-                                                                date=determine_date(2*86400),
-                                                                week=determine_week(2*86400),
-                                                                what_day=determine_what_day(2*86400))
+                                                                date=determine_date(2 * 86400),
+                                                                week=determine_week(2 * 86400),
+                                                                what_day=determine_what_day(2 * 86400))
                                 send(message.wxid1, message0)
-                            elif situation == "大后天":
+                            elif re.match(r"^大+后天$", situation):
+                                n_day_delay = len(situation)
+                                date_ht = determine_date(n_day_delay * 86400)
                                 message0 = student.get_schedule(situation=situation,
-                                                                date=determine_date(3*86400),
-                                                                week=determine_week(3*86400),
-                                                                what_day=determine_what_day(3*86400))
-                                send(message.wxid1, message0)
-                            elif situation == "大大后天":
-                                message0 = student.get_schedule(situation=situation,
-                                                                date=determine_date(4*86400),
-                                                                week=determine_week(4*86400),
-                                                                what_day=determine_what_day(4*86400))
-                                send(message.wxid1, message0)
-                            elif situation == "大大大后天":
-                                message0 = student.get_schedule(situation=situation,
-                                                                date=determine_date(5*86400),
-                                                                week=determine_week(5*86400),
-                                                                what_day=determine_what_day(5*86400))
-                                send(message.wxid1, message0)
-                            elif situation == "大大大大后天":
-                                message0 = student.get_schedule(situation=situation,
-                                                                date=determine_date(5*86400),
-                                                                week=determine_week(5*86400),
-                                                                what_day=determine_what_day(5*86400))
-                                send(message.wxid1, message0)
-                            elif situation == "大大大大大后天":
-                                message0 = student.get_schedule(situation=situation,
-                                                                date=determine_date(6*86400),
-                                                                week=determine_week(6*86400),
-                                                                what_day=determine_what_day(6*86400))
-                                send(message.wxid1, message0)
-
-                            # elif situation[-2:] == "后天" and len(situation) > 2:
-                            #     num = 2
-                            #     for i in range(len(situation)-2):
-                            #         if situation[i] == '大':
-                            #             num += 1
-                            #     if num != 2:
-                            #         message0 = student.get_schedule(situation=situation,
-                            #                                         date=determine_date(num * 86400),
-                            #                                         week=determine_week(num * 86400),
-                            #                                         what_day=determine_what_day(num * 86400))
-                            #         send(message.wxid1, message0)
+                                                                date=date_ht,
+                                                                week=determine_week(n_day_delay * 86400),
+                                                                what_day=determine_what_day(n_day_delay * 86400))
+                                send(message.wxid1, f"{situation}是{date_ht}\n\n" + message0)
 
                         else:
                             send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
@@ -209,7 +180,7 @@ def my_proto_parser(data):
                 # if message.content == '@后天':
                 #     send(message.wxid1, '[没有这个功能哟～[社会社会]暂只支持"@今天"&"@明天"]')
 
-                # 发送当前已填信息
+                # TODO: 发送当前已填信息
                 if message.content == '@信息':
                     user_list_tuple = check_user(message.wxid1)
                     if user_list_tuple:
@@ -221,16 +192,17 @@ def my_proto_parser(data):
                     else:
                         send(message.wxid1, '未在数据库中检索到该账号的信息')
 
-                # 发送wxid
+                # TODO: 发送wxid
                 if message.content == '@wxid':
                     send(message.wxid1, message.wxid1)
 
-                # 发送说明文件网址
+                # TODO: 发送说明文件网址
                 if message.content[:3] == '@说明':
                     send(message.wxid1,
-                         '点此链接可查看本程序的详细说明: https://gitee.com/laorange/wechat_robot/blob/master/README.md')
+                         '点此链接可查看课表推送的详细使用说明👇\nhttps://gitee.com/laorange/wechat_robot/blob/master/README.md')
+                    send(message.wxid1, "也可以根据这个页面的提示直接生成启动指令👇\nlaorange.top/code.html")
 
-                # 只有发给/来自指定号的口令才生效的功能
+                # TODO: 只有发给/来自指定号的口令才生效的功能
                 if message.wxid1 == wxid_default:
                     # inform
                     code_inform = re.match(r'^@inform(\d{2})([abfpqABFPQ])([a-eA-E])([\s\S]+)', message.content)
@@ -238,12 +210,12 @@ def my_proto_parser(data):
                         print('!' * 5 + 'inform' + '!' * 5)
                         inform(code_inform, message.wxid1)
 
-                    # csv to excel
-                    if message.content == '@excel':
-                        print('csv to excel')
-                        csv_to_xlsx_pd()
+                    # csv to excel ##使用MySQL后该函数失效
+                    # if message.content == '@excel':
+                    #     print('csv to excel')
+                    #     csv_to_xlsx_pd()
 
-                    # send user_info list to myself
+                    # TODO: send user_info list to myself
                     if message.content == '@ul':
                         send(wxid_default, count_user_each_grade())
 
@@ -262,17 +234,17 @@ def my_proto_parser(data):
                         # else:
                         #     send(wxid_default, '添加成功')
 
-                    # 查询法语单词
+                    # TODO: 查询法语单词
                     if message.content[:2] == '==':
                         send(wxid_default, 'http://www.frdic.com/dicts/fr/' + quote(message.content[2:]))
 
-                    # 手动发送复习单词
+                    # TODO: 手动发送复习单词
                     code_review = re.match(r'@review(\d+)', message.content)
                     if code_review:
                         send_review_word(if_english=True, review_word_num=int(code_review.group(1)))
                         send_review_word(if_english=False, review_word_num=int(code_review.group(1)))
 
-                    # 清除英语单词的学习记录
+                    # TODO: 清除单词的学习记录
                     if message.content == '@clear en' or message.content == 'Clear en':
                         clear_all_review_record(True)
                         send(wxid_default, '已清除英语单词的学习记录')
@@ -375,7 +347,7 @@ def inform(code_inform, wxid: str):
                     send(student.name, code_inform.group(4))
             elif code_inform.group(2) in ['q', 'Q']:
                 send(student.name, code_inform.group(4))
-            time.sleep(1)
+            time.sleep(1.1)
     spy.send_text(wxid, 'done')
 
 
