@@ -152,18 +152,21 @@ def my_proto_parser(data):
                                                                 date=determine_date(),
                                                                 week=determine_week(),
                                                                 what_day=determine_what_day())
+                                count_ask(message.wxid1, 0)
                                 send(message.wxid1, message0)
                             elif situation == "明天":
                                 message0 = student.get_schedule(situation=situation,
                                                                 date=determine_date(86400),
                                                                 week=determine_week(86400),
                                                                 what_day=determine_what_day(86400))
+                                count_ask(message.wxid1, 1)
                                 send(message.wxid1, message0)
                             elif situation == "后天":
                                 message0 = student.get_schedule(situation=situation,
                                                                 date=determine_date(2 * 86400),
                                                                 week=determine_week(2 * 86400),
                                                                 what_day=determine_what_day(2 * 86400))
+                                count_ask(message.wxid1, 2)
                                 send(message.wxid1, message0)
                             elif re.match(r"^大+后天$", situation):
                                 n_day_delay = len(situation)
@@ -172,6 +175,7 @@ def my_proto_parser(data):
                                                                 date=date_ht,
                                                                 week=determine_week(n_day_delay * 86400),
                                                                 what_day=determine_what_day(n_day_delay * 86400))
+                                count_ask(message.wxid1, 3)
                                 send(message.wxid1, f"{situation}是{date_ht}\n\n" + message0)
 
                         else:
@@ -188,7 +192,11 @@ def my_proto_parser(data):
                         user_info = "当前在数据库中储存的信息是:\n@" + str(user_list_list[1]) + user_list_list[2] + \
                                     user_list_list[3][-1] + \
                                     user_list_list[4][-1]
-                        send(message.wxid1, user_info)
+                        exp_str = f"\n年级：{user_list_list[1]}级\n行政班：{user_list_list[2]}班" + \
+                                  f"\n习题班：{user_list_list[3]}班\n法语班：F{user_list_list[4][-1]}班" + \
+                                  f'\n\n若输入有误，请发送"@td"退订后再重新添加信息'
+
+                        send(message.wxid1, user_info + exp_str)
                     else:
                         send(message.wxid1, '未在数据库中检索到该账号的信息')
 

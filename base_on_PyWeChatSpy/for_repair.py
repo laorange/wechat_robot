@@ -1,4 +1,4 @@
-# PyWeChatSpy is cloned from https://github.com/veikai/PyWeChatSpy
+﻿# PyWeChatSpy is cloned from https://github.com/veikai/PyWeChatSpy
 # 该项目文件夹clone后放在了base_on_PyWeChatSpy下
 from PyWeChatSpy.PyWeChatSpy import WeChatSpy
 from PyWeChatSpy.PyWeChatSpy.command import *
@@ -35,8 +35,8 @@ url_17 = 'solars.top/kb/17/S1/'
 url_16 = 'solars.top/kb/16/S3/'
 url_15 = 'solars.top/kb/15/S5/'
 
-inform_message = 'sorry，程序正在维护中。您仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效'
-                 # '\n\n※维护公告: 10.1, 10.2两天中添加、查询、删除功能将暂停使用，祝大家国庆中秋节快乐！'
+inform_message = 'sorry，程序正在维护中，预计18点结束。当前仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效'
+# inform_message += '\n\n※维护公告: 10.1, 10.2两天中添加、查询、删除功能将暂停使用，祝大家国庆中秋节快乐！'
 
 
 class Student4inform:  # avoid the circular import
@@ -171,16 +171,18 @@ if __name__ == '__main__':
     # id_for_check = ['wxid_05y4vxo5az4n22', 'wxid_4fuc7xqgzox722', 'wxid_akeuhced41lg21', 'wxid_apf85yacqnc511',
     #                 'wxid_bjjvb22db76311', 'wxid_fpdcwt46zrzc22', 'wxid_ks1wry1vyb3122', 'wxid_m943tmk85n0022',
     #                 'wxid_qortcjb2mc6922', 'wxid_t84qg4635ueg22', 'wxid_wg1bnt5dc3s132', ]
+
     # for wechat_id in id_for_check:
     #     print(wechat_id)
     #     check_wxid_info(wechat_id)
     #     print('\n\n')
     #     time.sleep(5)
 
-    import pymysql
-    db = pymysql.connect("localhost", "root", "paulniubi", "wechat_robot")
-    # 使用 cursor() 方法创建一个游标对象 cursor
-    cursor = db.cursor()
+
+    # import pymysql
+    # db = pymysql.connect()
+    # # 使用 cursor() 方法创建一个游标对象 cursor
+    # cursor = db.cursor()
 
     # grade_ls = []
     #

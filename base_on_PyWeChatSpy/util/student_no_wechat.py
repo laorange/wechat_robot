@@ -4,6 +4,7 @@ from schedule.schedule20 import schedule_20
 
 # from wechat_func import send_msg_when
 from util.weather import get_weather
+from util.week import determine_when_exam
 
 url_17 = 'kb.solars.top/17/S1/'
 url_2016 = 'kb.solars.top/16/S3/'
@@ -72,6 +73,10 @@ class StudentNoWechat:
             return "如果没猜错的话，此时本学期的课程已结束"
         try:
             # TODO: 补充 周末补课的判断条件
+            if self.grade == 20 and date == '2020-10-09':
+                week = 14
+                what_day = 'Friday'
+                self.replacement = True  # add @ 2020-10-08
             if week == 5 and what_day == 'Sunday':
                 week = 16
                 what_day = 'Thursday'
@@ -156,10 +161,13 @@ class StudentNoWechat:
             # TODO: 工程师阶段 返回课表链接
             elif self.grade in engineer_grades:
                 message0 = url_engineer_grades[engineer_grades.index(self.grade)]
-                if self.week < 17 and self.situation != '今天':
+                if self.situation != '今天':
                     message0 = '可点击该链接查看课表:\n' + message0 + '?p=' + str(real_week + 3)
                 else:
-                    message0 = '可点击该链接查看课表:\n' + message0
+                    exams_count_down = determine_when_exam(self.grade)
+                    if exams_count_down != '':
+                        exams_count_down += '\n\n'
+                    message0 = exams_count_down + '可点击该链接查看课表:\n' + message0
                 message0 = message0 + self.inform_msg
                 return message0
             else:
@@ -283,6 +291,13 @@ class StudentNoWechat:
                     message_url = '\n\n※课表图片链接:\n' + url_schedule_20
 
                 message0 = message0 + message_url + self.inform_msg
+
+                if self.grade == 20 and date == '2020-10-16':
+                    message0 = message0 + '\n\n提示：\n本周五有20人参加运动会开幕式，1.2节的课调到第14周周四7.8节。以上课表信息仅供参考。'
+
+                if self.grade == 20 and week == 13 and what_day == 'Thursday':
+                    message0 = message0 + '\n\n提示：\n第7周周五有20人参加运动会开幕式，1.2节的课调到本周四7.8节。以上课表信息仅供参考。'
+
                 return message0
 
             except Exception as e:
