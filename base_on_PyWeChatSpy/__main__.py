@@ -7,12 +7,12 @@ from util.student import Student
 from util.func_apscheduler import do_at_sometime
 from util.week import *
 
-from data.private_space.mysql_func import get_user_list
+from data.private_space.mysql_func import get_user_list_all_data
 
 # from application.review_word.get_word import get_word
 
 start_date = determine_date()
-start_hms = '00:01:00'
+start_hms = '05:10:00'
 start_time = start_date + ' ' + start_hms
 t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
 t_start = time.mktime(t_start_strp)
@@ -33,7 +33,7 @@ user_list_path = 'data/private_space/user_list.csv'
 
 def student_send(before_term_begin=False):
     # user_list = read_file2list(user_list_path)
-    user_list = get_user_list()
+    user_list = get_user_list_all_data()
 
     student_ls = []
     for user in user_list:
@@ -41,7 +41,7 @@ def student_send(before_term_begin=False):
             # user_info_ls = user.split(',')
             user_info_ls = list(user)
             student_ls.append(
-                Student(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3], user_info_ls[4]))
+                Student(user_info_ls[0], user_info_ls[2], user_info_ls[3], user_info_ls[4], user_info_ls[5]))
         except Exception as e:
             print('for user in user_list:main37:', e)
 

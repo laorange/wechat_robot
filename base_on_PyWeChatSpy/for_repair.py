@@ -13,6 +13,7 @@ from threading import Thread
 
 # project内
 from data.message import send_mail
+from data.private_space.mysql_func import *
 
 # from util.func_apscheduler import do_at_sometime
 
@@ -35,7 +36,9 @@ url_17 = 'solars.top/kb/17/S1/'
 url_16 = 'solars.top/kb/16/S3/'
 url_15 = 'solars.top/kb/15/S5/'
 
-inform_message = 'sorry，程序正在维护中，预计18点结束。当前仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效'
+inform_message = 'sorry，程序正在测试升级中，预计20点后恢复。\n\n当前仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效'
+
+
 # inform_message += '\n\n※维护公告: 10.1, 10.2两天中添加、查询、删除功能将暂停使用，祝大家国庆中秋节快乐！'
 
 
@@ -129,19 +132,25 @@ def my_proto_parser(data):
             print(member.wxid, member.nickname)
     elif data.type == CONTACT_DETAILS:
         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "联系人详情", "-" * 10)
+        user_list_all_data = get_user_list_all_data()
+        user_wechat_id_ls = []
+        for user in user_list_all_data:
+            user_wechat_id_ls.append(user[0])
         for details in data.contact_list.contact:
-            print(details.wxid)
-            print(details.nickname)
-            print(details.wechatid)
-            print(details.remark)
-            print(details.profilephoto)
-            print(details.profilephoto_hd)
-            print(details.sex)
-            print(details.whats_up)
-            print(details.country)
-            print(details.province)
-            print(details.city)
-            print(details.source)
+            if details.wxid in user_wechat_id_ls:
+                set_remark(details.wxid, details.remark)
+            # print("details.wxid", details.wxid)
+            # print("details.nickname", details.nickname)
+            # print("details.wechatid", details.wechatid)
+            # print("details.remark", details.remark)
+            # print("details.profilephoto", details.profilephoto)
+            # print("details.profilephoto_hd", details.profilephoto_hd)
+            # print("details.sex", details.sex)
+            # print("details.whats_up", details.whats_up)
+            # print("details.country", details.country)
+            # print("details.province", details.province)
+            # print("details.city", details.city)
+            # print("details.source", details.source)
     elif data.type == HEART_BEAT:
         # 心跳
         pass
@@ -171,13 +180,17 @@ if __name__ == '__main__':
     # id_for_check = ['wxid_05y4vxo5az4n22', 'wxid_4fuc7xqgzox722', 'wxid_akeuhced41lg21', 'wxid_apf85yacqnc511',
     #                 'wxid_bjjvb22db76311', 'wxid_fpdcwt46zrzc22', 'wxid_ks1wry1vyb3122', 'wxid_m943tmk85n0022',
     #                 'wxid_qortcjb2mc6922', 'wxid_t84qg4635ueg22', 'wxid_wg1bnt5dc3s132', ]
-
+    # user_list_all_data = get_user_list_all_data()
+    # user_wechat_id_ls = []
+    # for user in user_list_all_data:
+    #     user_wechat_id_ls.append(user[0])
+    # id_for_check = user_wechat_id_ls
+    #
     # for wechat_id in id_for_check:
     #     print(wechat_id)
     #     check_wxid_info(wechat_id)
-    #     print('\n\n')
-    #     time.sleep(5)
-
+    #     # print('\n\n')
+    #     time.sleep(3)
 
     # import pymysql
     # db = pymysql.connect()
@@ -202,4 +215,4 @@ if __name__ == '__main__':
     #     print('\n\n')
     #     time.sleep(5)
 
-    blacklist = ['wxid_l7g2lb2rsop622']
+    # blacklist = ['wxid_l7g2lb2rsop622']
