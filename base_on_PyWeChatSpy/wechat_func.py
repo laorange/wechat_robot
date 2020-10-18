@@ -108,7 +108,14 @@ def my_proto_parser(data):
                         if_add_success = add_user(message.wxid1, int(code_add.group(2)), code_add.group(3).upper(),
                                                   'P' + code_add.group(4).upper(), 'P' + code_add.group(5).upper())
                         if if_add_success:
-                            send(message.wxid1, '[信息添加成功, 明早将开始自动推送]')
+                            send_msg = '[信息添加成功, 明早将开始自动推送]'
+                            if int(code_add.group(2)) in preparatory_grades:
+                                send_msg += '\n\n当前在数据库中储存的信息是:' + \
+                                 f"\n年级：{code_add.group(2)}级\n行政班：{code_add.group(3).upper()}班" + \
+                                 f"\n习题班：{code_add.group(4).upper()}班\n法语班：F{code_add.group(5).upper()}班" + \
+                                 f'\n\n若输入有误，请发送"@td"退订后再重新添加信息'
+                            send(message.wxid1, send_msg)
+                            add_new_remark(message.wxid1)
                         else:
                             send(message.wxid1, '[error]在数据库中已有信息，重复添加无效。\n\n'
                                                 '可发送"@信息"查看当前在数据库中储存的信息，若输入有误，请先发送"@td"来退订')
@@ -133,17 +140,9 @@ def my_proto_parser(data):
                 code_situation = re.match(r'^@(.+天)$', message.content)
                 if code_situation:
                     situation = code_situation.group(1)
-                    # user_list = get_user_list()
-                    # student_ls = []
-                    # for user in user_list:
-                    #     user_info_ls = list(user)
-                    #     student_ls.append(
-                    #         StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
-                    #                         user_info_ls[4]))
-
                     user_info_ls = check_user(message.wxid1)
-                    student = StudentNoWechat(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
-                                              user_info_ls[4])
+                    student = StudentNoWechat(user_info_ls[0], user_info_ls[2], user_info_ls[3], user_info_ls[4],
+                                              user_info_ls[5])
 
                     if student.name == message.wxid1:
                         if student.grade in preparatory_grades or student.grade in engineer_grades:
@@ -189,11 +188,11 @@ def my_proto_parser(data):
                     user_list_tuple = check_user(message.wxid1)
                     if user_list_tuple:
                         user_list_list = list(user_list_tuple)
-                        user_info = "当前在数据库中储存的信息是:\n@" + str(user_list_list[1]) + user_list_list[2] + \
-                                    user_list_list[3][-1] + \
-                                    user_list_list[4][-1]
-                        exp_str = f"\n年级：{user_list_list[1]}级\n行政班：{user_list_list[2]}班" + \
-                                  f"\n习题班：{user_list_list[3]}班\n法语班：F{user_list_list[4][-1]}班" + \
+                        user_info = "当前在数据库中储存的信息是:\n@" + str(user_list_list[2]) + user_list_list[3] + \
+                                    user_list_list[4][-1] + \
+                                    user_list_list[5][-1]
+                        exp_str = f"\n年级：{user_list_list[2]}级\n行政班：{user_list_list[3]}班" + \
+                                  f"\n习题班：{user_list_list[4]}班\n法语班：F{user_list_list[5][-1]}班" + \
                                   f'\n\n若输入有误，请发送"@td"退订后再重新添加信息'
 
                         send(message.wxid1, user_info + exp_str)
@@ -261,6 +260,10 @@ def my_proto_parser(data):
                         clear_all_review_record(False)
                         send(wxid_default, '已清除法语单词的学习记录')
 
+                    # TODO: 更新用户备注名
+                    if message.content == '@rfr':
+                        refresh_remark()
+
             elif message.type == 3:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
             elif message.type == 37:
@@ -287,19 +290,22 @@ def my_proto_parser(data):
             print(member.wxid, member.nickname)
     elif data.type == CONTACT_DETAILS:
         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "联系人详情", "-" * 10)
+        user_list = get_user_list_wechat_id()
         for details in data.contact_list.contact:
-            print(details.wxid)
-            print(details.nickname)
-            print(details.wechatid)
-            print(details.remark)
-            print(details.profilephoto)
-            print(details.profilephoto_hd)
-            print(details.sex)
-            print(details.whats_up)
-            print(details.country)
-            print(details.province)
-            print(details.city)
-            print(details.source)
+            if details.wxid in user_list:
+                set_remark(details.wxid, details.remark)
+            # print("details.wxid", details.wxid)
+            # print("details.nickname", details.nickname)
+            # print("details.wechatid", details.wechatid)
+            # print("details.remark", details.remark)
+            # print("details.profilephoto", details.profilephoto)
+            # print("details.profilephoto_hd", details.profilephoto_hd)
+            # print("details.sex", details.sex)
+            # print("details.whats_up", details.whats_up)
+            # print("details.country", details.country)
+            # print("details.province", details.province)
+            # print("details.city", details.city)
+            # print("details.source", details.source)
     elif data.type == HEART_BEAT:
         # 心跳
         pass
@@ -333,12 +339,12 @@ def log_in():
 
 def inform(code_inform, wxid: str):
     # user_list_path = 'data/private_space/user_list.csv'
-    user_list = get_user_list()
+    user_list = get_user_list_all_data()
     student_ls = []
     for user in user_list:
         user_info_ls = list(user)
-        student_ls.append(Student4inform(user_info_ls[0], user_info_ls[1], user_info_ls[2], user_info_ls[3],
-                                         user_info_ls[4]))
+        student_ls.append(Student4inform(user_info_ls[0], user_info_ls[2], user_info_ls[3], user_info_ls[4],
+                                         user_info_ls[5]))
     for student in student_ls:
         if student.grade == int(code_inform.group(1)):
             if code_inform.group(2) in ['p', 'P']:
@@ -357,6 +363,17 @@ def inform(code_inform, wxid: str):
                 send(student.name, code_inform.group(4))
             time.sleep(1.1)
     spy.send_text(wxid, 'done')
+
+
+def add_new_remark(wechat_id):
+    spy.get_contact_details(wechat_id, update=True)
+
+
+def refresh_remark():
+    id_for_check = get_user_list_wechat_id()
+    for wechat_id in id_for_check:
+        spy.get_contact_details(wechat_id, update=False)
+        time.sleep(2)
 
 
 # def check_wxid_info(wxid: str):

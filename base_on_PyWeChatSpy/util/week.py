@@ -58,14 +58,14 @@ def determine_when_exam(grade):
             exam_time_str = exam_dict[exam]
             exam_time = time.mktime(time.strptime(exam_time_str, '%Y-%m-%d %H:%M'))
             count_down_days = int((exam_time - time_today) // 86400)
-            if 0 <= count_down_days <= 14:
+            if 0 <= count_down_days <= 30:
                 count_down_str = '距离 ' + exam + ' 考试还有' + str(count_down_days) + '天;\n'
                 if not count_down_str:
                     exams_count_down += count_down_str
                 else:
                     exams_count_down = exams_count_down + count_down_str
     if exams_count_down.strip() != '':
-        exams_count_down = "两周内的考试：\n" + exams_count_down.strip()
+        exams_count_down = "一个月内的考试：\n" + exams_count_down.strip()
     return exams_count_down
 
 

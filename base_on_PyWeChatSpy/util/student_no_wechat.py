@@ -1,14 +1,11 @@
 from schedule.schedule18 import schedule_18
 from schedule.schedule19 import schedule_19
 from schedule.schedule20 import schedule_20
-
-# from wechat_func import send_msg_when
-from util.weather import get_weather
 from util.week import determine_when_exam
 
 url_17 = 'kb.solars.top/17/S1/'
-url_2016 = 'kb.solars.top/16/S3/'
-url_2015 = 'kb.solars.top/15/S5/'
+url_16 = 'kb.solars.top/16/S3/'
+url_15 = 'kb.solars.top/15/S5/'
 
 url_schedule_18 = 'laorange.top/img/18.png'
 url_schedule_19 = 'laorange.top/img/19.png'
@@ -21,7 +18,7 @@ url_19_td = url_19_td1 + '\n' + url_19_td2
 
 preparatory_grades = [18, 19, 20]
 engineer_grades = [17, 16, 15]
-url_engineer_grades = [url_17, url_2016, url_2015]
+url_engineer_grades = [url_17, url_16, url_15]
 
 
 class ClassFinalInfo:
