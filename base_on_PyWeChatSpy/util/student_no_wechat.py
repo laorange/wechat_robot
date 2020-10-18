@@ -81,15 +81,15 @@ class StudentNoWechat:
                 week = 16
                 what_day = 'Thursday'
                 self.replacement = True
-            elif week == 6 and what_day == 'Sunday':
+            elif week == 6 and what_day == 'Sunday' and self.grade == 20:
                 week = 15
                 what_day = 'Monday'
                 self.replacement = True
-            elif week == 7 and what_day == 'Sunday':
+            elif week == 7 and what_day == 'Sunday' and self.grade == 20:
                 week = 15
                 what_day = 'Wednesday'
                 self.replacement = True
-            elif week == 8 and what_day == 'Sunday':
+            elif week == 8 and what_day == 'Sunday' and self.grade == 20:
                 week = 15
                 what_day = 'Thursday'
                 self.replacement = True
@@ -248,7 +248,7 @@ class StudentNoWechat:
                     exec("self.c" + str(i) + ".final_classroom = schedule[i].final_classroom")
 
         except Exception as e:
-            print("error272", e)
+            print("error251", e)
 
         # TODO: 返回 待发送的课表信息
         if self.grade in preparatory_grades:

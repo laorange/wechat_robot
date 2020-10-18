@@ -110,8 +110,8 @@ def my_proto_parser(data):
                         if if_add_success:
                             send(message.wxid1, '[信息添加成功, 明早将开始自动推送]')
                         else:
-                            send(message.wxid1, '[error]在数据库中已有信息，重复添加无效。\
-                                                可发送"@信息"查看当前在数据库中储存的信息，若输入有误，请先发送"@td"来退订')
+                            send(message.wxid1, '[error]在数据库中已有信息，重复添加无效。\n\n'
+                                                '可发送"@信息"查看当前在数据库中储存的信息，若输入有误，请先发送"@td"来退订')
                     except Exception as e:
                         print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
                 elif code_add and message.wxid1 in blacklist and len(message.wxid2) == 0:
