@@ -3,7 +3,7 @@
 from PyWeChatSpy.PyWeChatSpy import WeChatSpy
 from PyWeChatSpy.PyWeChatSpy.command import *
 # from lxml import etree
-import logging
+# import logging
 
 import re
 # import time
@@ -23,18 +23,21 @@ from util.student_no_wechat import StudentNoWechat
 
 from data.private_space.mysql_func import *
 
+import traceback
+from loguru import logger
+
 wxid_default = 'wxid_oftjmj5649kd22'
 
 # 黑名单
 blacklist = []
 
-logger = logging.getLogger(__file__)
-formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
-sh = logging.StreamHandler()
-sh.setFormatter(formatter)
-sh.setLevel(logging.DEBUG)
-logger.addHandler(sh)
-logger.setLevel(logging.INFO)
+# logger = logging.getlogger(__file__)
+# formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
+# sh = logging.StreamHandler()
+# sh.setFormatter(formatter)
+# sh.setLevel(logging.DEBUG)
+# logger.addHandler(sh)
+# logger.setLevel(logging.INFO)
 
 contact_list = []
 chatroom_list = []
@@ -60,27 +63,27 @@ class Student4inform:  # avoid the circular import
 
 def my_proto_parser(data):
     if data.type == WECHAT_CONNECTED:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "微信连接成功", "-" * 10)
-        # print("-"*10, "展示登录二维码", "-"*10)
+        logger.info("微信连接成功")
+        # logger.info("-"*10, "展示登录二维码", "-"*10)
         # spy.show_qrcode()
     elif data.type == WECHAT_LOGIN:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "微信登录成功", "-" * 10)
+        logger.info("微信登录成功")
         spy.get_login_info()
     elif data.type == WECHAT_LOGOUT:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "微信登出", "-" * 10)
+        logger.info("微信登出")
         send_mail()  # wechat登出警告信
     elif data.type == LOGIN_INFO:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "登录信息", "-" * 10)
-        print(data.login_info.wxid)
-        print(data.login_info.nickname)
-        print(data.login_info.wechatid)
-        print(data.login_info.phone)
-        print(data.login_info.profilephoto)
+        logger.info("登录信息")
+        logger.info(data.login_info.wxid)
+        logger.info(data.login_info.nickname)
+        logger.info(data.login_info.wechatid)
+        logger.info(data.login_info.phone)
+        logger.info(data.login_info.profilephoto)
         spy.get_contacts()
     elif data.type == CONTACTS:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "联系人列表", "-" * 10)
+        logger.info("联系人列表")
         for contact in data.contact_list.contact:
-            print(contact.wxid, contact.nickname)
+            logger.info(contact.wxid, contact.nickname)
             if contact.wxid.startswith("gh_"):
                 # 过滤公众号
                 pass
@@ -90,14 +93,13 @@ def my_proto_parser(data):
             else:
                 # 普通联系人
                 contact_list.append(contact.wxid)
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), f"共{len(contact_list)}个联系人,{len(chatroom_list)}个群",
-              "-" * 10)
+        logger.info(f"共{len(contact_list)}个联系人,{len(chatroom_list)}个群")
 
     elif data.type == MESSAGE:
         # 消息
         for message in data.message_list.message:
             if message.type == 1:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "文本消息", "-" * 10)
+                logger.info("文本消息")
                 if message.wxid1 == "filehelper":
                     spy.send_text("filehelper", "Hello PyWeChatSpy")
 
@@ -111,16 +113,17 @@ def my_proto_parser(data):
                             send_msg = '[信息添加成功, 明早将开始自动推送]'
                             if int(code_add.group(2)) in preparatory_grades:
                                 send_msg += '\n\n当前在数据库中储存的信息是:' + \
-                                 f"\n年级：{code_add.group(2)}级\n行政班：{code_add.group(3).upper()}班" + \
-                                 f"\n习题班：{code_add.group(4).upper()}班\n法语班：F{code_add.group(5).upper()}班" + \
-                                 f'\n\n若输入有误，请发送"@td"退订后再重新添加信息'
+                                            f"\n年级：{code_add.group(2)}级\n行政班：{code_add.group(3).upper()}班" + \
+                                            f"\n习题班：{code_add.group(4).upper()}班\n法语班：F{code_add.group(5).upper()}班" + \
+                                            f'\n\n若输入有误，请发送"@td"退订后再重新添加信息'
                             send(message.wxid1, send_msg)
                             add_new_remark(message.wxid1)
                         else:
                             send(message.wxid1, '[error]在数据库中已有信息，重复添加无效。\n\n'
                                                 '可发送"@信息"查看当前在数据库中储存的信息，若输入有误，请先发送"@td"来退订')
                     except Exception as e:
-                        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+                        logger.error(str(e))
+                        traceback.print_exc()
                 elif code_add and message.wxid1 in blacklist and len(message.wxid2) == 0:
                     send(message.wxid1, '[refuse]很抱歉，您已被列入本程序黑名单')
 
@@ -134,7 +137,7 @@ def my_proto_parser(data):
                         else:
                             send(message.wxid1, '[error]出错了')
                     except Exception as e:
-                        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), e)
+                        logger.error(e)
 
                 # TODO: @今天,明天,后天...的课表
                 code_situation = re.match(r'^@(.+天)$', message.content)
@@ -214,12 +217,12 @@ def my_proto_parser(data):
                     # inform
                     code_inform = re.match(r'^@inform(\d{2})([abfpqABFPQ])([a-eA-E])([\s\S]+)', message.content)
                     if code_inform:
-                        print('!' * 5 + 'inform' + '!' * 5)
+                        logger.info('!' * 5 + 'inform' + '!' * 5)
                         inform(code_inform, message.wxid1)
 
                     # csv to excel ##使用MySQL后该函数失效
                     # if message.content == '@excel':
-                    #     print('csv to excel')
+                    #     logger.info('csv to excel')
                     #     csv_to_xlsx_pd()
 
                     # TODO: send user_info list to myself
@@ -238,6 +241,8 @@ def my_proto_parser(data):
                                 raise Exception("'@dcf''@dce'判断条件出错")
                         except Exception as e:
                             send(wxid_default, str(e))
+                            logger.error(e)
+                            traceback.print_exc()
                         # else:
                         #     send(wxid_default, '添加成功')
 
@@ -265,47 +270,44 @@ def my_proto_parser(data):
                         refresh_remark()
 
             elif message.type == 3:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "图片消息", "-" * 10)
+                logger.info("图片消息")
             elif message.type == 37:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "好友请求消息", "-" * 10)
+                logger.info("好友请求消息")
             else:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "其他消息", "-" * 10)
+                logger.info("其他消息")
                 return
-            print(f"来源:{message.wxid1} {get_remark_from_sql(message.wxid1)}", end='\t')
-            # print("来源2:", message.wxid2)
-            # print("消息头:", message.head)
-            print(f"消息内容:{message.content}")
+            logger.info(f"来源:{message.wxid1} {get_remark_from_sql(message.wxid1)}\t消息内容:{message.content}")
     elif data.type == QRCODE:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "登录二维码", "-" * 10)
-        print(data.qrcode.qrcode)
+        logger.info("登录二维码")
+        logger.info(data.qrcode.qrcode)
     elif data.type == CONTACT_EVENT:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "联系人事件", "-" * 10)
-        print(data)
+        logger.info("联系人事件")
+        logger.info(data)
     elif data.type == CHATROOM_MEMBERS:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "群成员列表", "-" * 10)
+        logger.info("群成员列表")
         member_list = data.chatroom_member_list
         chatroom_wxid = member_list.wxid
-        print(chatroom_wxid)
+        logger.info(chatroom_wxid)
         for member in member_list.contact:
-            print(member.wxid, member.nickname)
+            logger.info(member.wxid, member.nickname)
     elif data.type == CONTACT_DETAILS:
-        print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "联系人详情", "-" * 10)
+        logger.info("联系人详情")
         user_list = get_user_list_wechat_id()
         for details in data.contact_list.contact:
             if details.wxid in user_list:
                 set_remark(details.wxid, details.remark)
-            # print("details.wxid", details.wxid)
-            # print("details.nickname", details.nickname)
-            # print("details.wechatid", details.wechatid)
-            # print("details.remark", details.remark)
-            # print("details.profilephoto", details.profilephoto)
-            # print("details.profilephoto_hd", details.profilephoto_hd)
-            # print("details.sex", details.sex)
-            # print("details.whats_up", details.whats_up)
-            # print("details.country", details.country)
-            # print("details.province", details.province)
-            # print("details.city", details.city)
-            # print("details.source", details.source)
+            # logger.info("details.wxid", details.wxid)
+            # logger.info("details.nickname", details.nickname)
+            # logger.info("details.wechatid", details.wechatid)
+            # logger.info("details.remark", details.remark)
+            # logger.info("details.profilephoto", details.profilephoto)
+            # logger.info("details.profilephoto_hd", details.profilephoto_hd)
+            # logger.info("details.sex", details.sex)
+            # logger.info("details.whats_up", details.whats_up)
+            # logger.info("details.country", details.country)
+            # logger.info("details.province", details.province)
+            # logger.info("details.city", details.city)
+            # logger.info("details.source", details.source)
     elif data.type == HEART_BEAT:
         # 心跳
         pass
@@ -334,7 +336,7 @@ def send_msg_when(wxid: str, content: str, send_time: str):
 def log_in():
     t1 = Thread(target=spy.run)
     t1.start()
-    print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'start receiving wechat message')
+    logger.info('start receiving wechat message')
 
 
 def inform(code_inform, wxid: str):
@@ -378,8 +380,8 @@ def refresh_remark():
 
 # def check_wxid_info(wxid: str):
 #     wxid_detail = spy.get_contact_details(wxid, update=False)
-#     print(type(wxid_detail))
-#     print(wxid_detail)
+#     logger.info(type(wxid_detail))
+#     logger.info(wxid_detail)
 
 
 def send_review_word_two_language(review_en_word_num: int, review_fr_word_num: int):
@@ -433,11 +435,12 @@ def send_review_word(if_english: bool, review_word_num: int):
                 send(wxid_default, word_tran)
                 send(wxid_default, word_send)
                 if if_english:
-                    print(f'复习了{review_word_num}个英语单词')
+                    logger.info(f'复习了{review_word_num}个英语单词')
                 else:
-                    print(f'复习了{review_word_num}个法语单词')
+                    logger.info(f'复习了{review_word_num}个法语单词')
     except Exception as e:
-        print(e)
+        logger.error(e)
+        traceback.print_exc()
 
 
 def clear_all_review_record(if_english: bool):

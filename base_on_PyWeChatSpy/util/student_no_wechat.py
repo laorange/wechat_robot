@@ -3,6 +3,9 @@ from schedule.schedule19 import schedule_19
 from schedule.schedule20 import schedule_20
 from util.week import determine_when_exam
 
+import traceback
+from loguru import logger
+
 url_17 = 'kb.solars.top/17/S1/'
 url_16 = 'kb.solars.top/16/S3/'
 url_15 = 'kb.solars.top/15/S5/'
@@ -45,8 +48,8 @@ class StudentNoWechat:
             try:
                 exec('self.schedule_grade = schedule_' + str(grade))
             except Exception as e:
-                print(f'在读取{grade}级课表时出错')
-                print(e)
+                logger.error(f'在读取{grade}级课表时出错' + e)
+                traceback.print_exc()
 
         self.c0 = ClassFinalInfo()
         self.c1 = ClassFinalInfo()
@@ -180,7 +183,7 @@ class StudentNoWechat:
             # TODO: ⭐根据用户信息 解析出课程表
             for i in range(5):  # 第i节课
                 if len(schedule[i].class_property) == 0:
-                    print(f'{self.name}:{self.situation}第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
+                    logger.info(f'{self.name}:{self.situation}第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
 
                 else:
                     for final_index in range(len(schedule[i].class_property)):
@@ -196,7 +199,7 @@ class StudentNoWechat:
                                     if len(schedule[i].classroom_ls) > final_index:
                                         schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                 except Exception as e:
-                                    print(f'在处理{self.name}的第({i})节课时出错,{e}')
+                                    logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
                         elif schedule[i].class_property[final_index] == 'AB':
                             if self.a_or_b == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
@@ -210,7 +213,7 @@ class StudentNoWechat:
                                         if len(schedule[i].classroom_ls) > final_index:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
-                                        print(f'在处理{self.name}的第({i})节课时出错,{e}')
+                                        logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
                         elif schedule[i].class_property[final_index] == 'P':
                             if self.p_ab_cd == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
@@ -224,7 +227,7 @@ class StudentNoWechat:
                                         if len(schedule[i].classroom_ls) > final_index:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
-                                        print(f'在处理{self.name}的第({i})节课时出错,{e}')
+                                        logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
                         elif schedule[i].class_property[final_index] == 'F':
                             if self.f_ab_cd_e == schedule[i].correspond_class[final_index]:
                                 if week in schedule[i].correspond_week[final_index]:
@@ -238,14 +241,15 @@ class StudentNoWechat:
                                         if len(schedule[i].classroom_ls) > final_index:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
-                                        print(f'在处理{self.name}的第({i})节课时出错,{e}')
+                                        logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
                     exec("self.c" + str(i) + ".final_class_fr_name = schedule[i].final_class_fr_name")
                     exec("self.c" + str(i) + ".final_class_ch_name = schedule[i].final_class_ch_name")
                     exec("self.c" + str(i) + ".final_teacher = schedule[i].final_teacher")
                     exec("self.c" + str(i) + ".final_classroom = schedule[i].final_classroom")
 
         except Exception as e:
-            print("error251", e)
+            logger.error(str(e))
+            traceback.print_exc()
 
         # TODO: 返回 待发送的课表信息
         if self.grade in preparatory_grades:
@@ -274,7 +278,7 @@ class StudentNoWechat:
                 if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + \
                         len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
                         len(self.c4.final_class_ch_name) == 0:
-                    print('student schedule info send ----> None')
+                    logger.info('student schedule info send ----> None')
 
                     message0 = f'{self.situation}全天没有课'
 
@@ -298,4 +302,5 @@ class StudentNoWechat:
                 return message0
 
             except Exception as e:
-                print(f'student tomorrow info send ----> fail\n{e}\n')
+                logger.error(f'student tomorrow info send ----> fail\n{e}\n')
+                traceback.print_exc()

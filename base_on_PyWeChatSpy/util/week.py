@@ -1,4 +1,6 @@
 import time
+import traceback
+from loguru import logger
 
 t_refer_1_week = '2020-08-31'  # 本学期第一周周一的日期
 t_refer_1_week = t_refer_1_week + ' 00:00:00'

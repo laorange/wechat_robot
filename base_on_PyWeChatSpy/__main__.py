@@ -11,6 +11,12 @@ from data.private_space.mysql_func import get_user_list_all_data
 
 # from application.review_word.get_word import get_word
 
+import traceback
+from loguru import logger
+
+date_time = determine_date()
+logger.add(f'C:\\wamp64\\www\\log\\run{date_time}.log', rotation='00:00', retention='10 days', enqueue=True)
+
 start_date = determine_date()
 start_hms = '05:10:00'
 start_time = start_date + ' ' + start_hms
@@ -19,10 +25,10 @@ t_start = time.mktime(t_start_strp)
 time_for_sleep = t_start - time.time()
 if time_for_sleep < 0:
     time_for_sleep = t_start - get_time_time(-86400)
-    print('今日的自动推送已错过，自动生成明日的推送任务')
+    logger.info('今日的自动推送已错过，自动生成明日的推送任务')
     if time_for_sleep < 0:
         raise Exception("main l24逻辑错误")
-print(f"time_for_sleep:{time_for_sleep}")
+logger.info(f"time_for_sleep:{time_for_sleep}")
 
 # 测试时期 ---------------------------------------------------------------------#
 # time_for_sleep = 5
@@ -43,7 +49,8 @@ def student_send(before_term_begin=False):
             student_ls.append(
                 Student(user_info_ls[0], user_info_ls[2], user_info_ls[3], user_info_ls[4], user_info_ls[5]))
         except Exception as e:
-            print('for user in user_list:main37:', e)
+            logger.info(str(e))
+            traceback.print_exc()
 
     for student in student_ls:
         if student.name:
@@ -70,27 +77,28 @@ def start():
         review_fr_word_num = 20  # 复习法语单词的数量
         # send_review_word_two_language(review_en_word_num, review_fr_word_num)
     except Exception as e:
-        print('自用的单词复习模块出错')
-        print(e)
+        logger.error('自用的单词复习模块出错'+str(e))
+        traceback.print_exc()
 
     # ⭐③课表推送
     try:
         # what_day_num = time.strftime('%w', time.localtime())
         if determine_week() in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
             try:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "start checking students' info")
+                logger.info("start checking students' info")
                 if determine_week() == -1:
                     student_send(before_term_begin=True)  # , if_weekday=if_weekday
                 else:
                     student_send(before_term_begin=False)  # , if_weekday=if_weekday
             except Exception as e:
-                print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), 'student_send', e)
+                logger.error(e)
+                traceback.print_exc()
                 raise Exception(e)
         else:
-            print('本学期尚未开始或本学期的18周的课程已全部结束')
+            logger.warning('本学期尚未开始或本学期的18周的课程已全部结束')
     except Exception as e:
-        print('课表推送模块出错')
-        print(e)
+        logger.error('课表推送模块出错'+str(e))
+        traceback.print_exc()
 
 
 def multiple_start():
