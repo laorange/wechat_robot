@@ -271,7 +271,7 @@ def my_proto_parser(data):
             else:
                 print(time.strftime('%Y-%m-%d %H:%M:', time.localtime()), "其他消息", "-" * 10)
                 return
-            print(f"来源:{message.wxid1}", end='\t')
+            print(f"来源:{message.wxid1} {get_remark_from_sql(message.wxid1)}", end='\t')
             # print("来源2:", message.wxid2)
             # print("消息头:", message.head)
             print(f"消息内容:{message.content}")
