@@ -154,6 +154,7 @@ class StudentNoWechat:
                 what_day_num = 5
             elif what_day == 'Sunday':
                 pass
+                return ''
 
             # TODO: 预科阶段 获取总schedule
             if self.grade in preparatory_grades and what_day_num >= 0:

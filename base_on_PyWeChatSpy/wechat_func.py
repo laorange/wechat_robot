@@ -98,8 +98,13 @@ def my_proto_parser(data):
     elif data.type == MESSAGE:
         # 消息
         for message in data.message_list.message:
+            remark_maybe = ''
+            if not message.wxid2:
+                remark_maybe = get_remark_from_sql(message.wxid1)
+            from_whom = remark_maybe if remark_maybe else message.wxid1
+            # logger.info(f"{from_whom}: {message.content}")
             if message.type == 1:
-                logger.info("文本消息")
+                logger.info(f"{from_whom}: {message.content}")
                 if message.wxid1 == "filehelper":
                     spy.send_text("filehelper", "Hello PyWeChatSpy")
 
@@ -270,13 +275,12 @@ def my_proto_parser(data):
                         refresh_remark()
 
             elif message.type == 3:
-                logger.info("图片消息")
+                logger.info("图片消息"+f"{from_whom}: {message.content}")
             elif message.type == 37:
-                logger.info("好友请求消息")
+                logger.info("好友请求消息"+f"\n{from_whom}: {message.content}")
             else:
                 logger.info("其他消息")
                 return
-            logger.info(f"来源:{message.wxid1} {get_remark_from_sql(message.wxid1)}\t消息内容:{message.content}")
     elif data.type == QRCODE:
         logger.info("登录二维码")
         logger.info(data.qrcode.qrcode)

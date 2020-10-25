@@ -14,8 +14,8 @@ from data.private_space.mysql_func import get_user_list_all_data
 import traceback
 from loguru import logger
 
-date_time = determine_date()
-logger.add(f'C:\\wamp64\\www\\log\\run{date_time}.log', rotation='00:00', retention='10 days', enqueue=True)
+logger.add('C:\\wamp64\\www\\log\\runtime{time}.log', rotation='00:00',
+           retention='10 days', enqueue=True, encoding='UTF-8')
 
 start_date = determine_date()
 start_hms = '05:10:00'
