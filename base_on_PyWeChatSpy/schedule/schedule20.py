@@ -172,16 +172,16 @@ wednesday1.teacher_ls = ['王萱', '陈佳音', '王玥']
 wednesday2 = Class()
 wednesday2.class_property = ['P', 'P', 'P', 'P']
 wednesday2.class_fr_name_ls = ['TD Mathématiques', 'TD Mathématiques', 'TD Physiques', 'TD Physiques']
-wednesday2.class_ch_name_ls = ['高等数学（1）习题课（此处课表本身有问题，等待教务处更新）',
-                               '高等数学（1）习题课（此处课表本身有问题，等待教务处更新）',
-                               '基础物理（上）习题课（此处课表本身有问题，等待教务处更新）',
-                               '基础物理（上）习题课（此处课表本身有问题，等待教务处更新）']
+wednesday2.class_ch_name_ls = ['高等数学（1）习题课\n（暂时按5,6节bd班数学，ac班物理；7,8节ac班数学，bd班物理处理。仅供参考）',
+                               '高等数学（1）习题课\n（暂时按5,6节bd班数学，ac班物理；7,8节ac班数学，bd班物理处理。仅供参考）',
+                               '基础物理（上）习题课\n（暂时按5,6节bd班数学，ac班物理；7,8节ac班数学，bd班物理处理。仅供参考）',
+                               '基础物理（上）习题课\n（暂时按5,6节bd班数学，ac班物理；7,8节ac班数学，bd班物理处理。仅供参考）']
 wednesday2.correspond_week = [
                           [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
                           [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
                           [7, 9, 10, 11, 12, 13, 14],
                           [7, 9, 10, 11, 12, 13, 14], ]
-wednesday2.correspond_class = ['PB', 'PD', 'PB', 'PD']
+wednesday2.correspond_class = ['PB', 'PD', 'PA', 'PC']
 wednesday2.classroom_ls = ['212', '210', '220', '122']
 wednesday2.teacher_ls = ['谷瑞娟', '关静', '张艳峰', '胡艳敏']
 
@@ -189,16 +189,16 @@ wednesday2.teacher_ls = ['谷瑞娟', '关静', '张艳峰', '胡艳敏']
 wednesday3 = Class()
 wednesday3.class_property = ['P', 'P', 'P', 'P']
 wednesday3.class_fr_name_ls = ['TD Mathématiques', 'TD Mathématiques', 'TD Physiques', 'TD Physiques']
-wednesday3.class_ch_name_ls = ['高等数学（1）习题课（此处课表本身有问题，等待教务处更新）',
-                               '高等数学（1）习题课（此处课表本身有问题，等待教务处更新）',
-                               '基础物理（上）习题课（此处课表本身有问题，等待教务处更新）',
-                               '基础物理（上）习题课（此处课表本身有问题，等待教务处更新）']
+wednesday3.class_ch_name_ls = ['高等数学（1）习题课\n（暂时按5,6节bd班数学，ac班物理；7,8节ac班数学，bd班物理处理。仅供参考）',
+                               '高等数学（1）习题课\n（暂时按5,6节bd班数学，ac班物理；7,8节ac班数学，bd班物理处理。仅供参考）',
+                               '基础物理（上）习题课\n（暂时按5,6节bd班数学，ac班物理；7,8节ac班数学，bd班物理处理。仅供参考）',
+                               '基础物理（上）习题课\n（暂时按5,6节bd班数学，ac班物理；7,8节ac班数学，bd班物理处理。仅供参考）']
 wednesday3.correspond_week = [
                           [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
                           [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
                           [9, 10, 11, 12, 13, 14],
                           [9, 10, 11, 12, 13, 14], ]
-wednesday3.correspond_class = ['PA', 'PC', 'PA', 'PC']
+wednesday3.correspond_class = ['PA', 'PC', 'PB', 'PD']
 wednesday3.classroom_ls = ['212', '210', '309', '310']
 wednesday3.teacher_ls = ['谷瑞娟', '关静', '张艳峰', '胡雪兰']
 

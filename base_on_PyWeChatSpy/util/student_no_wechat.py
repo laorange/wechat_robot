@@ -10,14 +10,14 @@ url_17 = 'kb.solars.top/17/S1/'
 url_16 = 'kb.solars.top/16/S3/'
 url_15 = 'kb.solars.top/15/S5/'
 
-url_schedule_18 = 'laorange.top/img/18.png'
-url_schedule_19 = 'laorange.top/img/19.png'
-url_schedule_20 = 'laorange.top/img/20.jpg'
+url_schedule_18 = 'laorange.top/kb/18/18.png'
+url_schedule_19 = 'laorange.top/kb/19/19.png'
+url_schedule_20 = 'laorange.top/kb/20/20.jpg'
 # url_schedule_preparatory_grades = [url_schedule_18, url_schedule_19, url_schedule_20]
-url_19_td1 = 'laorange.top/img/19td1.png'
-url_19_td2 = 'laorange.top/img/19td2.png'
+# url_19_td1 = 'laorange.top/img/19td1.png'
+# url_19_td2 = 'laorange.top/img/19td2.png'
 # 手动改改吧...
-url_19_td = url_19_td1 + '\n' + url_19_td2
+url_19_td = 'laorange.top/kb/19/td.pdf'
 
 preparatory_grades = [18, 19, 20]
 engineer_grades = [17, 16, 15]
@@ -288,7 +288,7 @@ class StudentNoWechat:
                 if self.grade == 18:
                     message_url = '\n\n※课表图片链接:\n' + url_schedule_18
                 elif self.grade == 19:
-                    message_url = '\n\n※课表图片链接:\n' + url_schedule_19 + '\n※可点此查看td课信息:\n' + url_19_td
+                    message_url = '\n\n※课表图片链接:\n' + url_schedule_19 + '\n※可点此查看td轮班表:\n' + url_19_td
                 elif self.grade == 20:
                     message_url = '\n\n※课表图片链接:\n' + url_schedule_20
 
