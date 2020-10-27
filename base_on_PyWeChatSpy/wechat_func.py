@@ -118,8 +118,8 @@ def my_proto_parser(data):
                             send_msg = '[信息添加成功, 明早将开始自动推送]'
                             if int(code_add.group(2)) in preparatory_grades:
                                 send_msg += '\n\n当前在数据库中储存的信息是:' + \
-                                            f"\n年级：{code_add.group(2)}级\n行政班：{code_add.group(3).upper()}班" + \
-                                            f"\n习题班：{code_add.group(4).upper()}班\n法语班：F{code_add.group(5).upper()}班" + \
+                                            f"\n年级：20{code_add.group(2)}级\n行政班：{code_add.group(3).upper()}班" + \
+                                            f"\n习题班：{code_add.group(4).upper()}班\n法语班：{code_add.group(5).upper()}班" + \
                                             f'\n\n若输入有误，请发送"@td"退订后再重新添加信息'
                             send(message.wxid1, send_msg)
                             add_new_remark(message.wxid1)
@@ -200,7 +200,7 @@ def my_proto_parser(data):
                                     user_list_list[4][-1] + \
                                     user_list_list[5][-1]
                         exp_str = f"\n年级：{user_list_list[2]}级\n行政班：{user_list_list[3]}班" + \
-                                  f"\n习题班：{user_list_list[4]}班\n法语班：F{user_list_list[5][-1]}班" + \
+                                  f"\n习题班：{user_list_list[4]}班\n法语班：{user_list_list[5][-1]}班" + \
                                   f'\n\n若输入有误，请发送"@td"退订后再重新添加信息'
 
                         send(message.wxid1, user_info + exp_str)
