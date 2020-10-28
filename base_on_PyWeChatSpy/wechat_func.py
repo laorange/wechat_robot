@@ -133,7 +133,7 @@ def my_proto_parser(data):
                     send(message.wxid1, '[refuse]很抱歉，您已被列入本程序黑名单')
 
                 # TODO: 退订
-                if message.content == '@td' or '@TD' or '@Td' or '@退订':
+                if message.content in ['@td', '@TD', '@Td', '@退订']:
                     try:
                         if_delete_success = delete_user(message.wxid1)
 
@@ -149,8 +149,13 @@ def my_proto_parser(data):
                 if code_situation:
                     situation = code_situation.group(1)
                     user_info_ls = check_user(message.wxid1)
-                    student = StudentNoWechat(user_info_ls[0], user_info_ls[2], user_info_ls[3], user_info_ls[4],
-                                              user_info_ls[5])
+                    try:
+                        student = StudentNoWechat(user_info_ls[0], user_info_ls[2], user_info_ls[3], user_info_ls[4],
+                                                  user_info_ls[5])
+                    except Exception as e:
+                        logger.error(e)
+                        send(message.wxid1, '未在数据库中检索到该账号的信息, 如果是需要课表推送的话可以向我发送"@说明"来查看使用说明')
+                        raise Exception('未在数据库中检索到该账号的信息')
 
                     if student.name == message.wxid1:
                         if student.grade in preparatory_grades or student.grade in engineer_grades:
@@ -187,9 +192,6 @@ def my_proto_parser(data):
 
                         else:
                             send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
-
-                # if message.content == '@后天':
-                #     send(message.wxid1, '[没有这个功能哟～[社会社会]暂只支持"@今天"&"@明天"]')
 
                 # TODO: 发送当前已填信息
                 if message.content == '@信息':
@@ -275,9 +277,9 @@ def my_proto_parser(data):
                         refresh_remark()
 
             elif message.type == 3:
-                logger.info("图片消息"+f"{from_whom}: {message.content}")
+                logger.info("图片消息" + f"{from_whom}: {message.content}")
             elif message.type == 37:
-                logger.info("好友请求消息"+f"\n{from_whom}: {message.content}")
+                logger.info("好友请求消息" + f"\n{from_whom}: {message.content}")
             else:
                 logger.info("其他消息")
                 return
