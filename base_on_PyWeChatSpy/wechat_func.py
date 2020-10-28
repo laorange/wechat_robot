@@ -133,7 +133,7 @@ def my_proto_parser(data):
                     send(message.wxid1, '[refuse]很抱歉，您已被列入本程序黑名单')
 
                 # TODO: 退订
-                if message.content == '@td':
+                if message.content == '@td' or '@TD' or '@Td' or '@退订':
                     try:
                         if_delete_success = delete_user(message.wxid1)
 
