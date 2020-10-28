@@ -37,9 +37,10 @@ def compute_week_num(target_day: str):
 
 
 def determine_when_exam(grade):
-    if grade != 17:
+    exam_dict = {}
+    if grade not in [16, 17]:
         return ''
-    exam_dict = {
+    exam_dict[17] = {
         "项目管理1": "2020-10-18 15:30",
         "最优化": "2020-11-05 08:00",
         "泛函分析": "2020-11-13 13:30",
@@ -52,12 +53,23 @@ def determine_when_exam(grade):
         "工程热力学": "2020-12-14 08:00",
         "基础流体力学和空气动力学": "2020-12-17 08:00"
     }
-    exam_list = exam_dict.keys()
+    exam_dict[16] = {
+        "航空法导论": "2020-10-30 08:00",
+        "数字电路": "2020-11-03 08:00",
+        "高级流体力学": "2020-11-16 08:00",
+        "复合及特殊材料": "2020-11-24 10:00",
+        "偏微分方程数值分析": "2020-12-01 10:00",
+        "动态系统建模与分析": "2020-12-04 10:00",
+        "对流换热": "2020-12-07 13:30",
+        "离散结构动力学": "2020-12-14 13:30",
+        "控制设计与伺服回路系统": "2020-12-18 10:00"
+    }
+    exam_list = exam_dict[grade].keys()
     time_today = time.mktime(time.strptime(determine_date(), '%Y-%m-%d'))
     exams_count_down = ''
     for exam in exam_list:
         if isinstance(exam, str):
-            exam_time_str = exam_dict[exam]
+            exam_time_str = exam_dict[grade][exam]
             exam_time = time.mktime(time.strptime(exam_time_str, '%Y-%m-%d %H:%M'))
             count_down_days = int((exam_time - time_today) // 86400)
             if 0 <= count_down_days <= 30:
@@ -93,4 +105,4 @@ if __name__ == "__main__":
     #
     # print(time_for_sleep)
 
-    print(determine_when_exam(17))
+    print(determine_when_exam(16))
