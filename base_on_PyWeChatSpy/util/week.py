@@ -1,11 +1,27 @@
 import time
 import traceback
 from loguru import logger
+from util.parser_what_day import parse_weekday
 
 t_refer_1_week = '2020-08-31'  # 本学期第一周周一的日期
 t_refer_1_week = t_refer_1_week + ' 00:00:00'
 t_refer_strp = time.strptime(t_refer_1_week, '%Y-%m-%d %H:%M:%S')
 t_refer = time.mktime(t_refer_strp)
+
+
+def parse_wd_delay(wd: str) -> float:
+    date_after_parse = parse_weekday(wd)
+    date_str = str(date_after_parse) + ' 00:00:05'
+    date_strp = time.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+    t_delay = time.mktime(date_strp) - time.time()
+    return t_delay
+
+
+def parse_wd_ref_delay(wd: str) -> float:
+    delay_today = parse_wd_delay('今天')
+    delay_target = parse_wd_delay(wd)
+    ref_delay = delay_target - delay_today
+    return ref_delay
 
 
 def get_time_time(t_delay: int or float = 0):
