@@ -153,8 +153,7 @@ class StudentNoWechat:
             elif what_day == 'Saturday':
                 what_day_num = 5
             elif what_day == 'Sunday':
-                pass
-                return ''
+                what_day_num = 6
 
             # TODO: 预科阶段 获取总schedule
             if self.grade in preparatory_grades and what_day_num >= 0:
@@ -182,6 +181,10 @@ class StudentNoWechat:
                 schedule[i].final_classroom = ''
 
             # TODO: ⭐根据用户信息 解析出课程表
+            # 条件：正常情况 预科阶段周日没有课
+            if self.grade in preparatory_grades and what_day_num == 6:
+                return f'{self.situation}全天没有课'
+
             for i in range(5):  # 第i节课
                 if len(schedule[i].class_property) == 0:
                     logger.info(f'{self.name}:{self.situation}第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
