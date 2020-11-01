@@ -15,7 +15,7 @@ import traceback
 from loguru import logger
 
 logger.add('C:\\wamp64\\www\\log\\runtime{time}.log', rotation='00:00',
-           retention='10 days', enqueue=True, encoding='UTF-8')
+           retention='10 days', enqueue=True, encoding='UTF-8')  # 生成日志的路径
 
 start_date = determine_date()
 start_hms = '05:10:00'
@@ -83,7 +83,7 @@ def start():
     # ⭐③课表推送
     try:
         # what_day_num = time.strftime('%w', time.localtime())
-        if determine_week() in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]:
+        if determine_week() in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]:  # 本学期只有15周
             try:
                 logger.info("start checking students' info")
                 if determine_week() == -1:
