@@ -48,7 +48,7 @@ class StudentNoWechat:
             try:
                 exec('self.schedule_grade = schedule_' + str(grade))
             except Exception as e:
-                logger.error(f'在读取{grade}级课表时出错' + e)
+                logger.error(f'在读取{grade}级课表时出错' + str(e))
                 traceback.print_exc()
 
         self.c0 = ClassFinalInfo()
