@@ -257,7 +257,7 @@ def my_proto_parser(data):
                                 else:
                                     count_ask(message.wxid1, 3)
                                 if not if_date:
-                                    message = f"{situation}是{date_ht}\n\n" + message0
+                                    message0 = f"{situation}是{date_ht}\n\n" + message0
                                 send(message.wxid1, message0)
 
                             else:
