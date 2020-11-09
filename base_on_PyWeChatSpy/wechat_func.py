@@ -290,6 +290,8 @@ def my_proto_parser(data):
                     send(message.wxid1, "也可以根据这个页面的提示直接生成启动指令👇\nlaorange.top/code.html")
                 elif message.content[:3] == '@指令':
                     send(message.wxid1, '点此链接查看当前支持的所有指令👇\nhttp://laorange.top/kb/wdtbs.html')
+                elif message.content == '@更新日志':
+                    send(message.wxid1, '点此链接查看更新日志👇\nhttp://laorange.top/kb/update_log.md')
 
                 # TODO: 只有发给/来自指定号的口令才生效的功能
                 if message.wxid1 == wxid_default:
