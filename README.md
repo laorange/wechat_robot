@@ -19,7 +19,7 @@
 
 ①首先请添加下面的微信：
 
-![二维码](https://gitee.com/laorange/wechat_robot/raw/master/base_on_PyWeChatSpy/util/qr_laorange.jpg)
+![二维码](https://gitee.com/laorange/wechat_robot/raw/master/base_on_PyWeChatSpy/util/qrcode_laorange.png)
 
 如果上面的二维码图片未能正常显示，可以通过微信号``y123zc``添加。
 
@@ -56,7 +56,7 @@
 + ``@明天`` 立即获取明天的课程表
 + ``@后天`` 立即获取后天的课程表
 + ......
-+ 点此链接查看当前支持的所有指令: [指令列表链接](laorange.top/kb/wdtbs.html)
++ 点此链接查看当前支持的所有指令: [指令列表链接](http://laorange.top/kb/wdtbs.html)
 
 ## 2.推送时间
 
