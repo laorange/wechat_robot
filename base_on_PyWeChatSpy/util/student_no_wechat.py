@@ -69,7 +69,7 @@ class StudentNoWechat:
         real_week = week
         self.situation = situation
         self.what_day_real = what_day
-        if week > 17:
+        if week > 14:  # ####!!!!!!special
             return "如果没猜错的话，此时本学期的课程已结束"
         try:
             # TODO: 补充 周末补课的判断条件
