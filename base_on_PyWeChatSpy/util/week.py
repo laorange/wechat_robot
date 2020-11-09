@@ -9,19 +9,26 @@ t_refer_strp = time.strptime(t_refer_1_week, '%Y-%m-%d %H:%M:%S')
 t_refer = time.mktime(t_refer_strp)
 
 
-def parse_wd_delay(wd: str) -> float:
-    date_after_parse = parse_weekday(wd)
+def parse_wd_delay(wd: str, if_date=False) -> float:
+    if not if_date:
+        date_after_parse = parse_weekday(wd)
+    else:
+        date_after_parse = wd
     date_str = str(date_after_parse) + ' 00:00:05'
     date_strp = time.strptime(date_str, '%Y-%m-%d %H:%M:%S')
     t_delay = time.mktime(date_strp) - time.time()
     return t_delay
 
 
-def parse_wd_ref_delay(wd: str) -> float:
-    delay_today = parse_wd_delay('今天')
-    delay_target = parse_wd_delay(wd)
-    ref_delay = delay_target - delay_today
-    return ref_delay
+def parse_wd_ref_delay(wd: str, if_date=False) -> float:
+    try:
+        delay_today = parse_wd_delay('今天')
+        delay_target = parse_wd_delay(wd, if_date)
+        ref_delay = delay_target - delay_today
+        return ref_delay
+    except ValueError as e:
+        logger.error(e)
+        raise ValueError
 
 
 def get_time_time(t_delay: int or float = 0):
@@ -42,6 +49,11 @@ def determine_what_day(t_delay: int or float = 0):
 def determine_date(t_delay: int or float = 0):
     date = time.strftime('%Y-%m-%d', time.localtime(time.time() + t_delay))
     return date
+
+
+def determine_year(t_delay: int or float = 0):
+    year = determine_date(t_delay)[:4]
+    return year
 
 
 def compute_week_num(target_day: str):

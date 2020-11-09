@@ -199,36 +199,69 @@ def my_proto_parser(data):
                             send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
 
                 # TODO: 星期一
-                if message.content[0] == '@' and (situation := message.content[1:]) in tbs_what_day and not tod_tom_dft:
-                    user_info_ls = check_user(message.wxid1)
-                    try:
-                        student = StudentNoWechat(user_info_ls[0], user_info_ls[2], user_info_ls[3], user_info_ls[4],
-                                                  user_info_ls[5])
-                    except Exception as e:
-                        logger.error(e)
-                        send(message.wxid1, '未在数据库中检索到该账号的信息, 如果是需要课表推送的话可以向我发送"@说明"来查看使用说明')
-                        raise Exception('未在数据库中检索到该账号的信息')
+                if message.content[0] == '@' and not tod_tom_dft:
+                    situation = message.content[1:]
+                    if_date = False
+                    delay_for_what_day = 0
+                    if situation in tbs_what_day:
+                        pass
+                    elif situation_match := re.match(r'^(\d{4})[-—./年](\d{1,2})[-—./月](\d{1,2})', situation):
+                        date_month = situation_match.group(2)
+                        if len(date_month) == 1:
+                            date_month = '0' + date_month
+                        date_day = situation_match.group(3)
+                        if len(date_day) == 1:
+                            date_day = '0' + date_day
+                        situation = situation_match.group(1) + '-' + date_month + '-' + date_day
+                        if_date = True
+                    elif situation_match := re.match(r'^(\d{1,2})[-—./月](\d{1,2})', situation):
+                        date_month = situation_match.group(1)
+                        if len(date_month) == 1:
+                            date_month = '0' + date_month
+                        date_day = situation_match.group(2)
+                        if len(date_day) == 1:
+                            date_day = '0' + date_day
+                        situation = determine_year() + '-' + date_month + '-' + date_day
+                        if_date = True
+                    else:
+                        situation = ''
+                    if situation:
+                        try:
+                            delay_for_what_day = parse_wd_ref_delay(situation, if_date)
+                        except ValueError:
+                            send(message.wxid1, '错误：输入不正确')
+                            situation = ''
+                    if situation:
+                        user_info_ls = check_user(message.wxid1)
+                        try:
+                            student = StudentNoWechat(user_info_ls[0], user_info_ls[2], user_info_ls[3],
+                                                      user_info_ls[4], user_info_ls[5])
+                        except Exception as e:
+                            logger.error(e)
+                            send(message.wxid1, '未在数据库中检索到该账号的信息, 如果是需要课表推送的话可以向我发送"@说明"来查看使用说明')
+                            raise Exception('未在数据库中检索到该账号的信息')
 
-                    delay_for_what_day = parse_wd_ref_delay(situation)
-                    if student.name == message.wxid1:
-                        if student.grade in preparatory_grades or student.grade in engineer_grades:
-                            date_ht = determine_date(delay_for_what_day)
-                            message0 = student.get_schedule(situation=situation,
-                                                            date=date_ht,
-                                                            week=determine_week(delay_for_what_day),
-                                                            what_day=determine_what_day(delay_for_what_day))
-                            if -1 < delay_for_what_day < 1:
-                                count_ask(message.wxid1, 0)
-                            elif 86399 < delay_for_what_day < 86401:
-                                count_ask(message.wxid1, 1)
-                            elif 2*86400-1 < delay_for_what_day < 2*86400+1:
-                                count_ask(message.wxid1, 2)
+                        if student.name == message.wxid1:
+                            if student.grade in preparatory_grades or student.grade in engineer_grades:
+                                date_ht = determine_date(delay_for_what_day)
+                                message0 = student.get_schedule(situation=situation,
+                                                                date=date_ht,
+                                                                week=determine_week(delay_for_what_day),
+                                                                what_day=determine_what_day(delay_for_what_day))
+                                if -1 < delay_for_what_day < 1:
+                                    count_ask(message.wxid1, 0)
+                                elif 86399 < delay_for_what_day < 86401:
+                                    count_ask(message.wxid1, 1)
+                                elif 2 * 86400 - 1 < delay_for_what_day < 2 * 86400 + 1:
+                                    count_ask(message.wxid1, 2)
+                                else:
+                                    count_ask(message.wxid1, 3)
+                                if not if_date:
+                                    message = f"{situation}是{date_ht}\n\n" + message0
+                                send(message.wxid1, message0)
+
                             else:
-                                count_ask(message.wxid1, 3)
-                            send(message.wxid1, f"{situation}是{date_ht}\n\n" + message0)
-
-                        else:
-                            send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
+                                send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
 
                 # TODO: 发送当前已填信息
                 if message.content == '@信息':
@@ -255,9 +288,8 @@ def my_proto_parser(data):
                     send(message.wxid1,
                          '点此链接可查看课表推送的详细使用说明👇\nhttps://gitee.com/laorange/wechat_robot/blob/master/README.md')
                     send(message.wxid1, "也可以根据这个页面的提示直接生成启动指令👇\nlaorange.top/code.html")
-                if message.content[:3] == '@指令':
-                    send(message.wxid1,
-                         '点此链接查看当前支持的所有指令👇\nhttp://laorange.top/kb/wdtbs.html')
+                elif message.content[:3] == '@指令':
+                    send(message.wxid1, '点此链接查看当前支持的所有指令👇\nhttp://laorange.top/kb/wdtbs.html')
 
                 # TODO: 只有发给/来自指定号的口令才生效的功能
                 if message.wxid1 == wxid_default:

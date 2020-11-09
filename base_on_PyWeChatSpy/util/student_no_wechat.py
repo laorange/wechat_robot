@@ -303,6 +303,9 @@ class StudentNoWechat:
                 if self.grade == 20 and week == 13 and what_day == 'Thursday':
                     message0 = message0 + '\n\n提示：\n第7周周五有20人参加运动会开幕式，1.2节的课调到本周四7.8节。以上课表信息仅供参考。'
 
+                if self.grade in preparatory_grades and date in ['2020-11-09', '2020-11-10']:
+                    message0 = '⭐11-09更新⭐\n①新增按日期查询功能，示例：\n"@11-11"\n"@2020-12-1"\n"@12月5日"\n"@2020年12月13号"' \
+                                + '\n②可发送“@指令”来查看当前支持的所有指令\n----------\n\n' + message0
                 return message0
 
             except Exception as e:
