@@ -101,7 +101,7 @@ def my_proto_parser(data):
                 # 发送说明文件网址
                 elif message.content[:3] == '@说明':
                     send(message.wxid1,
-                         '点此链接可查看本程序的详细说明: https://gitee.com/laorange/wechat_robot/blob/master/README.md')
+                         '点此链接可查看本程序的详细说明: http://laorange.top/kb/readme')
 
                 elif message.content[0] == '@' and message.wxid2 == '' and message.wxid1[-8:] != 'chatroom':
                     send(message.wxid1, inform_message)
