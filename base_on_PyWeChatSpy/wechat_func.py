@@ -156,7 +156,8 @@ def my_proto_parser(data):
                                                   user_info_ls[5])
                     except Exception as e:
                         logger.error(e)
-                        send(message.wxid1, '未在数据库中检索到该账号的信息, 如果是需要课表推送的话可以向我发送"@说明"来查看使用说明')
+                        if not message:
+                            send(message.wxid1, '未在数据库中检索到该账号的信息, 如果是需要课表推送的话可以向我发送"@说明"来查看使用说明')
                         raise Exception('未在数据库中检索到该账号的信息')
 
                     if student.name == message.wxid1:
@@ -238,7 +239,6 @@ def my_proto_parser(data):
                                                       user_info_ls[4], user_info_ls[5])
                         except Exception as e:
                             logger.error(e)
-                            send(message.wxid1, '未在数据库中检索到该账号的信息, 如果是需要课表推送的话可以向我发送"@说明"来查看使用说明')
                             raise Exception('未在数据库中检索到该账号的信息')
 
                         if student.name == message.wxid1:
