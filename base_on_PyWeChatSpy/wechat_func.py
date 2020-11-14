@@ -287,7 +287,6 @@ def my_proto_parser(data):
                 if message.content[:3] == '@说明':
                     send(message.wxid1,
                          '点此链接可查看课表推送的详细使用说明👇\nhttp://laorange.top/kb/readme')
-                    send(message.wxid1, "也可以根据这个页面的提示直接生成启动指令👇\nhttp://laorange.top/code")
                 elif message.content[:3] == '@指令':
                     send(message.wxid1, '点此链接查看当前支持的所有指令👇\nhttp://laorange.top/kb/wdtbs')
                 elif message.content == '@更新日志':
