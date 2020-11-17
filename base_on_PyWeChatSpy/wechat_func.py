@@ -381,7 +381,7 @@ spy = WeChatSpy(parser=my_proto_parser, key="授权Key", logger=logger)
 
 
 def send(wxid: str, content: str):
-    if len(content) >= 1000:
+    if content != None and len(content) >= 1000:
         content = content[:999]
     if content:
         spy.send_text(wxid, content)

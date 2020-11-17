@@ -139,7 +139,6 @@ class StudentNoWechat:
             self.week = week
             self.what_day = what_day
 
-            what_day_num = -1
             if what_day == 'Monday':
                 what_day_num = 0
             elif what_day == 'Tuesday':
@@ -154,15 +153,12 @@ class StudentNoWechat:
                 what_day_num = 5
             elif what_day == 'Sunday':
                 what_day_num = 6
+            else:
+                what_day_num = -1
 
-            # TODO: 预科阶段 获取总schedule
-            # 条件：正常情况 预科阶段周日没有课
-            if self.grade in preparatory_grades and what_day_num == 6:
-                return f'{self.situation}全天没有课'
-            if self.grade in preparatory_grades and what_day_num >= 0:
-                schedule = self.schedule_grade[what_day_num]
+            message0 = ''
             # TODO: 工程师阶段 返回课表链接
-            elif self.grade in engineer_grades:
+            if self.grade in engineer_grades:
                 message0 = url_engineer_grades[engineer_grades.index(self.grade)]
                 if self.situation != '今天':
                     message0 = '可点击该链接查看课表:\n' + message0 + '?p=' + str(real_week + 3)
@@ -172,39 +168,33 @@ class StudentNoWechat:
                         exams_count_down += '\n\n'
                     message0 = exams_count_down + '可点击该链接查看课表:\n' + message0
                 message0 = message0 + self.inform_msg
-                return message0
-            else:
-                raise Exception('不属于适用年级')
+                # return message0
 
-            # TODO: 对schedule_ls的final系列的初始化
-            for i in range(5):
-                schedule[i].final_class_fr_name = ''
-                schedule[i].final_class_ch_name = ''
-                schedule[i].final_teacher = ''
-                schedule[i].final_classroom = ''
+            # TODO: 返回 待发送的课表信息
+            elif self.grade in preparatory_grades:
+                # TODO: 预科阶段 获取总schedule
+                # 条件：正常情况 预科阶段周日没有课
+                schedule = None  # 下面若读取失败可直接报错
+                if self.grade in preparatory_grades and what_day_num == 6:
+                    return f'{self.situation}全天没有课'
+                elif self.grade in preparatory_grades and what_day_num >= 0:
+                    schedule = self.schedule_grade[what_day_num]
 
-            # TODO: ⭐根据用户信息 解析出课程表
-            for i in range(5):  # 第i节课
-                if len(schedule[i].class_property) == 0:
-                    logger.info(f'{self.name}:{self.situation}第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
+                # TODO: 对schedule_ls的final系列的初始化
+                for i in range(5):
+                    schedule[i].final_class_fr_name = ''
+                    schedule[i].final_class_ch_name = ''
+                    schedule[i].final_teacher = ''
+                    schedule[i].final_classroom = ''
 
-                else:
-                    for final_index in range(len(schedule[i].class_property)):
-                        if schedule[i].class_property[final_index] == 'all':
-                            if week in schedule[i].correspond_week[final_index]:
-                                try:
-                                    if len(schedule[i].class_fr_name_ls) > final_index:
-                                        schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                    if len(schedule[i].class_ch_name_ls) > final_index:
-                                        schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                    if len(schedule[i].teacher_ls) > final_index:
-                                        schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                    if len(schedule[i].classroom_ls) > final_index:
-                                        schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
-                                except Exception as e:
-                                    logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
-                        elif schedule[i].class_property[final_index] == 'AB':
-                            if self.a_or_b == schedule[i].correspond_class[final_index]:
+                # TODO: ⭐根据用户信息 解析出课程表
+                for i in range(5):  # 第i节课
+                    if len(schedule[i].class_property) == 0:
+                        logger.info(f'{self.name}:{self.situation}第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
+
+                    else:
+                        for final_index in range(len(schedule[i].class_property)):
+                            if schedule[i].class_property[final_index] == 'all':
                                 if week in schedule[i].correspond_week[final_index]:
                                     try:
                                         if len(schedule[i].class_fr_name_ls) > final_index:
@@ -217,96 +207,114 @@ class StudentNoWechat:
                                             schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
                                     except Exception as e:
                                         logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
-                        elif schedule[i].class_property[final_index] == 'P':
-                            if self.p_ab_cd == schedule[i].correspond_class[final_index]:
-                                if week in schedule[i].correspond_week[final_index]:
-                                    try:
-                                        if len(schedule[i].class_fr_name_ls) > final_index:
-                                            schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                        if len(schedule[i].class_ch_name_ls) > final_index:
-                                            schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                        if len(schedule[i].teacher_ls) > final_index:
-                                            schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                        if len(schedule[i].classroom_ls) > final_index:
-                                            schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
-                                    except Exception as e:
-                                        logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
-                        elif schedule[i].class_property[final_index] == 'F':
-                            if self.f_ab_cd_e == schedule[i].correspond_class[final_index]:
-                                if week in schedule[i].correspond_week[final_index]:
-                                    try:
-                                        if len(schedule[i].class_fr_name_ls) > final_index:
-                                            schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
-                                        if len(schedule[i].class_ch_name_ls) > final_index:
-                                            schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
-                                        if len(schedule[i].teacher_ls) > final_index:
-                                            schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
-                                        if len(schedule[i].classroom_ls) > final_index:
-                                            schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
-                                    except Exception as e:
-                                        logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
-                    exec("self.c" + str(i) + ".final_class_fr_name = schedule[i].final_class_fr_name")
-                    exec("self.c" + str(i) + ".final_class_ch_name = schedule[i].final_class_ch_name")
-                    exec("self.c" + str(i) + ".final_teacher = schedule[i].final_teacher")
-                    exec("self.c" + str(i) + ".final_classroom = schedule[i].final_classroom")
+                            elif schedule[i].class_property[final_index] == 'AB':
+                                if self.a_or_b == schedule[i].correspond_class[final_index]:
+                                    if week in schedule[i].correspond_week[final_index]:
+                                        try:
+                                            if len(schedule[i].class_fr_name_ls) > final_index:
+                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                            if len(schedule[i].class_ch_name_ls) > final_index:
+                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                            if len(schedule[i].teacher_ls) > final_index:
+                                                schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                                            if len(schedule[i].classroom_ls) > final_index:
+                                                schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                        except Exception as e:
+                                            logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
+                            elif schedule[i].class_property[final_index] == 'P':
+                                if self.p_ab_cd == schedule[i].correspond_class[final_index]:
+                                    if week in schedule[i].correspond_week[final_index]:
+                                        try:
+                                            if len(schedule[i].class_fr_name_ls) > final_index:
+                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                            if len(schedule[i].class_ch_name_ls) > final_index:
+                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                            if len(schedule[i].teacher_ls) > final_index:
+                                                schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                                            if len(schedule[i].classroom_ls) > final_index:
+                                                schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                        except Exception as e:
+                                            logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
+                            elif schedule[i].class_property[final_index] == 'F':
+                                if self.f_ab_cd_e == schedule[i].correspond_class[final_index]:
+                                    if week in schedule[i].correspond_week[final_index]:
+                                        try:
+                                            if len(schedule[i].class_fr_name_ls) > final_index:
+                                                schedule[i].final_class_fr_name = schedule[i].class_fr_name_ls[final_index]
+                                            if len(schedule[i].class_ch_name_ls) > final_index:
+                                                schedule[i].final_class_ch_name = schedule[i].class_ch_name_ls[final_index]
+                                            if len(schedule[i].teacher_ls) > final_index:
+                                                schedule[i].final_teacher = schedule[i].teacher_ls[final_index]
+                                            if len(schedule[i].classroom_ls) > final_index:
+                                                schedule[i].final_classroom = schedule[i].classroom_ls[final_index]
+                                        except Exception as e:
+                                            logger.error(f'在处理{self.name}的第({i})节课时出错,{e}')
+                        exec("self.c" + str(i) + ".final_class_fr_name = schedule[i].final_class_fr_name")
+                        exec("self.c" + str(i) + ".final_class_ch_name = schedule[i].final_class_ch_name")
+                        exec("self.c" + str(i) + ".final_teacher = schedule[i].final_teacher")
+                        exec("self.c" + str(i) + ".final_classroom = schedule[i].final_classroom")
+
+                try:
+                    message0 = f'{self.situation}的课程表:'
+                    if self.replacement:
+                        message0 = f'{self.situation}补的是第' + str(self.week + 1) + '周' + self.what_day + '的课:'
+
+                    class_ls = [self.c0, self.c1, self.c2, self.c3, self.c4]
+                    for i in range(5):
+                        if class_ls[i].final_class_ch_name != '':
+                            if class_ls[i].final_classroom != '':
+                                if class_ls[i].final_teacher != '':
+                                    message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_teacher}老师的{class_ls[i].final_class_ch_name}，地点:{class_ls[i].final_classroom}'
+                                else:
+                                    message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_class_ch_name}，地点:{class_ls[i].final_classroom}'
+                            else:
+                                if class_ls[i].final_teacher != '':
+                                    message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_teacher}老师的{class_ls[i].final_class_ch_name}'
+                                else:
+                                    message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_class_ch_name}'
+                        elif i == 4:
+                            pass  # 如果晚上没课，则不显示第五条
+                        else:
+                            message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课没课'
+                    if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + \
+                            len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
+                            len(self.c4.final_class_ch_name) == 0:
+                        logger.info('student schedule info send ----> None')
+
+                        message0 = f'{self.situation}全天没有课'
+
+                    # 新增预科阶段的验证网站
+                    message_url = ''
+                    if self.grade == 18:
+                        message_url = '\n\n※课表图片链接:\n' + url_schedule_18
+                    elif self.grade == 19:
+                        message_url = '\n\n※课表图片链接:\n' + url_schedule_19 + '\n※可点此查看td轮班表:\n' + url_19_td
+                    elif self.grade == 20:
+                        message_url = '\n\n※课表图片链接:\n' + url_schedule_20
+                    message0 = message0 + message_url + self.inform_msg
+
+                except Exception as e:
+                    logger.error(f'student tomorrow info send ----> fail\n{e}\n')
+                    traceback.print_exc()
+
+            # TODO: 手动添加某天的公告
+            if self.grade == 20 and date == '2020-10-16':
+                message0 = message0 + '\n\n提示：\n本周五有20人参加运动会开幕式，1.2节的课调到第14周周四7.8节。以上课表信息仅供参考。'
+
+            if self.grade == 20 and week == 13 and what_day == 'Thursday':
+                message0 = message0 + '\n\n提示：\n第7周周五有20人参加运动会开幕式，1.2节的课调到本周四7.8节。以上课表信息仅供参考。'
+
+            if self.grade in preparatory_grades and date in ['2020-11-09', '2020-11-10']:
+                message0 = '⭐11-09更新⭐\n①新增按日期查询功能，示例：\n"@11-11"\n"@2020-12-1"\n"@12月5日"\n"@2020年12月13号"' \
+                           + '\n②可发送“@指令”来查看当前支持的所有指令\n----------\n\n' + message0
+
+            if date == '2020-11-18' and self.situation in ['今天', '明天']:
+                message0 = message0 \
+                           + '\n\n⭐⭐⭐⭐⭐\n' \
+                           + f'{self.situation}中午11:45，中欧合唱团将在中欧楼一楼大厅进行快闪表演，歌曲串烧，时长约八分钟。' \
+                           + '欢迎大家前来观赏[跳跳] (错峰进餐哟~)\n\n点此链接可查看相关信息: laorange.top/kb/herf'
+            return message0
 
         except Exception as e:
             logger.error(str(e))
             traceback.print_exc()
-
-        # TODO: 返回 待发送的课表信息
-        if self.grade in preparatory_grades:
-            try:
-                message0 = f'{self.situation}的课程表:'
-                if self.replacement:
-                    message0 = f'{self.situation}补的是第' + str(self.week + 1) + '周' + self.what_day + '的课:'
-
-                class_ls = [self.c0, self.c1, self.c2, self.c3, self.c4]
-                for i in range(5):
-                    if class_ls[i].final_class_ch_name != '':
-                        if class_ls[i].final_classroom != '':
-                            if class_ls[i].final_teacher != '':
-                                message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_teacher}老师的{class_ls[i].final_class_ch_name}，地点:{class_ls[i].final_classroom}'
-                            else:
-                                message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_class_ch_name}，地点:{class_ls[i].final_classroom}'
-                        else:
-                            if class_ls[i].final_teacher != '':
-                                message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_teacher}老师的{class_ls[i].final_class_ch_name}'
-                            else:
-                                message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课是{class_ls[i].final_class_ch_name}'
-                    elif i == 4:
-                        pass  # 如果晚上没课，则不显示第五条
-                    else:
-                        message0 = message0 + '\n\n' + f'第{str(2 * (i + 1) - 1)},{str(2 * (i + 1))}节课没课'
-                if len(self.c0.final_class_ch_name) + len(self.c1.final_class_ch_name) + \
-                        len(self.c2.final_class_ch_name) + len(self.c3.final_class_ch_name) + \
-                        len(self.c4.final_class_ch_name) == 0:
-                    logger.info('student schedule info send ----> None')
-
-                    message0 = f'{self.situation}全天没有课'
-
-                # 新增预科阶段的验证网站
-                message_url = ''
-                if self.grade == 18:
-                    message_url = '\n\n※课表图片链接:\n' + url_schedule_18
-                elif self.grade == 19:
-                    message_url = '\n\n※课表图片链接:\n' + url_schedule_19 + '\n※可点此查看td轮班表:\n' + url_19_td
-                elif self.grade == 20:
-                    message_url = '\n\n※课表图片链接:\n' + url_schedule_20
-
-                message0 = message0 + message_url + self.inform_msg
-
-                if self.grade == 20 and date == '2020-10-16':
-                    message0 = message0 + '\n\n提示：\n本周五有20人参加运动会开幕式，1.2节的课调到第14周周四7.8节。以上课表信息仅供参考。'
-
-                if self.grade == 20 and week == 13 and what_day == 'Thursday':
-                    message0 = message0 + '\n\n提示：\n第7周周五有20人参加运动会开幕式，1.2节的课调到本周四7.8节。以上课表信息仅供参考。'
-
-                if self.grade in preparatory_grades and date in ['2020-11-09', '2020-11-10']:
-                    message0 = '⭐11-09更新⭐\n①新增按日期查询功能，示例：\n"@11-11"\n"@2020-12-1"\n"@12月5日"\n"@2020年12月13号"' \
-                                + '\n②可发送“@指令”来查看当前支持的所有指令\n----------\n\n' + message0
-                return message0
-
-            except Exception as e:
-                logger.error(f'student tomorrow info send ----> fail\n{e}\n')
-                traceback.print_exc()
