@@ -32,14 +32,6 @@ wxid_default = 'wxid_oftjmj5649kd22'
 # 黑名单
 blacklist = []
 
-# logger = logging.getlogger(__file__)
-# formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
-# sh = logging.StreamHandler()
-# sh.setFormatter(formatter)
-# sh.setLevel(logging.DEBUG)
-# logger.addHandler(sh)
-# logger.setLevel(logging.INFO)
-
 contact_list = []
 chatroom_list = []
 
@@ -300,11 +292,6 @@ def my_proto_parser(data):
                         logger.info('!' * 5 + 'inform' + '!' * 5)
                         inform(code_inform, message.wxid1)
 
-                    # csv to excel ##使用MySQL后该函数失效
-                    # if message.content == '@excel':
-                    #     logger.info('csv to excel')
-                    #     csv_to_xlsx_pd()
-
                     # TODO: send user_info list to myself
                     if message.content == '@ul':
                         send(wxid_default, count_user_each_grade())
@@ -323,8 +310,6 @@ def my_proto_parser(data):
                             send(wxid_default, str(e))
                             logger.error(e)
                             traceback.print_exc()
-                        # else:
-                        #     send(wxid_default, '添加成功')
 
                     # TODO: 查询法语单词
                     if message.content[:2] == '==':
