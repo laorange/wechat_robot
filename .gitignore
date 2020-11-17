@@ -131,6 +131,7 @@ dmypy.json
 # own
 .idea/
 PyWeChatSpy/
+base_on_PyWeChatSpy/PyWeChatSpy/
 data/
 wxpy.pkl
 wxpy_puid.pkl
