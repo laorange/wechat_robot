@@ -312,7 +312,7 @@ class StudentNoWechat:
                 message0 = message0 \
                            + '\n\n⭐⭐⭐⭐⭐\n' \
                            + f'{self.situation}中午11:45，中欧合唱团将在中欧楼一楼大厅进行快闪表演，歌曲串烧，时长约八分钟。' \
-                           + '欢迎大家前来观赏[跳跳] (错峰进餐哟~)\n\n点此链接可查看相关信息: laorange.top/kb/herf'
+                           + '欢迎大家前来捧场[跳跳] (错峰用餐~)\n\n点此链接可查看相关信息: laorange.top/kb/herf'
             return message0
 
         except Exception as e:

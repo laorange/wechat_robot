@@ -236,19 +236,22 @@ def my_proto_parser(data):
                         if student.name == message.wxid1:
                             if student.grade in preparatory_grades or student.grade in engineer_grades:
                                 date_ht = determine_date(delay_for_what_day)
+                                if -1 < delay_for_what_day < 1:
+                                    count_ask(message.wxid1, 0)
+                                    situation = '今天'
+                                elif 86399 < delay_for_what_day < 86401:
+                                    count_ask(message.wxid1, 1)
+                                    situation = '明天'
+                                elif 2 * 86400 - 1 < delay_for_what_day < 2 * 86400 + 1:
+                                    count_ask(message.wxid1, 2)
+                                    situation = '后天'
+                                else:
+                                    count_ask(message.wxid1, 3)
                                 message0 = student.get_schedule(situation=situation,
                                                                 date=date_ht,
                                                                 week=determine_week(delay_for_what_day),
                                                                 what_day=determine_what_day(delay_for_what_day))
-                                if -1 < delay_for_what_day < 1:
-                                    count_ask(message.wxid1, 0)
-                                elif 86399 < delay_for_what_day < 86401:
-                                    count_ask(message.wxid1, 1)
-                                elif 2 * 86400 - 1 < delay_for_what_day < 2 * 86400 + 1:
-                                    count_ask(message.wxid1, 2)
-                                else:
-                                    count_ask(message.wxid1, 3)
-                                if not if_date:
+                                if not if_date and situation not in ['今天', '明天', '后天']:
                                     message0 = f"{situation}是{date_ht}\n\n" + message0
                                 send(message.wxid1, message0)
 
