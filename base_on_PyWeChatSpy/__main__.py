@@ -7,7 +7,7 @@ from util.student import Student
 from util.func_apscheduler import do_at_sometime
 from util.week import *
 
-from data.private_space.mysql_func import get_user_list_all_data
+from util.mysql_func import get_user_list_all_data
 
 # from application.review_word.get_word import get_word
 
@@ -30,21 +30,13 @@ if time_for_sleep < 0:
         raise Exception("main l24逻辑错误")
 logger.info(f"time_for_sleep:{time_for_sleep}")
 
-# 测试时期 ---------------------------------------------------------------------#
-# time_for_sleep = 5
-# 测试时期 ---------------------------------------------------------------------#
-
-user_list_path = 'data/private_space/user_list.csv'
-
 
 def student_send(before_term_begin=False):
-    # user_list = read_file2list(user_list_path)
     user_list = get_user_list_all_data()
 
     student_ls = []
     for user in user_list:
         try:
-            # user_info_ls = user.split(',')
             user_info_ls = list(user)
             student_ls.append(
                 Student(user_info_ls[0], user_info_ls[2], user_info_ls[3], user_info_ls[4], user_info_ls[5]))
@@ -66,23 +58,19 @@ def student_send(before_term_begin=False):
 
 def start():
     # ①对特定要求的定制发送任务
-    # try:
-    #     personalisation()
-    # except Exception as e:
-    #     print(e)
+    # personalisation()
 
     # ②自用的单词复习
-    try:
-        review_en_word_num = 20  # 复习英语单词的数量
-        review_fr_word_num = 20  # 复习法语单词的数量
-        # send_review_word_two_language(review_en_word_num, review_fr_word_num)
-    except Exception as e:
-        logger.error('自用的单词复习模块出错'+str(e))
-        traceback.print_exc()
+    # try:
+    #     review_en_word_num = 20  # 复习英语单词的数量
+    #     review_fr_word_num = 20  # 复习法语单词的数量
+    #     send_review_word_two_language(review_en_word_num, review_fr_word_num)
+    # except Exception as e:
+    #     logger.error('自用的单词复习模块出错'+str(e))
+    #     traceback.print_exc()
 
     # ⭐③课表推送
     try:
-        # what_day_num = time.strftime('%w', time.localtime())
         if determine_week() in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]:  # 本学期只有15周
             try:
                 logger.info("start checking students' info")
@@ -97,27 +85,19 @@ def start():
         else:
             logger.warning('本学期尚未开始或本学期的18周的课程已全部结束')
     except Exception as e:
-        logger.error('课表推送模块出错'+str(e))
+        logger.error('课表推送模块出错' + str(e))
         traceback.print_exc()
+    next_time = determine_standard_time(86400)
+    do_at_sometime(start, next_time)
 
 
-def multiple_start():
+def auto_send():
     time.sleep(time_for_sleep)
-    # for day in range(10):
-    #     t_next += 86400
-    #     t_next_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t_next))
-    #     do_at_sometime(start, t_next_str)
-    while True:
-        start()
-        time.sleep(86400)
-
-
-# def task_start():
-#     do_at_sometime(multiple_start, start_time)
+    start()
 
 
 if __name__ == "__main__":
     t1 = Thread(target=log_in)
-    t2 = Thread(target=multiple_start)
+    t2 = Thread(target=auto_send())
     t1.start()
     t2.start()
