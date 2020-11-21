@@ -46,6 +46,11 @@ def determine_what_day(t_delay: int or float = 0):
     return what_day
 
 
+def determine_standard_time(t_delay: int or float = 0):
+    standard_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + t_delay))
+    return standard_time
+
+
 def determine_date(t_delay: int or float = 0):
     date = time.strftime('%Y-%m-%d', time.localtime(time.time() + t_delay))
     return date
