@@ -19,14 +19,6 @@ from data.private_space.mysql_func import *
 
 wxid_default = 'wxid_oftjmj5649kd22'
 
-logger = logging.getLogger(__file__)
-formatter = logging.Formatter('%(asctime)s [%(threadName)s] %(levelname)s: %(message)s')
-sh = logging.StreamHandler()
-sh.setFormatter(formatter)
-sh.setLevel(logging.DEBUG)
-logger.addHandler(sh)
-logger.setLevel(logging.INFO)
-
 contact_list = []
 chatroom_list = []
 
@@ -36,19 +28,7 @@ url_17 = 'solars.top/kb/17/S1/'
 url_16 = 'solars.top/kb/16/S3/'
 url_15 = 'solars.top/kb/15/S5/'
 
-inform_message = 'sorry，程序正在测试升级中，预计20点后恢复。\n\n当前仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效'
-
-
-# inform_message += '\n\n※维护公告: 10.1, 10.2两天中添加、查询、删除功能将暂停使用，祝大家国庆中秋节快乐！'
-
-
-class Student4inform:  # avoid the circular import
-    def __init__(self, name, grade, a_or_b, p_ab_cd, f_ab_cd_e):
-        self.name = name  # 微信备注名
-        self.grade = grade  # 年级
-        self.a_or_b = a_or_b  # 大AB班
-        self.p_ab_cd = p_ab_cd  # td班
-        self.f_ab_cd_e = f_ab_cd_e  # 法语班
+inform_message = 'sorry，正在迁移数据，预计18点38分后恢复。\n\n当前仍可以向我发送"@说明"来查看本程序的使用说明，除此以外其余功能都暂时失效'
 
 
 def my_proto_parser(data):
