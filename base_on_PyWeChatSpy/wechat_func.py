@@ -22,7 +22,7 @@ from util.student_no_wechat import StudentNoWechat
 # from application.review_word.get_word import get_word
 from util.parser_what_day import tbs_what_day
 
-from data.private_space.mysql_func import *
+from util.mysql_func import *
 
 import traceback
 from loguru import logger
@@ -286,6 +286,8 @@ def my_proto_parser(data):
                     send(message.wxid1, '点此链接查看当前支持的所有指令👇\nhttp://laorange.top/kb/wdtbs')
                 elif message.content == '@更新日志':
                     send(message.wxid1, '点此链接查看更新日志👇\nhttp://laorange.top/kb/update_log')
+                elif message.content in ['@主页', '@kb']:
+                    send(message.wxid1, '点此链接查看整合后的主页👇\nhttp://laorange.top/kb')
 
                 # TODO: 只有发给/来自指定号的口令才生效的功能
                 if message.wxid1 == wxid_default:
