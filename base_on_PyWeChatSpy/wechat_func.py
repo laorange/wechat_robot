@@ -340,7 +340,8 @@ def my_proto_parser(data):
                         refresh_remark()
 
             elif message.type == 3:
-                logger.info("图片消息" + f"{from_whom}: {message.content}")
+                if message.wxid1[-8:] != 'chatroom' and len(message.content) < 100:
+                    logger.info("图片消息" + f"{from_whom}: {message.content}")
             elif message.type == 37:
                 logger.info("好友请求消息" + f"\n{from_whom}: {message.content}")
             else:
