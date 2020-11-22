@@ -92,8 +92,8 @@ def start():
 
 
 def auto_send():
-    time.sleep(time_for_sleep)
-    start()
+    next_time = determine_standard_time(time_for_sleep)
+    do_at_sometime(start, next_time)
 
 
 if __name__ == "__main__":
