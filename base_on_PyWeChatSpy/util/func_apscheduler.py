@@ -1,110 +1,68 @@
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.date import DateTrigger
+from apscheduler.schedulers.background import BlockingScheduler
+from loguru import logger
+from util.time_util import determine_standard_time
 
 
 def my_job():
-    print('my_job, {}'.format(time.ctime()))
+    print('it is my_job, {}'.format(time.ctime()))
 
 
-def do_at_sometime(func, run_time: str):
+def do_at_sometime(func, run_time, countdown=False, if_block=False, misfire_grace_time=1, args=None):
     """
     do_at_sometime
+    :param if_block: 是否阻塞进程
+    :param countdown: 倒计时模式
+    :param misfire_grace_time: 容错时间间隔 默认：1s
+    :param args: func的参数
     :param func: 将要执行的函数名
     :param run_time: 形如'2020-08-07 17:17:10' ‘%Y-%m-%d %H:%M’的时间
     :return: None
     """
-    try:
-        scheduler = BackgroundScheduler()
-        intervalTrigger = DateTrigger(run_date=run_time)
-        scheduler.add_job(func, intervalTrigger, id=func.__name__)
+    if countdown:
+        run_time = determine_standard_time(run_time)
+    run_time_strp = time.strptime(run_time, '%Y-%m-%d %H:%M:%S')
+    t_delay = time.mktime(run_time_strp) - time.time()
+    if t_delay > 3600:
+        misfire_grace_time = int(t_delay // 3600)  # 允许1个小时产生1秒误差，不足1秒记作1秒
+
+    if t_delay > -3:  # 三秒容错
+        if if_block:
+            scheduler = BlockingScheduler()
+        else:
+            scheduler = BackgroundScheduler()
+        scheduler.add_job(func, 'date', run_date=run_time,
+                          misfire_grace_time=misfire_grace_time, id=func.__name__, args=args)
+        logger.info(f'future task {run_time}: "{func.__name__}"')
         scheduler.start()
-        print(f'future task {run_time}: "{func.__name__}"')
-    except Exception as e:
-        print(e)
+    else:
+        logger.error(f'run time miss: {run_time}: "{func.__name__}"')
+
+
+def do_something_at_regular_intervals(func, interval, args=None, if_exe_right_now=True, if_block=False,
+                                      misfire_grace_time=1):
+    if if_block:
+        scheduler = BlockingScheduler()
+    else:
+        scheduler = BackgroundScheduler()
+
+    if interval > 3600:
+        misfire_grace_time = int(interval // 3600)  # 允许1个小时产生1秒误差
+
+    scheduler.add_job(func, 'interval', seconds=interval,
+                      misfire_grace_time=misfire_grace_time, id=func.__name__, args=args)
+    if if_exe_right_now:
+        if isinstance(args, list):
+            if args:
+                func(args)
+        else:
+            func()
+    logger.info(f'interval task ({interval}s): "{func.__name__}"')
+    scheduler.start()
 
 
 if __name__ == "__main__":
-    # scheduler = BackgroundScheduler()
-    # intervalTrigger = DateTrigger(run_date='2020-08-07 17:13:00')
-    # scheduler.add_job(my_job, intervalTrigger, id='my_job_id')
-    # scheduler.start()
-    # while True:
-    #     time.sleep(1)
-    do_at_sometime(my_job, '2020-08-07 17:17:10')
-    while True:
-        time.sleep(1)
-
-# import time
-# from apscheduler.schedulers.background import BackgroundScheduler
-# from apscheduler.triggers.date import DateTrigger
-#
-#
-# def my_job():
-#     print('my_job, {}'.format(time.ctime()))
-#
-#
-# def do_at_sometime(func, send_time, task_name='my_job_id', **trigger_args):
-#     """send_time = 2020-08-07 12:02:00"""
-#     """format = '%Y-%m-%d %H:%M:%s'"""
-#     scheduler = BackgroundScheduler()
-#     intervalTrigger = DateTrigger(run_date=send_time)
-#     scheduler.add_job(func, intervalTrigger, id=task_name, **trigger_args)
-#     scheduler.start()
-
-
-# if __name__ == "__main__":
-#     scheduler = BlockingScheduler()
-#     intervalTrigger = DateTrigger(run_date='2020-08-07 12:02:00')
-#     scheduler.add_job(my_job, intervalTrigger, id='my_job_id')
-#     scheduler.start()
-
-# import time
-# from apscheduler.schedulers.background import BackgroundScheduler
-# from apscheduler.triggers.interval import IntervalTrigger
-#
-#
-# def my_job():
-#     print('my_job, {}'.format(time.ctime()))
-#
-#
-# if __name__ == "__main__":
-#     scheduler = BackgroundScheduler()
-#
-#     # 间隔设置为1秒，还可以使用minutes、hours、days、weeks等
-#     intervalTrigger = IntervalTrigger(seconds=1)
-#
-#     # 给作业设个id，方便作业的后续操作，暂停、取消等
-#     scheduler.add_job(my_job, intervalTrigger, id='my_job_id')
-#     scheduler.start()
-#     print('=== end. ===')
-
-'''
-class Subject:
-    def __init__(self, class_name, classroom, teacher):
-        self.class_name = class_name
-        self.classroom = classroom
-        self.teacher = teacher
-
-
-class Day:
-    def __init__(self, c1, c2, c3, c4, c5):
-        self.c1 = c1
-        self.c2 = c2
-        self.c3 = c3
-        self.c4 = c4
-        self.c5 = c5
-
-
-
-第一周
-高等数学/林洁/201,经典物理/秦哲/201,高等数学/林洁/201,经典物理/秦哲/201,高等数学/林洁/201\n
-高等数学/林洁/201,经典物理/秦哲/201,高等数学/林洁/201,经典物理/秦哲/201,高等数学/林洁/201\n
-高等数学/林洁/201,经典物理/秦哲/201,高等数学/林洁/201,经典物理/秦哲/201,高等数学/林洁/201\n
-高等数学/林洁/201,经典物理/秦哲/201,高等数学/林洁/201,经典物理/秦哲/201,高等数学/林洁/201\n
-,,毛概/李老师/220,,\n
-
-第二周
-...
-
-'''
+    # do_at_sometime(my_job, -2, countdown=True, if_block=True)
+    # do_something_at_regular_intervals(my_job, interval=5, if_block=True)
+    do_at_sometime(do_something_at_regular_intervals, run_time=10, countdown=True, args=[my_job, 3], if_block=True)
