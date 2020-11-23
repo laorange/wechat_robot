@@ -15,7 +15,7 @@ from urllib.parse import quote
 from data.message import send_mail
 from util.func_apscheduler import do_at_sometime
 # from util.basic_functions import read_file2list
-# from util.week import *
+# from util.time_util import *
 from util.csv2excel import csv_to_xlsx_pd
 from util.student_no_wechat import StudentNoWechat
 # from application.review_word.receive_word import receive_word
@@ -404,8 +404,8 @@ def send_msg_when(wxid: str, content: str, send_time: str):
 
 
 def log_in():
-    t1 = Thread(target=spy.run)
-    t1.start()
+    t0 = Thread(target=spy.run)
+    t0.start()
     logger.info('start receiving wechat message')
 
 
