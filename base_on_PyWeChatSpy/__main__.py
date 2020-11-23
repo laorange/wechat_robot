@@ -1,11 +1,10 @@
 ﻿import time
 from threading import Thread
 
-from wechat_func import log_in, send_review_word_two_language, personalisation
-# from util.basic_functions import read_file2list
+from wechat_func import log_in  # send_review_word_two_language, personalisation
 from util.student import Student
-from util.func_apscheduler import do_at_sometime
-from util.week import *
+from util.func_apscheduler import do_at_sometime, do_something_at_regular_intervals
+from util.time_util import *
 
 from util.mysql_func import get_user_list_all_data
 
@@ -59,16 +58,10 @@ def student_send(before_term_begin=False):
 def start():
     # ①对特定要求的定制发送任务
     # personalisation()
-
     # ②自用的单词复习
-    # try:
-    #     review_en_word_num = 20  # 复习英语单词的数量
-    #     review_fr_word_num = 20  # 复习法语单词的数量
-    #     send_review_word_two_language(review_en_word_num, review_fr_word_num)
-    # except Exception as e:
-    #     logger.error('自用的单词复习模块出错'+str(e))
-    #     traceback.print_exc()
-
+    # review_en_word_num = 20  # 复习英语单词的数量
+    # review_fr_word_num = 20  # 复习法语单词的数量
+    # send_review_word_two_language(review_en_word_num, review_fr_word_num)
     # ⭐③课表推送
     try:
         if determine_week() in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]:  # 本学期只有15周
@@ -87,17 +80,14 @@ def start():
     except Exception as e:
         logger.error('课表推送模块出错' + str(e))
         traceback.print_exc()
-    next_time = determine_standard_time(86400)
-    do_at_sometime(start, next_time)
 
 
 def auto_send():
-    next_time = determine_standard_time(time_for_sleep)
-    do_at_sometime(start, next_time)
+    do_at_sometime(do_something_at_regular_intervals, time_for_sleep, countdown=True, args=[start, 68399])
 
 
 if __name__ == "__main__":
     t1 = Thread(target=log_in)
-    t2 = Thread(target=auto_send())
+    t2 = Thread(target=auto_send)
     t1.start()
     t2.start()
