@@ -1,6 +1,6 @@
 ﻿from random import randint
 
-from wechat_func import send_msg_when
+from util.wechat_func import send_msg_when
 from util.weather import get_weather
 from util.student_no_wechat import StudentNoWechat
 

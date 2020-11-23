@@ -1,7 +1,7 @@
 ﻿import time
 from threading import Thread
 
-from wechat_func import log_in  # send_review_word_two_language, personalisation
+from util.wechat_func import log_in  # send_review_word_two_language, personalisation
 from util.student import Student
 from util.func_apscheduler import do_at_sometime, do_something_at_regular_intervals
 from util.time_util import *
