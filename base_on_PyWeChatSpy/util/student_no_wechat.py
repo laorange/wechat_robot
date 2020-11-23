@@ -1,7 +1,7 @@
 from schedule.schedule18 import schedule_18
 from schedule.schedule19 import schedule_19
 from schedule.schedule20 import schedule_20
-from util.week import determine_when_exam
+from util.time_util import determine_when_exam
 
 import traceback
 from loguru import logger

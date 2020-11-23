@@ -1,5 +1,5 @@
 import re
-from util.week import determine_date
+from util.time_util import determine_date
 
 
 def receive_word(if_english: bool, words: str):

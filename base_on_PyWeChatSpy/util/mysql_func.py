@@ -3,7 +3,7 @@ import re
 
 from application.review_word.get_word import WordInfo
 
-from util.week import *
+from util.time_util import *
 
 import traceback
 

@@ -1,5 +1,5 @@
 import time
-from util.week import determine_date
+from util.time_util import determine_date
 from util.basic_functions import read_file2list
 
 path_fr = 'application/review_word/word_data_fr.csv'
