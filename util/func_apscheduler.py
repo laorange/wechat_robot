@@ -52,17 +52,18 @@ def do_something_at_regular_intervals(func, interval, args=None, if_exe_right_no
 
     scheduler.add_job(func, 'interval', seconds=interval,
                       misfire_grace_time=misfire_grace_time, id=func.__name__, args=args)
+    logger.info(f'interval task ({interval}s): "{func.__name__}"')
     if if_exe_right_now:
+        logger.info(f'interval task exe_right_now: "{func.__name__}"')
         if isinstance(args, list):
             if args:
                 func(args)
         else:
             func()
-    logger.info(f'interval task ({interval}s): "{func.__name__}"')
     scheduler.start()
 
 
 if __name__ == "__main__":
     # do_at_sometime(my_job, -2, countdown=True, if_block=True)
     # do_something_at_regular_intervals(my_job, interval=5, if_block=True)
-    do_at_sometime(do_something_at_regular_intervals, run_time=10, countdown=True, args=[my_job, 3], if_block=True)
+    do_at_sometime(do_something_at_regular_intervals, run_time=3, countdown=True, args=[my_job, 3], if_block=True)
