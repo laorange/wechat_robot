@@ -42,7 +42,7 @@ class Student(StudentNoWechat):
                     if self.grade in preparatory_grades:
                         message_weather = '今天是' + date + '，这周是本学期的第' + str(week + 1) + '周，今天补的是第' + str(
                             self.week + 1) + '周' + self.what_day + '的课\n' + weather
-            print(message_weather)
+            # print(message_weather)
             send_msg_when(self.name, message_weather,
                           date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_weather)
         except Exception as e:
@@ -62,7 +62,7 @@ class Student(StudentNoWechat):
 
         if self.grade in preparatory_grades and if_send:
             try:
-                print(message0)
+                # print(message0)
                 send_msg_when(self.name, message0,
                               date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_schedule)
                 logger.info('student info send ----> done\n')
@@ -72,7 +72,7 @@ class Student(StudentNoWechat):
                 traceback.print_exc()
 
         if self.grade in engineer_grades and if_send:
-            print(message0)
+            # print(message0)
             send_msg_when(self.name, message0,
                           date + ' 0' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_schedule)
             logger.info('student info send ----> done\n')
