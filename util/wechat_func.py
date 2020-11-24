@@ -21,6 +21,7 @@ from util.student_no_wechat import StudentNoWechat
 # from application.review_word.receive_word import receive_word
 # from application.review_word.get_word import get_word
 from util.parser_what_day import tbs_what_day
+from util.weather import get_weather
 
 from util.mysql_func import *
 
@@ -277,6 +278,10 @@ def my_proto_parser(data):
                 # TODO: 发送wxid
                 if message.content == '@wxid':
                     send(message.wxid1, message.wxid1)
+
+                # TODO: 发送天气
+                if message.content == '@天气':
+                    send(message.wxid1, get_weather())
 
                 # TODO: 发送说明文件网址
                 if message.content[:3] == '@说明':
