@@ -1,7 +1,7 @@
 ﻿from random import randint
 
 from util.wechat_func import send_msg_when
-from util.weather import get_weather
+from util.weather import today_weather
 from util.student_no_wechat import StudentNoWechat
 
 import traceback
@@ -30,8 +30,11 @@ class Student(StudentNoWechat):
         try:
             # 发送天气
             logger.info('-' * 9 + '↓' + self.name + '↓' + '-' * 10)
-            # 6:30通报全天有哪些课，以及第一节课的详细信息
-            weather = get_weather()
+            if today_weather.date == date:
+                weather = today_weather
+            else:
+                today_weather.update_weather()
+                weather = today_weather
             message_weather = ''
             if week == -1:
                 message_weather = '今天是' + date + '，新学期即将开始\n' + weather

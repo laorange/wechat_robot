@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
 import re
 import requests
+from util.time_util import determine_date
 
 
 def get_weather():
@@ -25,5 +26,18 @@ def get_weather():
     return weather
 
 
+class Weather:
+    def __init__(self):
+        self.date = determine_date()
+        self.weather = ''
+
+    def update_weather(self):
+        self.weather = get_weather()
+
+
+today_weather = Weather()
+today_weather.update_weather()
+
 if __name__ == "__main__":
     print(get_weather())
+    print(today_weather.weather)
