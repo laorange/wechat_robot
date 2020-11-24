@@ -28,11 +28,12 @@ def get_weather():
 
 class Weather:
     def __init__(self):
-        self.date = determine_date()
+        self.date = ''
         self.weather = ''
 
     def update_weather(self):
         self.weather = get_weather()
+        self.date = determine_date()
 
 
 today_weather = Weather()
