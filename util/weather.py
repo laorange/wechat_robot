@@ -36,9 +36,8 @@ class Weather:
         self.date = determine_date()
 
 
-today_weather = Weather()
-today_weather.update_weather()
-
 if __name__ == "__main__":
+    today_weather = Weather()
+    today_weather.update_weather()
     print(get_weather())
     print(today_weather.weather)
