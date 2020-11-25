@@ -283,6 +283,13 @@ def my_proto_parser(data):
                 if message.content == '@天气':
                     send(message.wxid1, get_weather())
 
+                # TODO: 发送考试倒计时
+                if message.content == '@考试':
+                    try:
+                        send(message.wxid1, determine_when_exam(int(list(check_user(message.wxid1))[2])))
+                    except Exception as e:
+                        logger.error(e)
+
                 # TODO: 发送说明文件网址
                 if message.content[:3] == '@说明':
                     send(message.wxid1,
