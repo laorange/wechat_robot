@@ -314,6 +314,9 @@ class StudentNoWechat:
                            + '\n\n⭐⭐⭐⭐⭐\n' \
                            + f'{self.situation}中午11:45，中欧合唱团将在中欧楼一楼大厅进行快闪表演，歌曲串烧，时长约八分钟。' \
                            + '欢迎大家前来捧场[跳跳] (错峰用餐~)\n\n点此链接可查看相关信息: laorange.top/kb/herf'
+
+            if self.grade in preparatory_grades and date in ['2020-11-25', '2020-11-26']:
+                message0 = message0 + '\n\n⭐⭐⭐⭐⭐\n11-25更新：\n新增功能 可发送"@考试"查看一个月的考试倒计时'
             return message0
 
         except Exception as e:
