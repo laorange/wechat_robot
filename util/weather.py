@@ -4,8 +4,7 @@ import requests
 from util.time_util import determine_date
 
 
-def get_weather():
-    url = 'http://tianqi.2345.com/tianjin1d/54527.htm'
+def get_weather_from_internet(url):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36'}
     wb_data = requests.get(url, headers=headers)
@@ -23,6 +22,17 @@ def get_weather():
         if temp[i + 1][0] == '昨':
             break
     weather = weather + aqi
+    return weather
+
+
+def get_weather():
+    url = 'http://tianqi.2345.com/dongli1d/60140.htm'
+    url_bk = 'http://tianqi.2345.com/tianjin1d/54527.htm'
+    weather = get_weather_from_internet(url)
+    if weather[0] == '昨':
+        weather = '天津-' + get_weather_from_internet(url_bk)
+    else:
+        weather = '东丽区-' + weather
     return weather
 
 
