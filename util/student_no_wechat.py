@@ -189,8 +189,9 @@ class StudentNoWechat:
 
                 # TODO: ⭐根据用户信息 解析出课程表
                 for i in range(5):  # 第i节课
-                    if len(schedule[i].class_property) == 0:
-                        logger.info(f'{self.name}:{self.situation}第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
+                    if not schedule[i].class_property:
+                        # logger.info(f'{self.name}:{self.situation}第{(i + 1) * 2 - 1},{(i + 1) * 2}没课')
+                        pass  # 没课 -> 无操作
 
                     else:
                         for final_index in range(len(schedule[i].class_property)):
