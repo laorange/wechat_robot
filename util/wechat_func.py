@@ -21,7 +21,7 @@ from util.student_no_wechat import StudentNoWechat
 # from application.review_word.receive_word import receive_word
 # from application.review_word.get_word import get_word
 from util.parser_what_day import tbs_what_day
-from util.weather import get_weather
+from util.weather_mipang import get_weather
 
 from util.mysql_func import *
 
