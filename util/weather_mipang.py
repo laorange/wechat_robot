@@ -14,41 +14,19 @@ def get_weather():
     temp = str(list(temp)[0])
     pattern = re.compile(r'<[^>]+>', re.S)
     temp = pattern.sub('', temp)
-<<<<<<< HEAD
-=======
-    return temp
-
-
-def get_weather_plus():
-    url = 'https://weather.mipang.com/tianqi-8284'
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36'}
-    wb_data = requests.get(url, headers=headers)
-    soup = bs(wb_data.text, 'lxml')
-    temp = soup.find_all('div', class_='row row1')
-    temp = str(list(temp)[0])
-    pattern = re.compile(r'<[^>]+>', re.S)
-    temp = pattern.sub('', temp)
->>>>>>> 005ab3791f23814d6d03caea524a0b2806e0b2ee
     pmtemp = soup.find_all('div', class_='br br2')
     pmtemp = str(list(pmtemp)[0])
     pmtemp = pattern.sub('', pmtemp)
     pmtemp = re.sub(r'pm2.5\n*', r'空气质量:', pmtemp, count=1)
     pmtemp = re.split(r'\n', pmtemp)
-<<<<<<< HEAD
     tmtemp = soup.find_all('div', class_='tt t2 fl')
     tmtemp = str(list(tmtemp)[0])
     tmtemp = pattern.sub('', tmtemp)
     temp = temp + '\n' + '今日气温：' + tmtemp
     for each in pmtemp:
         if len(each) != 0:
-            if "污染危害" not in each:
+            if '污染危害' not in each:
                 temp = temp + '\n' + each
-=======
-    for each in pmtemp:
-        if len(each) != 0:
-            temp = temp + '\n' + each
->>>>>>> 005ab3791f23814d6d03caea524a0b2806e0b2ee
     return temp
 
 
@@ -62,13 +40,5 @@ class Weather:
         self.date = determine_date()
 
 
-<<<<<<< HEAD
 if __name__ == '__main__':
     print(get_weather())
-=======
-if __name__ == "__main__":
-    today_weather = Weather()
-    today_weather.update_weather()
-    print(get_weather())
-    print(today_weather.weather)
->>>>>>> 005ab3791f23814d6d03caea524a0b2806e0b2ee
