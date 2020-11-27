@@ -22,11 +22,10 @@ def get_weather():
     tmtemp = soup.find_all('div', class_='tt t2 fl')
     tmtemp = str(list(tmtemp)[0])
     tmtemp = pattern.sub('', tmtemp)
-    temp = temp + '\n' + '今日气温：' + tmtemp.replace(' - ', '~')
+    temp = temp + '\n' + '今日气温：' + tmtemp
     for each in pmtemp:
         if len(each) != 0:
-            if '污染危害' not in each:
-                temp = temp + '\n' + each
+            temp = temp + '\n' + each
     return temp
 
 
@@ -40,8 +39,5 @@ class Weather:
         self.date = determine_date()
 
 
-if __name__ == "__main__":
-    today_weather = Weather()
-    today_weather.update_weather()
-    # print(get_weather())
-    print(today_weather.weather)
+if __name__ == '__main__':
+    print(get_weather())
