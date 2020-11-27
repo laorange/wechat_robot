@@ -134,16 +134,18 @@ def determine_when_exam(grade):
             exam_time_str = exam_dict[grade][exam]
             exam_time = time.mktime(time.strptime(exam_time_str, '%Y-%m-%d %H:%M'))
             count_down_days = int((exam_time - time_today) // 86400)
-            if 0 <= count_down_days <= 30:
+            if 1 <= count_down_days <= 30:
                 count_down_str = '距离 ' + exam + ' 考试还有' + str(count_down_days) + '天;\n'
                 if not count_down_str:
                     exams_count_down += count_down_str
                 else:
                     exams_count_down = exams_count_down + count_down_str
+            elif count_down_days == 0:
+                exams_count_down += '今天就要考' + exam + '了，加油[加油]' + ';\n'
     if exams_count_down.strip() != '':
         exams_count_down = "一个月内的考试：\n" + exams_count_down.strip()
     if grade in [18, 19, 20]:
-        exams_count_down = exams_count_down + "\n\n图片链接: laorange.top/kb/exam.png"
+        exams_count_down = exams_count_down + "\n\n图片链接: laorange.top/kb/exam"
     return exams_count_down
 
 

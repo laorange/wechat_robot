@@ -22,7 +22,7 @@ def get_weather():
     tmtemp = soup.find_all('div', class_='tt t2 fl')
     tmtemp = str(list(tmtemp)[0])
     tmtemp = pattern.sub('', tmtemp)
-    temp = temp + '\n' + '今日气温：' + tmtemp
+    temp = temp + '\n' + '今日气温：' + tmtemp.replace(' - ', '~')
     for each in pmtemp:
         if len(each) != 0:
             if '污染危害' not in each:
