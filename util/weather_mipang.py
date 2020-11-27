@@ -25,7 +25,8 @@ def get_weather():
     temp = temp + '\n' + '今日气温：' + tmtemp
     for each in pmtemp:
         if len(each) != 0:
-            temp = temp + '\n' + each
+            if "污染危害" not in each:
+                temp = temp + '\n' + each
     return temp
 
 
