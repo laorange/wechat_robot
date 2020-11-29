@@ -1,5 +1,4 @@
-﻿import time
-from threading import Thread
+﻿from threading import Thread
 
 from util.wechat_func import log_in  # send_review_word_two_language, personalisation
 from util.student import Student
@@ -8,26 +7,12 @@ from util.time_util import *
 
 from util.mysql_func import get_user_list_all_data
 
-# from application.review_word.get_word import get_word
-
 import traceback
 from loguru import logger
+import time
 
 logger.add('C:\\wamp64\\www\\log\\runtime{time}.log', rotation='00:00',
            retention='10 days', enqueue=True, encoding='UTF-8')  # 生成日志的路径
-
-start_date = determine_date()
-start_hms = '05:10:00'
-start_time = start_date + ' ' + start_hms
-t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
-t_start = time.mktime(t_start_strp)
-time_for_sleep = t_start - time.time()
-if time_for_sleep < 0:
-    time_for_sleep = t_start - get_time_time(-86400)
-    logger.info('今日的自动推送已错过，自动生成明日的推送任务')
-    if time_for_sleep < 0:
-        raise Exception("main l24逻辑错误")
-logger.info(f"time_for_sleep:{time_for_sleep}")
 
 
 def student_send(before_term_begin=False):
@@ -46,12 +31,10 @@ def student_send(before_term_begin=False):
     for student in student_ls:
         if student.name:
             if not before_term_begin:
-                student.send_schedule_auto(date=determine_date(),
-                                           week=determine_week(),
-                                           what_day=determine_what_day())
+                student.send_schedule_auto()
 
             if True:
-                student.send_weather(determine_week(), determine_date())
+                student.send_weather()
             time.sleep(0.1)
 
 
@@ -82,7 +65,25 @@ def start():
         traceback.print_exc()
 
 
+def determine_time_for_sleep():
+    start_date = determine_date()
+    start_hms = '05:00:00'
+    start_time = start_date + ' ' + start_hms
+    t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+    t_start = time.mktime(t_start_strp)
+    time_for_sleep = t_start - time.time()
+    while time_for_sleep > 43200:
+        time_for_sleep -= 43200
+        logger.warning('默认 12小时制')
+    while time_for_sleep < 0:
+        time_for_sleep = t_start - get_time_time(-86400)
+        logger.info('今日的自动推送已错过，自动生成明日的推送任务')
+    logger.info(f"time_for_sleep:{time_for_sleep}")
+    return time_for_sleep
+
+
 def auto_send():
+    time_for_sleep = determine_time_for_sleep()
     do_at_sometime(do_something_at_regular_intervals, time_for_sleep, countdown=True, args=[start, 68399])
 
 
