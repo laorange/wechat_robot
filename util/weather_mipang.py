@@ -22,12 +22,14 @@ def get_weather(situation='今天'):
     if situation in ['今天', '今日']:
         tmtemp = soup.find_all('div', class_='tt t2 fl')
         tmtemp = str(list(tmtemp)[0])
+        tmtemp = pattern.sub('', tmtemp)
+        temp = temp + '\n' + f'{situation}气温：' + tmtemp.replace(' - ', '~')
     else:
         tmtemp = soup.find_all('div', class_='tt t2 fl')
         situation = '明天'
         tmtemp = str(list(tmtemp)[1])
-    tmtemp = pattern.sub('', tmtemp)
-    temp = temp + '\n' + f'{situation}气温：' + tmtemp.replace(' - ', '~')
+        tmtemp = pattern.sub('', tmtemp)
+        temp = temp + '\n' + f'{situation}气温：' + tmtemp.replace(' - ', '~')
     for each in pmtemp:
         if len(each) != 0:
             if '污染危害' not in each:
