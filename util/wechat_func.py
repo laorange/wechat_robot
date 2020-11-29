@@ -167,6 +167,12 @@ def my_proto_parser(data):
                         except Exception as e:
                             logger.error(e)
 
+                    # TODO: 发送天气
+                    if message.content in ['@天气', '@今天', '@今日', '@today']:
+                        send(message.wxid1, get_weather())
+                    elif message.content in ['@明天天气', '@明日天气', '@明日', '@明天']:
+                        send(message.wxid1, get_weather(situation='明天'))
+
                     # TODO: @今天,明天,后天...的课表
                     tod_tom_dft = False
                     code_situation = re.match(r'^@(.+天)$', message.content)
@@ -309,10 +315,6 @@ def my_proto_parser(data):
                     # TODO: 发送wxid
                     if message.content == '@wxid':
                         send(message.wxid1, message.wxid1)
-
-                    # TODO: 发送天气
-                    if message.content == '@天气':
-                        send(message.wxid1, get_weather())
 
                     # TODO: 发送考试倒计时
                     if message.content == '@考试':
