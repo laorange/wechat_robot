@@ -25,8 +25,10 @@ def get_weather():
     temp = temp + '\n' + '今日气温：' + tmtemp.replace(' - ', '~')
     for each in pmtemp:
         if len(each) != 0:
-            if '污染危害' not in each:
+           if '污染危害' not in each:
                 temp = temp + '\n' + each
+    if "接下来的东丽天气一周" in temp:
+        temp = temp.replace("接下来的东丽天气一周", "接下来的一周")
     return temp
 
 
