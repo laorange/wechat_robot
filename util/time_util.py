@@ -9,6 +9,16 @@ t_refer_strp = time.strptime(t_refer_1_week, '%Y-%m-%d %H:%M:%S')
 t_refer = time.mktime(t_refer_strp)
 
 
+def ensure_time_or_plus_24h(time_str: str):
+    date_strp = time.strptime(time_str, '%Y-%m-%d %H:%M:%S')
+    t_delay = int(time.mktime(date_strp) - time.time())
+    while t_delay < 0:
+        time_str = determine_standard_time(t_delay + 86400)
+        date_strp = time.strptime(time_str, '%Y-%m-%d %H:%M:%S')
+        t_delay = int(time.mktime(date_strp) - time.time())
+    return time_str
+
+
 def parse_wd_delay(wd: str, if_date=False) -> float:
     if not if_date:
         date_after_parse = parse_weekday(wd)
@@ -170,5 +180,5 @@ if __name__ == "__main__":
     #         raise Exception("main l24逻辑错误")
     #
     # print(time_for_sleep)
-
+    print(ensure_time_or_plus_24h('2020-11-29 16:40:00'))
     print(determine_when_exam(16))
