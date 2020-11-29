@@ -384,7 +384,6 @@ def my_proto_parser(data):
                         if message.content == '@rfr':
                             refresh_remark()
 
-
             elif message.type == 3:
                 if message.wxid1[-8:] != 'chatroom':
                     logger.info("图片消息 " + f"{from_whom}")
@@ -470,18 +469,20 @@ def my_proto_parser(data):
         logger.info("联系人详情")
         user_list = get_user_list_wechat_id()
         for details in data.contact:
-            print(details.wxid)
-            print(details.nickname)
-            print(details.wechatid)
-            print(details.remark)
-            print(details.profilephoto)
-            print(details.profilephoto_hd)
-            print(details.sex)
-            print(details.whats_up)
-            print(details.country)
-            print(details.province)
-            print(details.city)
-            print(details.source)
+            if details.wxid in user_list:
+                set_remark(details.wxid, details.remark)
+            # print(details.wxid)
+            # print(details.nickname)
+            # print(details.wechatid)
+            # print(details.remark)
+            # print(details.profilephoto)
+            # print(details.profilephoto_hd)
+            # print(details.sex)
+            # print(details.whats_up)
+            # print(details.country)
+            # print(details.province)
+            # print(details.city)
+            # print(details.source)
     elif data.type == CONTACT_STATUS:
         print("-" * 10, "联系人状态", "-" * 10)
         print(data)
