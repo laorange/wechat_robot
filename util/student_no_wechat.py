@@ -317,6 +317,9 @@ class StudentNoWechat:
 
             if self.grade in preparatory_grades and date in ['2020-11-25', '2020-11-26']:
                 message0 = message0 + '\n\n⭐⭐⭐⭐⭐\n11-25更新：\n新增功能 可发送"@考试"查看一个月的考试倒计时'
+
+            if self.grade in preparatory_grades and date in ['2020-11-29', '2020-11-30', '2020-12-01']:
+                message0 = message0 + '\n\n-------\n11-29调整：\n预科阶段的每日推送时间改为 17:15~18:59'
             return message0
 
         except Exception as e:
