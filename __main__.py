@@ -72,12 +72,12 @@ def determine_time_for_sleep():
     t_start_strp = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
     t_start = time.mktime(t_start_strp)
     time_for_sleep = t_start - time.time()
-    while time_for_sleep > 43200:
-        time_for_sleep -= 43200
-        logger.warning('默认 12小时制')
-    while time_for_sleep < 0:
+    if time_for_sleep < 0:
         time_for_sleep = t_start - get_time_time(-86400)
         logger.info('今日的自动推送已错过，自动生成明日的推送任务')
+    if time_for_sleep > 43200:
+        time_for_sleep -= 43200
+        logger.warning('默认 12小时制')
     logger.info(f"time_for_sleep:{time_for_sleep}")
     return time_for_sleep
 

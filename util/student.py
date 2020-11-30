@@ -83,7 +83,7 @@ class Student(StudentNoWechat):
     def send_weather(self):
         send_date = determine_date()
         send_time = send_date + ' ' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_weather
-        do_at_sometime(self.send_weather, ensure_time_or_plus_24h(send_time))
+        do_at_sometime(self.send_weather_func, ensure_time_or_plus_24h(send_time))
 
     def send_schedule_auto_func(self):
         date = determine_date(self.time_delay_when_send)
@@ -121,7 +121,7 @@ class Student(StudentNoWechat):
     def send_schedule_auto(self):
         send_date = determine_date()
         send_time = send_date + ' ' + self.send_hour + ':' + self.send_min + ':' + self.send_sec_schedule
-        do_at_sometime(self.send_schedule_auto, ensure_time_or_plus_24h(send_time))
+        do_at_sometime(self.send_schedule_auto_func, ensure_time_or_plus_24h(send_time))
 
 
 if __name__ == "__main__":
