@@ -320,6 +320,10 @@ class StudentNoWechat:
 
             if self.grade in preparatory_grades and date in ['2020-11-29', '2020-11-30', '2020-12-01']:
                 message0 = message0 + '\n\n-------\n11-29调整：\n预科阶段的每日推送时间改为 17:10~18:59'
+
+            if self.grade == 20 and date in ['2020-12-02', '2020-12-03']:
+                message0 = message0 + '\n\n-------\n临近期末考试，本周三晚上的课调整到周四晚上，到晚上九点半下课。最后两组集中演讲'
+
             return message0
 
         except Exception as e:
