@@ -298,6 +298,11 @@ class StudentNoWechat:
                     logger.error(f'student tomorrow info send ----> fail\n{e}\n')
                     traceback.print_exc()
 
+                # TODO：添加预科阶段考试倒计时
+                exams_count_down = determine_when_exam(self.grade)
+                if exams_count_down != '':
+                    message0 = '\n----------\n' + exams_count_down
+
             # TODO: 手动添加某天的公告
             if self.grade == 20 and date == '2020-10-16':
                 message0 = message0 + '\n\n提示：\n本周五有20人参加运动会开幕式，1.2节的课调到第14周周四7.8节。以上课表信息仅供参考。'

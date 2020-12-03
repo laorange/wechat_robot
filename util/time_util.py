@@ -155,7 +155,7 @@ def determine_when_exam(grade):
     if exams_count_down.strip() != '':
         exams_count_down = "一个月内的考试：\n" + exams_count_down.strip()
     if grade in [18, 19, 20]:
-        exams_count_down = exams_count_down + "\n\n图片链接: laorange.top/kb/exam"
+        exams_count_down = exams_count_down + "\n图片链接: laorange.top/kb/exam"
     return exams_count_down
 
 
@@ -181,4 +181,4 @@ if __name__ == "__main__":
     #
     # print(time_for_sleep)
     print(ensure_time_or_plus_24h('2020-11-29 16:40:00'))
-    print(determine_when_exam(16))
+    print(determine_when_exam(20))
