@@ -90,7 +90,7 @@ class Student(StudentNoWechat):
         week = determine_week(self.time_delay_when_send)
         what_day = determine_what_day(self.time_delay_when_send)
 
-        message0 = self.get_schedule(self.situation_in_send_msg, date, week, what_day)
+        message0 = self.get_schedule(self.situation_in_send_msg, date, week, what_day, self.time_delay_when_send)
 
         if_send = True
         # if self.what_day == 'Sunday':

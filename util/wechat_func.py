@@ -168,12 +168,6 @@ def my_proto_parser(data):
                         except Exception as e:
                             logger.error(e)
 
-                    # TODO: 发送天气
-                    if message.content in ['@天气', '@今天', '@今日', '@today']:
-                        send(message.wxid1, get_weather())
-                    elif message.content in ['@明天天气', '@明日天气', '@明日', '@明天']:
-                        send(message.wxid1, get_weather(situation='明天'))
-
                     # TODO: @今天,明天,后天...的课表
                     tod_tom_dft = False
                     code_situation = re.match(r'^@(.+天)$', message.content)
@@ -196,7 +190,8 @@ def my_proto_parser(data):
                                     message0 = student.get_schedule(situation=situation,
                                                                     date=determine_date(),
                                                                     week=determine_week(),
-                                                                    what_day=determine_what_day())
+                                                                    what_day=determine_what_day(),
+                                                                    t_delay=0)
                                     count_ask(message.wxid1, 0)
                                     send(message.wxid1, message0)
                                     tod_tom_dft = True
@@ -204,7 +199,8 @@ def my_proto_parser(data):
                                     message0 = student.get_schedule(situation=situation,
                                                                     date=determine_date(86400),
                                                                     week=determine_week(86400),
-                                                                    what_day=determine_what_day(86400))
+                                                                    what_day=determine_what_day(86400),
+                                                                    t_delay=86400)
                                     count_ask(message.wxid1, 1)
                                     send(message.wxid1, message0)
                                     tod_tom_dft = True
@@ -212,7 +208,8 @@ def my_proto_parser(data):
                                     message0 = student.get_schedule(situation=situation,
                                                                     date=determine_date(2 * 86400),
                                                                     week=determine_week(2 * 86400),
-                                                                    what_day=determine_what_day(2 * 86400))
+                                                                    what_day=determine_what_day(2 * 86400),
+                                                                    t_delay=(2 * 86400))
                                     count_ask(message.wxid1, 2)
                                     send(message.wxid1, message0)
                                     tod_tom_dft = True
@@ -223,7 +220,8 @@ def my_proto_parser(data):
                                                                     date=date_ht,
                                                                     week=determine_week(n_day_delay * 86400),
                                                                     what_day=determine_what_day(
-                                                                        n_day_delay * 86400))
+                                                                        n_day_delay * 86400),
+                                                                    t_delay=n_day_delay * 86400)
                                     count_ask(message.wxid1, 3)
                                     send(message.wxid1, f"{situation}是{date_ht}\n\n" + message0)
                                     tod_tom_dft = True
@@ -289,13 +287,20 @@ def my_proto_parser(data):
                                     message0 = student.get_schedule(situation=situation,
                                                                     date=date_ht,
                                                                     week=determine_week(delay_for_what_day),
-                                                                    what_day=determine_what_day(delay_for_what_day))
+                                                                    what_day=determine_what_day(delay_for_what_day),
+                                                                    t_delay=delay_for_what_day)
                                     if not if_date and situation not in ['今天', '明天', '后天']:
                                         message0 = f"{situation}是{date_ht}\n\n" + message0
                                     send(message.wxid1, message0)
 
                                 else:
                                     send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
+
+                    # TODO: 发送天气
+                    if message.content in ['@天气', '@今天', '@今日', '@today']:
+                        send(message.wxid1, get_weather())
+                    elif message.content in ['@明天天气', '@明日天气', '@明日', '@明天']:
+                        send(message.wxid1, get_weather(situation='明天'))
 
                     # TODO: 发送当前已填信息
                     if message.content == '@信息':

@@ -79,7 +79,7 @@ def compute_week_num(target_day: str):
     return week
 
 
-def determine_when_exam(grade):
+def determine_when_exam(grade, t_delay=0, situation='今天'):
     exam_dict = {}
     if grade not in [16, 17, 18, 19, 20]:
         return ''
@@ -137,13 +137,13 @@ def determine_when_exam(grade):
         "初级民航英语": "2020-12-19 08:00",
     }
     exam_list = exam_dict[grade].keys()
-    time_today = time.mktime(time.strptime(determine_date(), '%Y-%m-%d'))
+    time_refer = time.mktime(time.strptime(determine_date(t_delay), '%Y-%m-%d'))
     exams_count_down = ''
     for exam in exam_list:
         if isinstance(exam, str):
             exam_time_str = exam_dict[grade][exam]
             exam_time = time.mktime(time.strptime(exam_time_str, '%Y-%m-%d %H:%M'))
-            count_down_days = int((exam_time - time_today) // 86400)
+            count_down_days = int((exam_time - time_refer) // 86400)
             if 1 <= count_down_days <= 30:
                 count_down_str = '距离 ' + exam + ' 考试还有' + str(count_down_days) + '天;\n'
                 if not count_down_str:
@@ -151,9 +151,9 @@ def determine_when_exam(grade):
                 else:
                     exams_count_down = exams_count_down + count_down_str
             elif count_down_days == 0:
-                exams_count_down += '今天就要考' + exam + '了，加油[加油]' + ';\n'
+                exams_count_down += f'{situation}就要考' + exam + '了，加油[加油]' + ';\n'
     if exams_count_down.strip() != '':
-        exams_count_down = "一个月内的考试：\n" + exams_count_down.strip()
+        exams_count_down = f"（{situation}）近期考试倒计时：\n" + exams_count_down.strip()
     if grade in [18, 19, 20]:
         exams_count_down = exams_count_down + "\n图片链接: laorange.top/kb/exam"
     return exams_count_down
