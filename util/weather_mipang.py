@@ -14,6 +14,7 @@ def get_weather(situation='今天'):
     temp = str(list(temp)[0])
     pattern = re.compile(r'<[^>]+>', re.S)
     temp = pattern.sub('', temp)
+
     pmtemp = soup.find_all('div', class_='br br2')
     pmtemp = str(list(pmtemp)[0])
     pmtemp = pattern.sub('', pmtemp)
@@ -23,13 +24,15 @@ def get_weather(situation='今天'):
         tmtemp = soup.find_all('div', class_='tt t2 fl')
         tmtemp = str(list(tmtemp)[0])
         tmtemp = pattern.sub('', tmtemp)
-        temp = temp + '\n' + f'{situation}气温：' + tmtemp.replace(' - ', '~')
+        # temp = temp + '\n' + f'{situation}气温：' + tmtemp.replace(' - ', '~')
+        temp = f'{situation}气温：' + tmtemp.replace(' - ', '~')
     else:
         tmtemp = soup.find_all('div', class_='tt t2 fl')
         situation = '明天'
         tmtemp = str(list(tmtemp)[1])
         tmtemp = pattern.sub('', tmtemp)
-        temp = temp + '\n' + f'{situation}气温：' + tmtemp.replace(' - ', '~')
+        # temp = temp + '\n' + f'{situation}气温：' + tmtemp.replace(' - ', '~')
+        temp = f'{situation}气温：' + tmtemp.replace(' - ', '~')
     for each in pmtemp:
         if len(each) != 0:
             if '污染危害' not in each:
