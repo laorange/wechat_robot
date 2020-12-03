@@ -301,7 +301,7 @@ class StudentNoWechat:
                 # TODO：添加预科阶段考试倒计时
                 exams_count_down = determine_when_exam(self.grade)
                 if exams_count_down != '':
-                    message0 = '\n----------\n' + exams_count_down
+                    message0 += '\n----------\n' + exams_count_down
 
             # TODO: 手动添加某天的公告
             if self.grade == 20 and date == '2020-10-16':
