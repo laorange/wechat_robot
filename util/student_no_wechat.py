@@ -305,11 +305,6 @@ class StudentNoWechat:
                     else:
                         message0 = f"{situation}全天没有课"
 
-                    # 预科阶段 获取考试倒计时
-                    exams_count_down = determine_when_exam(self.grade, t_delay=t_delay, situation=situation)
-                    if exams_count_down != '':
-                        message0 += '\n\n----------\n\n' + exams_count_down
-
             except Exception as e:
                 logger.error("课表获取出错" + str(e))
                 traceback.print_exc()
