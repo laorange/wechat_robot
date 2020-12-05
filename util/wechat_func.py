@@ -297,9 +297,9 @@ def my_proto_parser(data):
                                     send(message.wxid1, 'error,当前程序仅支持15,16,17,18,19,20级')
 
                     # TODO: 发送天气
-                    if message.content in ['@天气', '@今天', '@今日', '@today']:
+                    if message.content in ['@天气', '@今日', '@today']:   # '@今天',
                         send(message.wxid1, get_weather())
-                    elif message.content in ['@明天天气', '@明日天气', '@明日', '@明天']:
+                    elif message.content in ['@明天天气', '@明日天气', '@明日']:  # , '@明天'
                         send(message.wxid1, get_weather(situation='明天'))
 
                     # TODO: 发送当前已填信息

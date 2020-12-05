@@ -350,4 +350,14 @@ class StudentNoWechat:
         if self.grade == 20 and date in ['2020-12-02', '2020-12-03']:
             message0 = message0 + '\n\n-------\n临近期末考试，本周三晚上的课调整到周四晚上，到晚上九点半下课。最后两组集中演讲'
 
+        if self.grade in preparatory_grades and date in ['2020-12-06']:
+            message0 = message0 + '''\n\n-------\n推荐一个干货公众号：Mayder
+项目网站地址：http://maydertop.natapp1.cc/DataBase/
+该项目由14级学长维护，或许这里的学习资料能有帮助；不过这里预科的资料偏少，下学期我们将会以课表推送项目为基础搭建网页，到时候还请大家多多支持'''
+
+        if self.grade in engineer_grades and date in ['2020-12-05']:
+            message0 = message0 + '''\n\n-------\n推荐一个干货公众号：Mayder
+网站地址：http://maydertop.natapp1.cc/DataBase/
+该项目由14级学长维护，或许这里的学习资料能有帮助'''
+
         return message0
