@@ -154,7 +154,7 @@ def determine_when_exam(grade, t_delay=0, situation='今天'):
                 exams_count_down += f'{situation}就要考' + exam + '了，加油[加油]' + ';\n'
     if exams_count_down.strip() != '':
         exams_count_down = f"（{situation}）近期考试倒计时：\n" + exams_count_down.strip()
-    if grade in [18, 19, 20]:
+    if grade in [18, 19, 20] and exams_count_down:
         exams_count_down = exams_count_down + "\n图片链接: laorange.top/kb/exam"
     return exams_count_down
 
