@@ -360,4 +360,8 @@ class StudentNoWechat:
 网站地址：http://maydertop.natapp1.cc/DataBase/
 该项目由14级学长维护，或许这里的学习资料能有帮助'''
 
+        if date in ['2020-12-12']:
+            message0 = message0 + '''\n\n--------\n本次推送是本学期最后一次自动推送，如需查询考试倒计时可向我发送"@考试"
+提前祝大家考试顺利，假期愉快！'''
+
         return message0

@@ -30,6 +30,8 @@ from util.mysql_func import *
 import traceback
 from loguru import logger
 
+# from util.wechat_personalisation import user_list_more_than_5
+
 wxid_default = 'wxid_oftjmj5649kd22'
 
 # 黑名单
