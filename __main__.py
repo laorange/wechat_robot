@@ -89,6 +89,6 @@ def auto_send():
 
 if __name__ == "__main__":
     t1 = Thread(target=log_in)
-    t2 = Thread(target=auto_send)
+    # t2 = Thread(target=auto_send)
     t1.start()
-    t2.start()
+    # t2.start()
